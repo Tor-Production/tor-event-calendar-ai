@@ -1,0 +1,6 @@
+interface:
+  display_name: "Tor Event Calendar"
+  short_description: "Manage your connected calendar on explicit request"
+  default_prompt: "Use $tor-event-calendar to show today's events in my connected account."
+policy:
+  allow_implicit_invocation: false

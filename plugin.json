@@ -1,0 +1,48 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "tor-event-calendar-ai",
+  "version": "0.1.0",
+  "description": "Manage a connected private calendar through an explicitly invoked skill and shared local CLI.",
+  "author": {
+    "name": "Tor Production",
+    "url": "https://github.com/Tor-Production"
+  },
+  "homepage": "https://tor-production.github.io/tor-event-calendar-ai/",
+  "repository": "https://github.com/Tor-Production/tor-event-calendar-ai",
+  "license": "MIT",
+  "keywords": [
+    "calendar",
+    "multi-account",
+    "skills",
+    "codex",
+    "claude",
+    "hermes",
+    "gemini"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Tor Event Calendar",
+        "shortDescription": "Manage your calendar from your local AI workspace.",
+        "longDescription": "Connect a verified calendar account once through the browser, then manage events, drafts and files using natural language. Supports account-scoped local CLI connections and platform-specific planning. Social publication needs a separately verified publisher; no cloud MCP connector is included.",
+        "developerName": "Tor Production",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://tor-production.github.io/tor-event-calendar-ai/",
+        "privacyPolicyURL": "https://tor-production.github.io/tor-event-calendar-ai/privacy.html",
+        "termsOfServiceURL": "https://tor-production.github.io/tor-event-calendar-ai/terms.html",
+        "defaultPrompt": [
+          "Use tor-event-calendar to show today's events in my connected account.",
+          "Use tor-event-calendar to create a project meeting tomorrow at 09:30 in Europe/Kyiv.",
+          "Use tor-event-calendar to prepare a Reddit draft and ask for missing content."
+        ],
+        "brandColor": "#CBA6F7",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/logo.png"
+      }
+    }
+  }
+}

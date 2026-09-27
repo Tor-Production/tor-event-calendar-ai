@@ -1,0 +1,31 @@
+{
+  "name": "tor-event-calendar-ai",
+  "version": "0.1.0",
+  "description": "Account-scoped Tor Event Calendar client and explicitly invoked AI integration",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "bin": {
+    "tor-calendar": "src/cli.mjs"
+  },
+  "files": [
+    "src",
+    "skills",
+    ".codex-plugin",
+    ".claude-plugin",
+    "LICENSE",
+    "README.md",
+    "plugin.json",
+    "assets",
+    "scripts"
+  ],
+  "dependencies": {
+    "@napi-rs/keyring": "2.1.0"
+  },
+  "scripts": {
+    "test": "node scripts/test.mjs",
+    "package": "python scripts/package.py"
+  }
+}
