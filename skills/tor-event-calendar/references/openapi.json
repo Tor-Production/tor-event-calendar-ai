@@ -3552,7 +3552,7 @@
     "/api/calendar-entries/{id}/publication-result": {
       "post": {
         "summary": "Record external receipt and independent followups",
-        "description": "Idempotent replay is 200. Requires current revision; unknown persists retryable=false/reconciliationRequired=true. Same external ID required for followup updates.",
+        "description": "Idempotent replay is 200. Requires current revision and atomic comparison of prior publication/followup state. An active claim accepts only evidence.kind=authorized_publisher, evidence.reference=claimId and evidence.details.dedupeKey from that claim. Unknown persists retryable=false/reconciliationRequired=true. Same external ID required for followup updates.",
         "operationId": "post__api_calendar_entries__id__publication_result",
         "security": [
           {
@@ -4874,7 +4874,7 @@
     "/api/events/{id}/publication-result": {
       "post": {
         "summary": "Record external receipt and independent followups",
-        "description": "No-redirect compatibility alias. Idempotent replay is 200. Requires current revision; unknown persists retryable=false/reconciliationRequired=true. Same external ID required for followup updates.",
+        "description": "No-redirect compatibility alias. Idempotent replay is 200. Requires current revision and atomic comparison of prior publication/followup state. An active claim accepts only evidence.kind=authorized_publisher, evidence.reference=claimId and evidence.details.dedupeKey from that claim. Unknown persists retryable=false/reconciliationRequired=true. Same external ID required for followup updates.",
         "operationId": "post__api_events__id__publication_result",
         "security": [
           {
@@ -6830,7 +6830,7 @@
             }
           }
         },
-        "description": "Same key/exact payload replay is idempotent. Published/scheduled require external evidence; unknown never authorizes retry. Independent followups cannot downgrade completed states. Receipt reporting never publishes."
+        "description": "Same key/exact payload replay is idempotent. Published requires a confirmed external ID and recognized evidence reference. Native scheduling requires a confirmed queue ID; automatic runner scheduling requires a runner reference and confirmedEndToEnd evidence for ready. Unknown never authorizes retry. Independent followups cannot downgrade completed states. Receipt reporting never publishes."
       },
       "Claim": {
         "type": "object",

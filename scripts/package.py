@@ -3,6 +3,7 @@
 import hashlib
 import json
 import struct
+import subprocess
 import zipfile
 import zlib
 from pathlib import Path
@@ -35,20 +36,34 @@ def main():
     (assets/'icon.png').write_bytes(logo(128)); (assets/'logo.png').write_bytes(logo(512))
     DIST.mkdir(exist_ok=True)
     output=DIST/f'tor-event-calendar-ai-plugin-{VERSION}.zip'
+    tracked=subprocess.run(
+        ['git', '-c', f'safe.directory={ROOT.as_posix()}', 'ls-files', '-z', '--', *ALLOW],
+        cwd=ROOT, check=True, capture_output=True,
+    ).stdout
     paths=[]
-    for entry in ALLOW:
-        item=ROOT/entry
-        if item.is_file(): paths.append(item)
-        elif item.is_dir(): paths.extend(p for p in item.rglob('*') if p.is_file())
+    for raw in tracked.split(b'\0'):
+        if not raw: continue
+        p=ROOT/Path(raw.decode('utf-8'))
+        if not p.is_file() or p.is_symlink(): raise RuntimeError(f'Invalid tracked package file: {p}')
+        paths.append(p)
     with zipfile.ZipFile(output,'w') as archive:
         for p in sorted(paths):
             if p.is_symlink(): raise RuntimeError(f'Symlink excluded: {p}')
             info=zipfile.ZipInfo(p.relative_to(ROOT).as_posix(),(2026,9,28,0,0,0))
             info.compress_type=zipfile.ZIP_DEFLATED; info.external_attr=0o100644<<16
             archive.writestr(info,p.read_bytes(),compresslevel=9)
+    skill=ROOT/'skills'/'tor-event-calendar'
+    skill_output=DIST/f'tor-event-calendar-ai-skill-{VERSION}.zip'
+    with zipfile.ZipFile(skill_output,'w') as archive:
+        for p in sorted(p for p in paths if p.is_relative_to(skill)):
+            info=zipfile.ZipInfo(p.relative_to(skill).as_posix(),(2026,9,28,0,0,0))
+            info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o100644<<16
+            archive.writestr(info,p.read_bytes(),compresslevel=9)
     sums=[]
-    for p in sorted(DIST.glob('*')):
-        if p.suffix in ('.zip','.tgz'): sums.append(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}')
+    for name in (f'tor-event-calendar-ai-{VERSION}.tgz', output.name, skill_output.name):
+        p=DIST/name
+        if not p.is_file(): raise RuntimeError(f'Missing release artifact: {p}')
+        sums.append(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}')
     (DIST/'SHA256SUMS').write_text('\n'.join(sums)+'\n',encoding='utf-8')
     print(json.dumps({'version':VERSION,'archive':str(output),'files':len(paths),'sha256':hashlib.sha256(output.read_bytes()).hexdigest()}))
 

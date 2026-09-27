@@ -1,8 +1,7 @@
-# Official catalog status
+# Official OpenAI catalog status
 
-Version 0.1.0 is prepared for the official OpenAI plugin submission portal.
-Submission has not yet occurred. The portal currently requires the developer to sign in.
+Version 0.1.0 has a saved developer draft in the [OpenAI Platform plugin portal](https://platform.openai.com/plugins/edit/asdk_app_6ab9941edbfc819188d6307e41435bb3/asdk_app_v_6ab994203b188191bdad2b2739431a4d?section=Submit). The Tor Production business identity, listing, icons and three example prompts are saved. The standalone skill ZIP was accepted for upload and is undergoing the portal's safety scan.
 
-GitHub repository/release/Pages availability and official catalog approval are independent milestones. Neither a public download nor a local marketplace entry means official catalog acceptance.
+This draft is **not submitted for review or published in the official catalog**. On 28 September 2026, the authenticated Tor Production portal offered only the “With MCP” creation path. Its Submit screen requires an MCP server URL and a demo recording, as well as five MCP test cases and three negative cases. This local-first release includes no hosted MCP server, and a URL or executable cloud integration must not be invented for submission. The Submit screen also requires accepting legal terms, which has not been done. The scan may take up to two hours.
 
-Process follows the actual published Session Exporter 0.1.2 package: portable root plugin.json and Codex overlay, deterministic ZIP, Skills only submission, listing/test cases/privacy/terms/support, Submit for Review, then Publish Version only after approval. Session Exporter source and release remain unchanged.
+Public GitHub downloads and the GitHub Pages guide are separate from official catalog approval. If OpenAI enables a Skills-only submission path for this organization, the prepared skill ZIP and listing can be submitted there. The draft's MCP-required path is not a valid substitute for that path.

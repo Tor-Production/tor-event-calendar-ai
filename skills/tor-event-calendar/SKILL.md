@@ -5,7 +5,7 @@ description: Manage a connected Tor Event Calendar account, events and publicati
 
 # Tor Event Calendar
 
-Use only on explicit user invocation or an explicit request to use this integration. Installation grants no action authority. Run `tor-calendar help` for commands; use the shared CLI rather than recreating HTTP/auth logic. Never read repository secrets or another service's credentials.
+Use only on explicit user invocation or an explicit request to use this integration. Installation grants no action authority. Run `tor-calendar help` for commands; use the shared CLI rather than recreating HTTP/auth logic. If the CLI is unavailable, read the connection reference for versioned installation and runtime requirements. Never read repository secrets or another service's credentials.
 
 Resolve identity first: `tor-calendar accounts list`, then `whoami --account EMAIL_OR_ID`. A single connection or user-selected default is sufficient; otherwise ask which account BEFORE any private lookup. Pin `--account` for the operation/batch. Show the verified email in the result. Calendar identity and social publishing actor are different selectors. To connect once, run `tor-calendar connect`; the user approves the matching device/code/account in the browser. Never ask for tokens in a prompt. See [connection reference](references/connections.md) only for setup, account changes or headless runtimes.
 
