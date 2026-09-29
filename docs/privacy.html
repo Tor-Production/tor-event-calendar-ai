@@ -20,7 +20,7 @@
 
     <h2>Connecting an account</h2>
     <p>When you connect from a supported client, that client opens the calendar's browser sign-in, where you approve an account-bound OAuth grant. The available scopes are <code>calendar.read</code>, <code>calendar.manage</code> and optional <code>offline_access</code> for refresh. The calendar checks the account, grant, scopes, audience and token expiry on MCP requests. Browser session cookies and legacy calendar API tokens do not authorize MCP access.</p>
-    <p>The AI client manages its own connection credentials according to that client's policy. The public plugin package contains no customer token or credential, and you should never paste a token into a prompt. The older v0.1.0 local CLI is a separate route: it stores its token in the OS credential store and non-secret account metadata in user-scoped configuration.</p>
+    <p>The AI client manages its own connection credentials according to that client's policy. The public plugin package contains no customer token or credential, and you should never paste a token into a prompt. The optional local CLI is a separate route: it stores its token in the OS credential store and non-secret account metadata in user-scoped configuration.</p>
 
     <h2>Calendar data</h2>
     <p>The calendar service stores verified account identity, your entries and attachment metadata in its database. File bytes are stored privately in Cloudflare KV and pass through authenticated browser upload or download links; the MCP tool exchange does not put file bytes in JSON. Calendar data you request through an AI client is returned to that client, whose own privacy terms and settings also apply. Calendar writes do not publish or schedule social content.</p>

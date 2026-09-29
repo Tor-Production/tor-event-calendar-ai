@@ -1,6 +1,6 @@
 # Nembli
 
-Candidate version: **0.2.0**. Developer: **Tor Production**. Category: **Productivity**. Submission type: **With MCP + skill**. The public listing is a saved draft, not a published install destination.
+Package version: **0.2.0**. Developer: **Tor Production**. Category: **Productivity**. Submission type: **With MCP + skill**. The public listing is a saved draft, not a published install destination.
 
 ## Short description
 
@@ -20,7 +20,7 @@ Calendar operations never publish or schedule social content. LinkedIn, X, and R
 - Installation guide: https://nembli.com/connect-ai
 - Compatibility guide: https://tor-production.github.io/tor-event-calendar-ai/
 - Privacy: https://nembli.com/privacy
-- Terms: https://tor-production.github.io/tor-event-calendar-ai/terms.html
+- Terms: https://nembli.com/ai/terms
 - Support: https://github.com/Tor-Production/tor-event-calendar-ai/issues
 - Public package source: https://github.com/Tor-Production/tor-event-calendar-ai
 
