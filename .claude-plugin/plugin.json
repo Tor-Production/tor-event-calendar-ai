@@ -1,18 +1,19 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.1.0",
-  "description": "Manage a connected private calendar through an explicitly invoked skill and shared local CLI.",
+  "version": "0.2.0",
+  "description": "Manage a connected private calendar through a remote MCP server and explicitly invoked skill.",
   "author": {
     "name": "Tor Production",
     "url": "https://github.com/Tor-Production"
   },
-  "homepage": "https://tor-production.github.io/tor-event-calendar-ai/",
+  "homepage": "https://nembli.com",
   "repository": "https://github.com/Tor-Production/tor-event-calendar-ai",
   "license": "MIT",
   "keywords": [
     "calendar",
     "multi-account",
     "skills",
+    "mcp",
     "codex",
     "claude",
     "hermes",

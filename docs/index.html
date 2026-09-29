@@ -1,9 +1,260 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>Connect AI · Tor Event Calendar</title><style>
-:root{--bg:#1e1e2e;--surface:#181825;--text:#cdd6f4;--muted:#a6adc8;--line:#45475a;--accent:#cba6f7}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:32px 20px}header{display:flex;justify-content:space-between;align-items:center;gap:20px}a{color:var(--accent)}h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.15;max-width:850px}h2{line-height:1.3}p{max-width:780px}.muted{color:var(--muted)}.clients{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0}button,.button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:9px 16px;cursor:pointer;text-decoration:none}button[aria-pressed=true]{outline:2px solid var(--accent)}.primary{background:var(--accent);color:#181825;font-weight:700}.card{background:var(--surface);padding:24px;margin:18px 0;border:1px solid var(--line);border-radius:18px}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;border:1px solid var(--line);border-radius:8px;font:14px/1.6 ui-monospace,monospace}.command{display:flex;align-items:center;gap:12px}.command pre{flex:1}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}footer{margin-top:30px;display:flex;flex-wrap:wrap;gap:20px}@media(max-width:600px){.command{display:block}.card{padding:18px}header{flex-wrap:wrap}table{font-size:14px}}
-@media(prefers-color-scheme:light){:root{--bg:#eff1f5;--surface:#e6e9ef;--text:#4c4f69;--muted:#6c6f85;--line:#ccd0da;--accent:#8839ef}.primary{color:#fff}}
-</style></head><body><main><header><strong>Tor Event Calendar</strong><a href="https://tor-event-calendar.chute-risk9361.workers.dev/">Open calendar ↗</a></header><p class="muted">CONNECT AI · VERSION 0.1.0</p><h1>Your calendar, in your AI workspace.</h1><p>Install once, connect your verified account through the browser, then manage events, drafts and files with natural language. Each connection belongs to your account.</p><div class="clients" role="group" aria-label="Choose an AI workspace"></div><section class="card" id="install"></section><section class="card"><h2>Connect once, reuse later</h2><p>Your browser shows the requesting device, code, permissions and signed-in email before you approve. Credentials stay in your OS keychain. Multiple accounts can coexist; select a verified email or account ID per operation.</p><div class="command"><pre>tor-calendar connect</pre><button type="button" data-copy="tor-calendar connect">Copy</button></div><a class="button primary" href="https://tor-event-calendar.chute-risk9361.workers.dev/connect-ai">Open connection approval</a><p class="muted">Run the command first. Compare the browser's code against your terminal. Existing connections: use <code>accounts list</code>, <code>whoami --account EMAIL_OR_ID</code> and <code>disconnect</code>, or revoke a device in calendar account settings.</p></section><section class="card"><h2>Check read-only</h2><pre>tor-calendar whoami
-tor-calendar today --posts</pre><p>If your timezone is unknown, choose an IANA timezone once. Missing time, ambiguous accounts and DST overlaps are clarified before an operation.</p><p>Setup prompt: <em>Use tor-event-calendar to check my connected account, then show today's events. Ask for my timezone if it is not saved.</em></p></section><section class="card"><h2>What works in this release</h2><table><thead><tr><th>Capability</th><th>Support</th></tr></thead><tbody><tr><td>Local calendar CRUD, files, multi-account connections</td><td>Implemented; Windows CLI/keychain tested</td></tr><tr><td>Codex / Claude / Hermes / Gemini / Cursor / Copilot</td><td>Shared CLI + documented skill directory routes; unavailable native clients not claimed tested</td></tr><tr><td>LinkedIn publishing</td><td>Requires a separately verified publisher for your social account; per-item block when absent</td></tr><tr><td>X / Reddit</td><td>Platform-specific planning; no publisher installed</td></tr><tr><td>ChatGPT cloud</td><td>Cannot read local keychain; no MCP connector shipped</td></tr></tbody></table><p>Calendar files are limited to 25 MiB. Platform/post-type limits are separate. External Drive/media URLs remain references until a verified publisher resolves them.</p></section><details class="card"><summary>Upgrade, uninstall and troubleshooting</summary><p>Install the next exact release tarball and reinstall the skill with <code>tor-calendar install-skill CLIENT</code>. Profiles survive upgrades/uninstalls. The installer preserves unowned skills and junctions.</p><p>Use <code>tor-calendar doctor</code> for public service/keychain checks. Locked/unavailable keychain fails safely. Explicit headless secret-manager injection is documented; no plaintext fallback is automatic.</p><p><code>tor-calendar uninstall-skill CLIENT</code> removes only this installer's skill. <code>disconnect --account SELECTOR</code> revokes that connection. <code>npm uninstall -g tor-event-calendar-ai</code> removes the CLI.</p></details><footer><a href="https://github.com/Tor-Production/tor-event-calendar-ai">Source & API reference</a><a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></footer></main><script>
-const root='https://github.com/Tor-Production/tor-event-calendar-ai',clients=[['codex','Codex'],['claude','Claude Code'],['hermes','Hermes'],['gemini','Gemini CLI'],['cursor','Cursor'],['copilot','GitHub Copilot CLI']],host=document.querySelector('.clients'),card=document.querySelector('#install');
-function select(id,label){for(const button of host.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.client===id));card.replaceChildren();const title=document.createElement('h2');title.textContent='1. Install for '+label;card.append(title);const note=document.createElement('p');note.textContent='Node.js 22.18+ · local desktop or CLI runtime · version 0.1.0';note.className='muted';card.append(note);for(const command of ['npm install -g '+root+'/releases/download/v0.1.0/tor-event-calendar-ai-0.1.0.tgz','tor-calendar install-skill '+id]){const row=document.createElement('div');row.className='command';const pre=document.createElement('pre');pre.textContent=command;const button=document.createElement('button');button.type='button';button.textContent='Copy';button.dataset.copy=command;row.append(pre,button);card.append(row);}const prompt=document.createElement('p');prompt.textContent=id==='codex'?'Invoke $tor-event-calendar explicitly after installation.':(['claude','cursor','copilot'].includes(id)?'Invoke /tor-event-calendar explicitly after restarting or reloading skills.':'Explicitly ask the client to use tor-event-calendar. Host activation consent may apply.');card.append(prompt);const link=document.createElement('a');link.href=root+'/blob/v0.1.0/README.md';link.textContent='Full support matrix and official client documentation';card.append(link);}
-for(const [id,label]of clients){const button=document.createElement('button');button.type='button';button.textContent=label;button.dataset.client=id;button.addEventListener('click',()=>select(id,label));host.append(button);}select('codex','Codex');document.addEventListener('click',event=>{const button=event.target.closest('[data-copy]');if(button)navigator.clipboard.writeText(button.dataset.copy).then(()=>button.textContent='Copied').catch(()=>button.textContent='Select and copy');});
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Connect Nembli to Codex with one plugin install and browser sign-in. See the current directory status and optional MCP setup.">
+  <meta name="color-scheme" content="dark light">
+  <title>Connect AI · Nembli</title>
+  <style>
+    :root {
+      --bg: #1e1e2e; --surface: #181825; --text: #cdd6f4;
+      --muted: #bac2de; --line: #585b70; --accent: #cba6f7;
+      --focus: #f9e2af; --soft: #313244;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, sans-serif; }
+    a { color: var(--accent); }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    [hidden] { display: none !important; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    .shell { width: min(100% - 40px, 1080px); margin-inline: auto; }
+    .skip-link { position: absolute; left: 12px; top: -60px; padding: 8px 12px; background: var(--surface); z-index: 2; }
+    .skip-link:focus { top: 12px; }
+    .site-header { border-bottom: 1px solid var(--line); }
+    .site-header .shell { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 18px; }
+    .brand { color: var(--text); text-decoration: none; font-weight: 750; letter-spacing: .01em; }
+    nav { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+    nav a { white-space: nowrap; }
+    main { padding-block: 42px 72px; }
+    section { scroll-margin-top: 24px; }
+    .hero { padding-block: 30px 48px; }
+    .eyebrow { color: var(--accent); font-size: .84rem; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; }
+    h1 { max-width: 820px; margin: 12px 0 18px; font-size: clamp(2.3rem, 5.5vw, 4.3rem); line-height: 1.12; }
+    h2 { margin-top: 0; font-size: clamp(1.6rem, 3vw, 2.15rem); line-height: 1.2; }
+    h3 { margin-bottom: 8px; line-height: 1.25; }
+    p { max-width: 800px; }
+    .lede { font-size: 1.16rem; max-width: 760px; }
+    .muted, .small { color: var(--muted); }
+    .small { font-size: .92rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+    .button, button { display: inline-flex; align-items: center; justify-content: center; gap: .25em; min-height: 44px; padding: 10px 17px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--text); font: inherit; font-weight: 650; line-height: 1.35; text-align: center; text-decoration: none; cursor: pointer; }
+    .button:hover, button:hover { border-color: var(--accent); }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: #181825; }
+    .status { display: inline-flex; align-items: center; gap: 9px; margin: 0; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: .9rem; }
+    .status::before { content: ""; width: 9px; height: 9px; flex: 0 0 9px; border-radius: 50%; background: #f9e2af; }
+    .status.published::before { background: #a6e3a1; }
+    .panel { margin-block: 22px; padding: clamp(22px, 4vw, 38px); border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+    .steps { max-width: 850px; padding-left: 1.4em; }
+    .steps li { padding-left: .4em; margin-block: 13px; }
+    .steps li::marker { color: var(--accent); font-weight: 800; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin-top: 22px; }
+    .tile { padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--soft); }
+    .tile h3 { margin-top: 0; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { overflow-wrap: anywhere; }
+    pre { margin: 12px 0; padding: 15px; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); white-space: pre-wrap; overflow-wrap: anywhere; }
+    .endpoint { display: flex; align-items: stretch; gap: 10px; max-width: 850px; }
+    .endpoint code { flex: 1; display: block; min-width: 0; padding: 13px 15px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+    .endpoint button { flex: 0 0 auto; }
+    .notice { max-width: 850px; padding: 14px 18px; border-left: 4px solid var(--accent); background: var(--soft); }
+    details { margin-top: 16px; }
+    summary { cursor: pointer; font-weight: 700; }
+    footer { display: flex; flex-wrap: wrap; gap: 10px 24px; padding-block: 25px; border-top: 1px solid var(--line); }
+    @media (max-width: 760px) {
+      .site-header .shell { align-items: flex-start; flex-direction: column; }
+      .grid { grid-template-columns: 1fr; }
+      .endpoint { flex-direction: column; }
+      .endpoint button { align-self: flex-start; }
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg: #eff1f5; --surface: #fff; --text: #303446; --muted: #51576d; --line: #a5adce; --accent: #7131bf; --focus: #bd4326; --soft: #e6e9ef; }
+      .button.primary { color: #fff; }
+      .status::before { background: #a06400; }
+      .status.published::before { background: #287b45; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell">
+      <a class="brand" href="#top"><span data-display-name>Nembli</span> · Connect AI</a>
+      <nav aria-label="Main navigation">
+        <a href="#install">Codex install</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#other-clients">Other clients</a>
+        <a href="#manual-mcp">Manual setup</a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell" id="main">
+    <section class="hero" id="top" aria-labelledby="hero-heading">
+      <div class="eyebrow">A Tor Production plugin</div>
+      <h1 id="hero-heading">Your calendar, in your AI workspace.</h1>
+      <p class="small">Visit <a href="https://nembli.com/connect-ai">Nembli's primary AI installation guide</a>. This page remains a compatibility guide.</p>
+      <p class="lede">The Codex plugin packages the calendar skill and hosted MCP connection together. Check its directory status below; after installation, browser sign-in connects your chosen calendar account. This route needs no terminal, local helper, API token, or manual MCP URL.</p>
+      <div class="actions">
+        <a class="button primary" id="hero-listing" href="#install" target="_blank" rel="noopener" hidden>Open in Plugins Directory<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="button primary" id="hero-pending" href="#install">See installation status</a>
+        <a class="button" id="calendar-link" href="#install" target="_blank" rel="noopener" hidden>Open <span data-display-name>Nembli</span><span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+      <p class="status" id="listing-status" role="status" aria-live="polite">Checking directory status…</p>
+    </section>
+
+    <section class="panel" id="install" aria-labelledby="install-heading">
+      <div class="eyebrow">Codex and ChatGPT</div>
+      <h2 id="install-heading">Install one plugin</h2>
+      <p id="directory-copy">The public directory entry is not available yet. The plugin is a saved submission draft; installing the older CLI release is a separate advanced option below.</p>
+      <div class="actions">
+        <a class="button primary" id="install-listing" href="#install" target="_blank" rel="noopener" hidden>Open <span data-display-name>Nembli</span> in Plugins Directory<span class="sr-only"> (opens in a new tab)</span></a>
+        <span class="status" id="install-pending">Directory install pending</span>
+      </div>
+      <ol class="steps">
+        <li>When the public listing appears here, open it while signed in to the ChatGPT account you use with Codex. In the desktop app, open <strong>Plugins</strong>, find <strong data-display-name>Nembli</strong> by <strong>Tor Production</strong>, and select <strong>+</strong> to install.</li>
+        <li>The plugin supplies both the <code>tor-event-calendar</code> skill and the remote calendar MCP connection. Open a new Codex task so the installed components are available; select the plugin in the task if your client asks.</li>
+        <li>When Codex asks to connect, continue to browser sign-in. Check the calendar account shown there and approve only the permissions you intend to use. Choose the correct verified email or account ID if you use more than one account.</li>
+        <li>Try a bounded read: <em>“Use $tor-event-calendar to show my connected account and the next five calendar entries. Do not change anything.”</em></li>
+      </ol>
+      <p class="notice">The browser authorization starts from the AI client. Opening the calendar site by itself does not connect the plugin. Switching accounts on the website also does not transfer an existing plugin grant to another account.</p>
+    </section>
+
+    <section id="how-it-works" aria-labelledby="how-heading">
+      <h2 id="how-heading">What the connection does</h2>
+      <div class="grid">
+        <article class="tile"><h3>Skill + tools</h3><p>The skill guides calendar workflows. The hosted MCP server supplies account-scoped tools for profile, capabilities, entries, drafts and supported file links. Both belong to the same plugin install.</p></article>
+        <article class="tile"><h3>Browser consent</h3><p>The calendar asks you to sign in and authorize <code>calendar.read</code> for reads and <code>calendar.manage</code> for changes. <code>offline_access</code> may be requested for a connection that can refresh. Never paste an API token into a chat.</p></article>
+        <article class="tile"><h3>Your account and time</h3><p>Check the selected account and exact time zone before changes. The plugin can prepare or manage a calendar entry, but a calendar write does not publish or schedule a social post.</p></article>
+      </div>
+      <p class="small">File links are handled by the browser; file bytes are not put in MCP JSON. The calendar's file limit is 25 MiB. Revoke a connection from calendar account settings when you no longer want that client to use it.</p>
+    </section>
+
+    <section class="panel" id="other-clients" aria-labelledby="other-heading">
+      <div class="eyebrow">Additional routes</div>
+      <h2 id="other-heading">Other AI clients</h2>
+      <p>The Codex plugin is the primary route. Other clients can use the same remote MCP server if they support Streamable HTTP and browser OAuth. These client-specific installations have not yet been verified with this calendar; follow each client's current guide.</p>
+      <div class="grid">
+        <article class="tile"><h3>Cursor</h3><p><a href="https://prod.cursor.com/docs/mcp/install-links">Cursor MCP install links</a> and <a href="https://prod.cursor.com/docs/plugins">Cursor plugins</a>. A Nembli-specific one-click link is not available yet.</p></article>
+        <article class="tile"><h3>VS Code</h3><p><a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">VS Code MCP setup</a>. A Nembli-specific install link is not available yet.</p></article>
+        <article class="tile"><h3>Claude, Hermes, Gemini</h3><p>Use their remote MCP guides: <a href="https://code.claude.com/docs/en/mcp">Claude Code</a>, <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/">Hermes</a>, <a href="https://geminicli.com/docs/tools/mcp-server/">Gemini CLI</a>. Native Nembli sign-in remains unverified in these clients.</p></article>
+      </div>
+    </section>
+
+    <section class="panel" id="manual-mcp" aria-labelledby="manual-heading">
+      <div class="eyebrow">Optional fallback</div>
+      <h2 id="manual-heading">Add the remote MCP manually</h2>
+      <p>If your client can connect to an OAuth-protected Streamable HTTP MCP server, add this HTTPS endpoint in that client's MCP settings. This connects the tools; it does not install the calendar skill. The directory plugin above is the intended combined install.</p>
+      <div class="endpoint">
+        <code id="mcp-url">Loading endpoint…</code>
+        <button id="copy-mcp" type="button" disabled>Copy URL</button>
+      </div>
+      <p class="small" id="copy-result" role="status" aria-live="polite"></p>
+      <p class="small">Let your client start OAuth discovery and browser sign-in. Use the exact account and scopes you choose there; do not add a token or local proxy. If this page cannot load its configuration, see the <a href="https://github.com/Tor-Production/tor-event-calendar-ai">source repository</a> for the current endpoint.</p>
+      <details>
+        <summary>Moving an existing connection to Nembli?</summary>
+        <p>Use <code>https://nembli.com/mcp</code> for a new connection. Grants for <code>eventcalendar.torproduction.com</code> or the former workers.dev origin remain tied to their original origin. Update the connection URL in your AI client, complete a fresh browser sign-in and consent, then confirm your account and a small calendar read before revoking the old connection.</p>
+        <p>Existing CLI profiles keep their saved origins and credentials. To pair with Nembli explicitly, run <code>tor-calendar connect --origin https://nembli.com --default</code>, then verify with <code>tor-calendar whoami</code>. Use the exact old profile ID if you later disconnect it. The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/codex/fix/skill-zip-layout/skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli">connection guide</a> explains account and origin selection.</p>
+      </details>
+      <details>
+        <summary>Already using the v0.1.0 local CLI?</summary>
+        <p>The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.1.0">v0.1.0 release</a> remains an optional local route using Node.js and the OS keychain. Its standalone skill and connection are separate from the new remote plugin. Keep your existing connection until you deliberately revoke it; an OAuth grant for one server origin or account does not move automatically to another.</p>
+      </details>
+    </section>
+
+    <footer>
+      <a href="https://github.com/Tor-Production/tor-event-calendar-ai">Source</a>
+      <a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">Support</a>
+      <a href="https://nembli.com/privacy">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </footer>
+  </main>
+  <script>
+    // Customer-facing URLs, identity and directory state live in one file.
+    const CONFIG_PATH = './install-config.json';
+    const listingStatus = document.querySelector('#listing-status');
+    const directoryCopy = document.querySelector('#directory-copy');
+    const copyResult = document.querySelector('#copy-result');
+
+    function httpsURL(value) {
+      if (typeof value !== 'string') return null;
+      try {
+        const url = new URL(value);
+        return url.protocol === 'https:' && !url.username && !url.password ? url : null;
+      } catch { return null; }
+    }
+
+    function directoryURL(value) {
+      const url = httpsURL(value);
+      return url && url.origin === 'https://chatgpt.com' && !url.search && !url.hash && /^\/plugins\/plugins_[a-zA-Z0-9]+\/?$/.test(url.pathname) ? url : null;
+    }
+
+    async function loadConfig() {
+      try {
+        const response = await fetch(CONFIG_PATH, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Configuration unavailable');
+        const config = await response.json();
+        if (!config || typeof config.displayName !== 'string' || !config.displayName.trim()) throw new Error('Invalid display name');
+        const site = httpsURL(config.siteURL);
+        const calendar = httpsURL(config.calendarURL);
+        const mcp = httpsURL(config.mcpURL);
+        if (!site || !calendar || !mcp) throw new Error('Invalid service URL');
+
+        document.title = `Connect AI · ${config.displayName}`;
+        const canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        canonical.href = site.href;
+        document.head.append(canonical);
+        document.querySelectorAll('[data-display-name]').forEach(node => { node.textContent = config.displayName; });
+        const calendarLink = document.querySelector('#calendar-link');
+        calendarLink.href = calendar.href;
+        calendarLink.hidden = false;
+        document.querySelector('#mcp-url').textContent = mcp.href;
+        document.querySelector('#copy-mcp').disabled = false;
+
+        const listing = directoryURL(config.listingURL);
+        if (config.listingStatus === 'published' && listing) {
+          for (const id of ['#hero-listing', '#install-listing']) {
+            const link = document.querySelector(id);
+            link.href = listing.href;
+            link.hidden = false;
+          }
+          document.querySelector('#hero-pending').hidden = true;
+          document.querySelector('#install-pending').hidden = true;
+          listingStatus.textContent = 'Published in the Plugins Directory';
+          listingStatus.classList.add('published');
+          directoryCopy.textContent = 'Open the verified public listing to install the skill and hosted MCP connection together.';
+          return;
+        }
+
+        const states = {
+          draft: 'Saved catalog draft · not submitted',
+          submitted: 'Submitted · awaiting OpenAI review',
+          review: 'Under OpenAI review',
+          approved: 'Approved · awaiting publication'
+        };
+        listingStatus.textContent = states[config.listingStatus] || 'Public listing not verified';
+        if (config.listingStatus === 'published') {
+          listingStatus.textContent = 'Publication reported, but the public listing URL is not verified';
+        }
+        directoryCopy.textContent = 'The public directory entry is not available yet. Installation from the directory will be linked here only after its URL is verified.';
+      } catch {
+        listingStatus.textContent = 'Directory status temporarily unavailable';
+        directoryCopy.textContent = 'This page could not load its installation configuration. Check the source repository or return later; no directory install link is being shown.';
+        document.querySelector('#mcp-url').textContent = 'Endpoint temporarily unavailable';
+      }
+    }
+
+    document.querySelector('#copy-mcp').addEventListener('click', async () => {
+      const value = document.querySelector('#mcp-url').textContent;
+      try {
+        await navigator.clipboard.writeText(value);
+        copyResult.textContent = 'MCP URL copied.';
+      } catch {
+        copyResult.textContent = 'Clipboard unavailable. Select and copy the URL shown above.';
+      }
+    });
+    loadConfig();
+  </script>
+</body>
+</html>

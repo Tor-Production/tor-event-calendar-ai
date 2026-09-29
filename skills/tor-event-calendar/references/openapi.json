@@ -1,13 +1,13 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Tor Event Calendar",
+    "title": "Nembli",
     "version": "1.1.0",
     "description": "Account-scoped calendar API. JSON 256 KiB; files 25 MiB. Cookie mutations require exact Origin plus X-Calendar-Account; Bearer tokens are one account only, read or manage. Invalid explicit Bearer never falls back to cookies. Calendar writes never publish or schedule social content."
   },
   "servers": [
     {
-      "url": "https://tor-event-calendar.chute-risk9361.workers.dev"
+      "url": "https://nembli.com"
     }
   ],
   "paths": {
