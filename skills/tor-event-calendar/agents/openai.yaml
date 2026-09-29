@@ -2,5 +2,12 @@ interface:
   display_name: "Tor Event Calendar"
   short_description: "Manage your connected calendar on explicit request"
   default_prompt: "Use $tor-event-calendar to show today's events in my connected account."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "tor-event-calendar"
+      description: "Account-scoped Tor Event Calendar tools"
+      transport: "streamable_http"
+      url: "https://eventcalendar.torproduction.com/mcp"
 policy:
   allow_implicit_invocation: false

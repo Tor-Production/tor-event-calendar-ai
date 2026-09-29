@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "tor-event-calendar": {
+      "type": "http",
+      "url": "https://eventcalendar.torproduction.com/mcp"
+    }
+  }
+}

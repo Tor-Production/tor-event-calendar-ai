@@ -7,6 +7,7 @@ import {planCreate} from '../src/plan.mjs';
 import {installSkill} from '../src/cli.mjs';
 import {Profiles} from '../src/profiles.mjs';
 const directory=await mkdtemp(path.join(tmpdir(),'tor-calendar-consumer-'));
+const packageVersion=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8')).version;
 try{
   assert.equal(dayRange('2026-09-06','America/Santiago').hours,23);
   assert.throws(()=>localInstant('2026-11-01','01:30','America/New_York'),{code:'DST_OVERLAP'});
@@ -18,6 +19,7 @@ try{
   const before=await readFile(profiles.file,'utf8');assert.ok(!before.includes('synthetic-secret'));
   for(const client of ['codex','claude','hermes','gemini','cursor','copilot']){
     const target=path.join(directory,client);const installed=await installSkill(client,{directory:target});
+    assert.equal(installed.version,packageVersion,'installed skill version matches package.json');
     const text=await readFile(path.join(target,'skills','tor-event-calendar','SKILL.md'),'utf8');assert.match(text,/name: tor-event-calendar/);
     if(['claude','cursor','copilot'].includes(client))assert.match(text,/disable-model-invocation: true/);
     await installSkill(client,{directory:target});await installSkill(client,{directory:target,uninstall:true});

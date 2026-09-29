@@ -1,7 +1,7 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.1.0",
-  "description": "Manage a connected private calendar through an explicitly invoked skill and shared local CLI.",
+  "version": "0.2.0",
+  "description": "Manage a connected private calendar through a remote MCP server and explicitly invoked skill.",
   "author": {
     "name": "Tor Production",
     "url": "https://github.com/Tor-Production"
@@ -13,16 +13,18 @@
     "calendar",
     "multi-account",
     "skills",
+    "mcp",
     "codex",
     "claude",
     "hermes",
     "gemini"
   ],
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Tor Event Calendar",
-    "shortDescription": "Manage your calendar from your local AI workspace.",
-    "longDescription": "Connect a verified calendar account once through the browser, then manage events, drafts and files using natural language. Supports account-scoped local CLI connections and platform-specific planning. Social publication needs a separately verified publisher; no cloud MCP connector is included.",
+    "shortDescription": "Manage your private calendar",
+    "longDescription": "Connect a verified calendar account through browser sign-in, then use the remote MCP server and an explicitly invoked skill to find events, create meetings, prepare platform-specific drafts, move appointments and manage file links. Account access is scoped to the selected calendar account. Calendar writes never publish or schedule social posts. The local CLI remains an optional advanced route.",
     "developerName": "Tor Production",
     "category": "Productivity",
     "capabilities": [
@@ -30,6 +32,7 @@
       "Write"
     ],
     "websiteURL": "https://tor-production.github.io/tor-event-calendar-ai/",
+    "supportURL": "https://github.com/Tor-Production/tor-event-calendar-ai/issues",
     "privacyPolicyURL": "https://tor-production.github.io/tor-event-calendar-ai/privacy.html",
     "termsOfServiceURL": "https://tor-production.github.io/tor-event-calendar-ai/terms.html",
     "defaultPrompt": [

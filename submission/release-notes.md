@@ -1,5 +1,9 @@
-# 0.1.0
+# 0.2.0 candidate release notes
 
-First public local AI integration. Explicit skill, deterministic shared CLI, complete on-demand OpenAPI, six local client directory adapters, secure multi-account browser pairing, timezone-aware planning and paginated discovery, authenticated File attachments and honest social publication capability blocks.
+This candidate changes the primary customer route from the v0.1.0 local CLI/skill setup to **one plugin containing the explicitly invoked Tor Event Calendar skill and a remote Streamable HTTP MCP configuration**. The hosted calendar Worker supplies account-scoped tools and browser OAuth sign-in/consent. The plugin package itself contains no server runtime, API token, proxy, or secret. The published v0.1.0 CLI remains available as an optional advanced route; its technical package name and existing client behavior are preserved.
 
-No real social publisher is included. Persistent claims and receipts support safe separately verified adapters; all submit tests used a fake adapter. Calendar writes never publish. Native OS keychain was tested on Windows; other host/client combinations have documented installation routes and require host consent/runtime support.
+The new skill routes simple reads and creates without loading unrelated history, checks account identity, exact time and IANA timezone, and asks only for missing platform-specific values. It preserves arbitrary `customFields`, explicit `customFieldTypes`, and File metadata. File bytes use browser-owned links. Calendar writes still never publish or schedule social content; `publication_automated` remains reserved for confirmed end-to-end publishing setup.
+
+The canonical MCP endpoint is `https://eventcalendar.torproduction.com/mcp`. Its server-side deployment, OAuth metadata, SDK read checks, and private ChatGPT refresh evidence are recorded in the [calendar-site handoff](calendar-site-handoff.md) and the private server acceptance document. A temporary local installation of the combined ZIP succeeded and was removed after inspection; it does not establish native Codex OAuth or tool-call access. Local artifacts and checksums were built, while a source commit, pull request, release publication, portal submission, review, and public listing remain pending; see [status](status.md).
+
+No existing calendar records, stored files, API tokens, or OAuth grants are migrated by packaging this plugin. An existing grant for the former workers.dev origin does not transfer to the canonical-domain resource by redirect.

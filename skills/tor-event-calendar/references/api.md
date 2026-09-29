@@ -1,4 +1,6 @@
-# API/client reference v1.1.0
+# Legacy REST/local CLI reference (v0.1.0 package)
+
+Use this only for explicit local CLI or direct REST integration. The ordinary installed plugin uses the remote tools in [the MCP guide](mcp.md) and browser OAuth. The original Worker origin below remains a v0.1.0 compatibility target; its token/grant does not transfer to the canonical MCP origin.
 
 See [complete OpenAPI](openapi.json) for routes and schemas; load it only for direct API integration. `tor-calendar help` shows the maintained command surface. The canonical origin is `https://tor-event-calendar.chute-risk9361.workers.dev`; clients refuse authenticated redirects and send credentials only to their pinned origin. All private objects are account-owned. `/api/calendar-entries` is canonical; `/api/events` is a direct compatibility alias, including task/result/file/claim subroutes.
 

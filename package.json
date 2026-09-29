@@ -1,7 +1,7 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.1.0",
-  "description": "Account-scoped Tor Event Calendar client and explicitly invoked AI integration",
+  "version": "0.2.0",
+  "description": "Account-scoped calendar MCP plugin and optional local CLI",
   "type": "module",
   "license": "MIT",
   "engines": {
@@ -18,8 +18,12 @@
     "LICENSE",
     "README.md",
     "plugin.json",
+    "mcp.json",
+    ".mcp.json",
     "assets",
-    "scripts"
+    "scripts/package.py",
+    "scripts/test_package.py",
+    "scripts/test.mjs"
   ],
   "dependencies": {
     "@napi-rs/keyring": "2.1.0"
