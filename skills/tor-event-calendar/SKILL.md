@@ -1,9 +1,9 @@
 ---
 name: tor-event-calendar
-description: Manage a connected Tor Event Calendar account, calendar events, files, and publication handoffs when explicitly requested. Calendar actions never publish social content.
+description: Manage a connected Nembli account, calendar events, files, and publication handoffs when explicitly requested. Calendar actions never publish social content.
 ---
 
-# Tor Event Calendar
+# Nembli
 
 Use only when the user explicitly invokes `$tor-event-calendar` or asks to use this integration. Installation and OAuth consent authorize access to an account, not a particular write or social publication. Prefer the plugin's remote MCP tools; they need no local CLI, Node runtime, API token, or manual MCP setup after plugin installation. If the tools are missing, report the connection problem. Use the [legacy local CLI reference](references/connections.md#optional-v010-local-cli) only when the user explicitly chooses that advanced route; do not silently switch credentials or accounts.
 

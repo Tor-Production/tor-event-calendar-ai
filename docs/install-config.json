@@ -1,8 +1,8 @@
 {
-  "displayName": "Tor Event Calendar",
-  "siteURL": "https://tor-production.github.io/tor-event-calendar-ai/",
-  "calendarURL": "https://eventcalendar.torproduction.com/",
-  "mcpURL": "https://eventcalendar.torproduction.com/mcp",
+  "displayName": "Nembli",
+  "siteURL": "https://nembli.com/connect-ai",
+  "calendarURL": "https://nembli.com/",
+  "mcpURL": "https://nembli.com/mcp",
   "listingURL": null,
   "listingStatus": "draft"
 }

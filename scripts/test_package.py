@@ -11,7 +11,7 @@ SKILL = ROOT / 'skills' / 'tor-event-calendar'
 VERSION = json.loads((ROOT / 'package.json').read_text(encoding='utf-8'))['version']
 ARCHIVE = ROOT / 'dist' / f'tor-event-calendar-ai-skill-{VERSION}.zip'
 PLUGIN_ARCHIVE = ROOT / 'dist' / f'tor-event-calendar-ai-plugin-{VERSION}.zip'
-MCP_URL = 'https://eventcalendar.torproduction.com/mcp'
+MCP_URL = 'https://nembli.com/mcp'
 
 
 def main():
@@ -68,8 +68,14 @@ def main():
             raise AssertionError('Portable MCP definition differs from the production endpoint')
         if legacy_mcp != {'type': 'http', 'url': MCP_URL}:
             raise AssertionError('Legacy MCP definition differs from the production endpoint')
-        if site['mcpURL'] != MCP_URL or site['siteURL'] != manifest['homepage']:
-            raise AssertionError('Installation guide configuration differs from plugin metadata')
+        if (site['mcpURL'] != MCP_URL or site['siteURL'] != 'https://nembli.com/connect-ai'
+                or manifest['homepage'] != 'https://nembli.com' or site['calendarURL'] != 'https://nembli.com/'):
+            raise AssertionError('Installation guide configuration differs from Nembli metadata')
+        interface = manifest['extensions']['com.openai']['interface']
+        if (interface['displayName'] != 'Nembli' or interface['websiteURL'] != 'https://nembli.com'
+                or interface['privacyPolicyURL'] != 'https://nembli.com/privacy'
+                or site['listingStatus'] != 'draft' or site['listingURL'] is not None):
+            raise AssertionError('Nembli identity or unpublished listing state differs')
         if 'value: "tor-event-calendar"' not in dependency or f'url: "{MCP_URL}"' not in dependency:
             raise AssertionError('Skill dependency does not match packaged MCP server')
 

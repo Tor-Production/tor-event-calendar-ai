@@ -3,7 +3,7 @@
   "mcpServers": {
     "tor-event-calendar": {
       "type": "streamable-http",
-      "url": "https://eventcalendar.torproduction.com/mcp"
+      "url": "https://nembli.com/mcp"
     }
   }
 }

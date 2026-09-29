@@ -1,13 +1,13 @@
 interface:
-  display_name: "Tor Event Calendar"
+  display_name: "Nembli"
   short_description: "Manage your connected calendar on explicit request"
   default_prompt: "Use $tor-event-calendar to show today's events in my connected account."
 dependencies:
   tools:
     - type: "mcp"
       value: "tor-event-calendar"
-      description: "Account-scoped Tor Event Calendar tools"
+      description: "Account-scoped Nembli tools"
       transport: "streamable_http"
-      url: "https://eventcalendar.torproduction.com/mcp"
+      url: "https://nembli.com/mcp"
 policy:
   allow_implicit_invocation: false

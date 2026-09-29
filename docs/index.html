@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Connect your calendar to Codex with one plugin install and browser sign-in. See the current directory status and optional MCP setup.">
+  <meta name="description" content="Connect Nembli to Codex with one plugin install and browser sign-in. See the current directory status and optional MCP setup.">
   <meta name="color-scheme" content="dark light">
-  <title>Connect AI · Calendar</title>
+  <title>Connect AI · Nembli</title>
   <style>
     :root {
       --bg: #1e1e2e; --surface: #181825; --text: #cdd6f4;
@@ -80,7 +80,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="shell">
-      <a class="brand" href="#top"><span data-display-name>Calendar</span> · Connect AI</a>
+      <a class="brand" href="#top"><span data-display-name>Nembli</span> · Connect AI</a>
       <nav aria-label="Main navigation">
         <a href="#install">Codex install</a>
         <a href="#how-it-works">How it works</a>
@@ -93,11 +93,12 @@
     <section class="hero" id="top" aria-labelledby="hero-heading">
       <div class="eyebrow">A Tor Production plugin</div>
       <h1 id="hero-heading">Your calendar, in your AI workspace.</h1>
+      <p class="small">Visit <a href="https://nembli.com/connect-ai">Nembli's primary AI installation guide</a>. This page remains a compatibility guide.</p>
       <p class="lede">The Codex plugin packages the calendar skill and hosted MCP connection together. Check its directory status below; after installation, browser sign-in connects your chosen calendar account. This route needs no terminal, local helper, API token, or manual MCP URL.</p>
       <div class="actions">
         <a class="button primary" id="hero-listing" href="#install" target="_blank" rel="noopener" hidden>Open in Plugins Directory<span class="sr-only"> (opens in a new tab)</span></a>
         <a class="button primary" id="hero-pending" href="#install">See installation status</a>
-        <a class="button" id="calendar-link" href="#install" target="_blank" rel="noopener" hidden>Open <span data-display-name>Calendar</span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="button" id="calendar-link" href="#install" target="_blank" rel="noopener" hidden>Open <span data-display-name>Nembli</span><span class="sr-only"> (opens in a new tab)</span></a>
       </div>
       <p class="status" id="listing-status" role="status" aria-live="polite">Checking directory status…</p>
     </section>
@@ -107,11 +108,11 @@
       <h2 id="install-heading">Install one plugin</h2>
       <p id="directory-copy">The public directory entry is not available yet. The plugin is a saved submission draft; installing the older CLI release is a separate advanced option below.</p>
       <div class="actions">
-        <a class="button primary" id="install-listing" href="#install" target="_blank" rel="noopener" hidden>Open <span data-display-name>Calendar</span> in Plugins Directory<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="button primary" id="install-listing" href="#install" target="_blank" rel="noopener" hidden>Open <span data-display-name>Nembli</span> in Plugins Directory<span class="sr-only"> (opens in a new tab)</span></a>
         <span class="status" id="install-pending">Directory install pending</span>
       </div>
       <ol class="steps">
-        <li>When the public listing appears here, open it while signed in to the ChatGPT account you use with Codex. In the desktop app, open <strong>Plugins</strong>, find <strong data-display-name>Calendar</strong> by <strong>Tor Production</strong>, and select <strong>+</strong> to install.</li>
+        <li>When the public listing appears here, open it while signed in to the ChatGPT account you use with Codex. In the desktop app, open <strong>Plugins</strong>, find <strong data-display-name>Nembli</strong> by <strong>Tor Production</strong>, and select <strong>+</strong> to install.</li>
         <li>The plugin supplies both the <code>tor-event-calendar</code> skill and the remote calendar MCP connection. Open a new Codex task so the installed components are available; select the plugin in the task if your client asks.</li>
         <li>When Codex asks to connect, continue to browser sign-in. Check the calendar account shown there and approve only the permissions you intend to use. Choose the correct verified email or account ID if you use more than one account.</li>
         <li>Try a bounded read: <em>“Use $tor-event-calendar to show my connected account and the next five calendar entries. Do not change anything.”</em></li>
@@ -134,9 +135,9 @@
       <h2 id="other-heading">Other AI clients</h2>
       <p>The Codex plugin is the primary route. Other clients can use the same remote MCP server if they support Streamable HTTP and browser OAuth. These client-specific installations have not yet been verified with this calendar; follow each client's current guide.</p>
       <div class="grid">
-        <article class="tile"><h3>Cursor</h3><p><a href="https://prod.cursor.com/docs/mcp/install-links">Cursor MCP install links</a> and <a href="https://prod.cursor.com/docs/plugins">Cursor plugins</a>. A Calendar-specific one-click link is not available yet.</p></article>
-        <article class="tile"><h3>VS Code</h3><p><a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">VS Code MCP setup</a>. A Calendar-specific install link is not available yet.</p></article>
-        <article class="tile"><h3>Claude, Hermes, Gemini</h3><p>Use their remote MCP guides: <a href="https://code.claude.com/docs/en/mcp">Claude Code</a>, <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/">Hermes</a>, <a href="https://geminicli.com/docs/tools/mcp-server/">Gemini CLI</a>. Native Calendar sign-in remains unverified in these clients.</p></article>
+        <article class="tile"><h3>Cursor</h3><p><a href="https://prod.cursor.com/docs/mcp/install-links">Cursor MCP install links</a> and <a href="https://prod.cursor.com/docs/plugins">Cursor plugins</a>. A Nembli-specific one-click link is not available yet.</p></article>
+        <article class="tile"><h3>VS Code</h3><p><a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">VS Code MCP setup</a>. A Nembli-specific install link is not available yet.</p></article>
+        <article class="tile"><h3>Claude, Hermes, Gemini</h3><p>Use their remote MCP guides: <a href="https://code.claude.com/docs/en/mcp">Claude Code</a>, <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/">Hermes</a>, <a href="https://geminicli.com/docs/tools/mcp-server/">Gemini CLI</a>. Native Nembli sign-in remains unverified in these clients.</p></article>
       </div>
     </section>
 
@@ -151,6 +152,11 @@
       <p class="small" id="copy-result" role="status" aria-live="polite"></p>
       <p class="small">Let your client start OAuth discovery and browser sign-in. Use the exact account and scopes you choose there; do not add a token or local proxy. If this page cannot load its configuration, see the <a href="https://github.com/Tor-Production/tor-event-calendar-ai">source repository</a> for the current endpoint.</p>
       <details>
+        <summary>Moving an existing connection to Nembli?</summary>
+        <p>Use <code>https://nembli.com/mcp</code> for a new connection. Grants for <code>eventcalendar.torproduction.com</code> or the former workers.dev origin remain tied to their original origin. Update the connection URL in your AI client, complete a fresh browser sign-in and consent, then confirm your account and a small calendar read before revoking the old connection.</p>
+        <p>Existing CLI profiles keep their saved origins and credentials. To pair with Nembli explicitly, run <code>tor-calendar connect --origin https://nembli.com --default</code>, then verify with <code>tor-calendar whoami</code>. Use the exact old profile ID if you later disconnect it. The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/codex/fix/skill-zip-layout/skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli">connection guide</a> explains account and origin selection.</p>
+      </details>
+      <details>
         <summary>Already using the v0.1.0 local CLI?</summary>
         <p>The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.1.0">v0.1.0 release</a> remains an optional local route using Node.js and the OS keychain. Its standalone skill and connection are separate from the new remote plugin. Keep your existing connection until you deliberately revoke it; an OAuth grant for one server origin or account does not move automatically to another.</p>
       </details>
@@ -159,7 +165,7 @@
     <footer>
       <a href="https://github.com/Tor-Production/tor-event-calendar-ai">Source</a>
       <a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">Support</a>
-      <a href="privacy.html">Privacy</a>
+      <a href="https://nembli.com/privacy">Privacy</a>
       <a href="terms.html">Terms</a>
     </footer>
   </main>
