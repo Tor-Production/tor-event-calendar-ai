@@ -35,7 +35,7 @@
         "websiteURL": "https://nembli.com",
         "supportURL": "https://github.com/Tor-Production/tor-event-calendar-ai/issues",
         "privacyPolicyURL": "https://nembli.com/privacy",
-        "termsOfServiceURL": "https://tor-production.github.io/tor-event-calendar-ai/terms.html",
+        "termsOfServiceURL": "https://nembli.com/ai/terms",
         "defaultPrompt": [
           "Use tor-event-calendar to show today's events in my connected account.",
           "Use tor-event-calendar to create a project meeting tomorrow at 09:30 in Europe/Kyiv.",

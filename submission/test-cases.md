@@ -1,6 +1,6 @@
-# Evaluation cases for the 0.2.0 candidate
+# Evaluation cases for the 0.2.0 package
 
-These are proposed **With MCP + skill** portal cases, not evidence that the candidate has passed an installed-plugin run. Use a reviewer-controlled, verified calendar account and reproducible disposable events. Supply any required demo access through the submission portal's secure reviewer flow, never in this repository or a chat. The current draft's Testing UI asks for five prompts that should trigger the app and three that should not. [OpenAI submission guide](https://developers.openai.com/plugins/deploy/submission)
+These are proposed **With MCP + skill** portal cases, not evidence that the package has passed an installed-plugin run. Use a reviewer-controlled, verified calendar account and reproducible disposable events. Supply any required demo access through the submission portal's secure reviewer flow, never in this repository or a chat. The current draft's Testing UI asks for five prompts that should trigger the app and three that should not. [OpenAI submission guide](https://developers.openai.com/plugins/deploy/submission)
 
 ## Positive cases
 

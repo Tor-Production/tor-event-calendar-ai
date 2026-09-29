@@ -74,6 +74,7 @@ def main():
         interface = manifest['extensions']['com.openai']['interface']
         if (interface['displayName'] != 'Nembli' or interface['websiteURL'] != 'https://nembli.com'
                 or interface['privacyPolicyURL'] != 'https://nembli.com/privacy'
+                or interface['termsOfServiceURL'] != 'https://nembli.com/ai/terms'
                 or site['listingStatus'] != 'draft' or site['listingURL'] is not None):
             raise AssertionError('Nembli identity or unpublished listing state differs')
         if 'value: "tor-event-calendar"' not in dependency or f'url: "{MCP_URL}"' not in dependency:

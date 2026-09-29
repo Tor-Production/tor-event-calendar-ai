@@ -1,51 +1,44 @@
-# Nembli installation handoff
+# Nembli installation and release handoff
 
-State on **29 September 2026**. This 0.2.0 candidate packages the explicitly invoked `tor-event-calendar` skill with the Nembli remote MCP connection. The primary public AI guide is `https://nembli.com/connect-ai`; the package's GitHub Pages site remains a compatibility guide. Source configuration does not prove deployment, OAuth acceptance or directory publication. Server deployment and account-specific evidence remain in the private server ledger.
+State on **29 September 2026**. Public package version **0.2.0** supplies the explicit `tor-event-calendar` skill, remote Nembli MCP configuration and optional local CLI. The primary guide is `https://nembli.com/connect-ai`; GitHub Pages is a compatibility guide. A package release does not establish directory publication or native OAuth acceptance.
 
 ## Website configuration
 
-The package site owns [`docs/install-config.json`](../docs/install-config.json):
+[`docs/install-config.json`](../docs/install-config.json) contains:
 
 | Key | Value | Use |
 | --- | --- | --- |
 | `displayName` | `Nembli` | Customer-facing name. |
-| `siteURL` | `https://nembli.com/connect-ai` | Primary AI installation guide and canonical guide URL. |
-| `calendarURL` | `https://nembli.com/` | Calendar sign-in and account management. |
-| `mcpURL` | `https://nembli.com/mcp` | Optional manual Streamable HTTP fallback. |
-| `listingURL` | `null` | No verified public directory install link. |
-| `listingStatus` | `draft` | Show the pending state. |
+| `siteURL` | `https://nembli.com/connect-ai` | Canonical AI guide. |
+| `calendarURL` | `https://nembli.com/` | Sign-in and account management. |
+| `mcpURL` | `https://nembli.com/mcp` | Optional manual Streamable HTTP connection. |
+| `listingURL` | `null` | No verified public directory install URL. |
+| `listingStatus` | `draft` | Keep the directory action pending. |
 
-Once Nembli's own public directory URL is verified and `listingStatus` is `published`, enable the **Install Nembli plugin** action. Until then, keep the pending state and clearly labeled manual MCP fallback. Manual setup connects tools only. Do not substitute a Platform draft, private test app, unrelated listing or guessed deep link. The server can mirror the configuration directly; do not assume cross-origin JSON fetching works without checking CORS.
+Homepage is `https://nembli.com`; privacy `/privacy`; AI integration terms `/ai/terms`. The terms page covers this public integration. Enable the **Install Nembli plugin** action only after Nembli's own public directory URL is verified and the state is `published`. Do not substitute the draft URL, a private app or an unrelated listing. Manual MCP connects the tools without installing the skill.
 
-Public metadata uses homepage `https://nembli.com`, privacy `https://nembli.com/privacy`, and terms `https://tor-production.github.io/tor-event-calendar-ai/terms.html`. The Worker currently has no `/terms` route. Package/repository ID `tor-event-calendar-ai`, skill/MCP ID `tor-event-calendar`, and command `tor-calendar` stay stable.
-
-## Connection contract
+## Connection and migration contract
 
 | Item | Value |
 | --- | --- |
-| Streamable HTTP resource and audience | `https://nembli.com/mcp` |
+| MCP resource/audience | `https://nembli.com/mcp` |
 | Protected-resource metadata | `https://nembli.com/.well-known/oauth-protected-resource/mcp` |
-| Authorization-server issuer | `https://nembli.com/api/v1/auth` |
-| Authorization-server metadata | `https://nembli.com/.well-known/oauth-authorization-server/api/v1/auth` |
+| Authorization issuer | `https://nembli.com/api/v1/auth` |
+| Authorization metadata | `https://nembli.com/.well-known/oauth-authorization-server/api/v1/auth` |
 | Scopes | `calendar.read`, `calendar.manage`, optional `offline_access` |
-| Access / refresh lifetime | 900 seconds / 30 days, with refresh rotation |
-| Identity | Stable account ID from authenticated `get_profile`, with verified email/nickname when available |
+| Access/refresh lifetime | 900 seconds / 30 days with refresh rotation |
+| Identity | Stable ID from authenticated `get_profile`, plus verified email/nickname when available |
 
-Use the exact live metadata during integration. A new Nembli connection requires browser sign-in, account choice and fresh OAuth consent. Old grants remain bound to their previous origin; redirects and website account switching do not transfer them. Existing CLI profiles keep their saved origin and keyring credentials. New 0.2.0 CLI connections default to Nembli. Verify the new connection before deliberately revoking an older one; [migration steps](../skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli) include exact CLI commands.
+Use live metadata during client integration. Old-origin grants never migrate by redirect or website account switching. New CLI connections default to Nembli; saved profiles and keyring credentials keep their original origin. Complete fresh browser consent, verify the new profile/read, then deliberately revoke an older connection if desired. [Migration steps](../skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli)
 
-The server stays on the existing Cloudflare Worker and storage. Calendar writes never publish or schedule social posts. File bytes travel through authenticated browser-owned links, not MCP JSON. Technical identity continuity does not establish origin-specific OAuth access.
+The existing Worker and storage continue to serve the calendar. Calendar writes never publish or schedule social posts; File bytes use authenticated browser-owned links, not MCP JSON. Stable package/repository ID `tor-event-calendar-ai`, skill/MCP ID `tor-event-calendar` and command `tor-calendar` remain unchanged.
 
-## Release and acceptance handoff
+## Release and verification
 
-| Field | State |
-| --- | --- |
-| Candidate / compatibility release | 0.2.0 source candidate; published [v0.1.0](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.1.0) stays unchanged. |
-| Combined artifact | `dist/tor-event-calendar-ai-plugin-0.2.0.zip`; rebuild and validate from final source. |
-| Skill upload | `dist/tor-event-calendar-ai-skill-0.2.0.zip`, with one top-level `tor-event-calendar/` directory; changed Nembli bytes require a new scan. |
-| Checksums | Generated `dist/SHA256SUMS`; the ZIP does not contain its own checksum. |
-| Source / PR | `codex/fix/skill-zip-layout`, associated with [draft PR #1](https://github.com/Tor-Production/tor-event-calendar-ai/pull/1) to `develop`; latest migration requires push/review. |
-| Portal | Reuse the existing With MCP draft. Previous domain verification and skill scan were pre-Nembli evidence; refresh name/icons, domain, MCP URL and skill, then record their new results. |
-| Listing / publication | None verified; keep `listingURL: null`, `listingStatus: draft`. No package release, portal submission or listing publication is implied. |
-| OAuth acceptance | Prior SDK/private ChatGPT/temporary ZIP results do not verify a new Nembli native Codex connection. Complete fresh consent, account label, bounded read, new-session and refresh checks. |
+- [0.2.0 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.0): `tor-event-calendar-ai-0.2.0.tgz`, `tor-event-calendar-ai-plugin-0.2.0.zip`, `tor-event-calendar-ai-skill-0.2.0.zip` and `SHA256SUMS`. The skill ZIP has seven files inside `tor-event-calendar/`.
+- Published v0.1.0 compatibility artifacts remain unchanged. New installations should use 0.2.0.
+- The package site is served from `main:/docs`. Verify its Pages build and actual release assets before changing the private site's download version to 0.2.0.
+- Coordinated Nembli deployment passed nine live server CRUD/compatibility groups without resetting existing records. Server checks and temporary local plugin installation do not establish native Nembli OAuth.
+- Nembli domain verification and the pre-release Nembli skill scan passed in the existing OpenAI draft. The final release's skill references changed: upload these exact bytes and obtain a new scan result. Tools scan, native OAuth/new-session/refresh, reviewer materials and policy review remain pending.
 
-See [submission status](status.md) for historical evidence and outstanding reviewer demo, tools scan, test scenarios and policy attestations. The package owner and server owner should record Nembli deployment and portal checks independently before claiming acceptance.
+Record exact hashes through the release's generated `SHA256SUMS`; the plugin ZIP does not contain its own checksum. Keep GitHub package, Pages deployment, OAuth acceptance and public directory publication as separate observed states. [Submission status](status.md)
