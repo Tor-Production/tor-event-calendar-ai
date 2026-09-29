@@ -1,6 +1,6 @@
 # Nembli
 
-Package version: **0.2.0**. Developer: **Tor Production**. Category: **Productivity**. Submission type: **With MCP + skill**. The public listing is a saved draft, not a published install destination.
+Package version: **0.2.1**. Developer: **Tor Production**. Category: **Productivity**. Submission type: **With MCP + skill**. The public listing is a saved draft, not a published install destination.
 
 ## Short description
 
