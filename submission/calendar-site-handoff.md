@@ -1,6 +1,6 @@
 # Nembli installation and release handoff
 
-State on **29 September 2026**. Public package version **0.2.0** supplies the explicit `tor-event-calendar` skill, remote Nembli MCP configuration and optional local CLI. The primary guide is `https://nembli.com/connect-ai`; GitHub Pages is a compatibility guide. A package release does not establish directory publication or native OAuth acceptance.
+State on **29 September 2026**. Package release version **0.2.1** supplies the explicit `tor-event-calendar` skill, remote Nembli MCP configuration and optional local CLI. The primary guide is `https://nembli.com/connect-ai`; GitHub Pages is a compatibility guide. A package release does not establish directory publication or native OAuth acceptance.
 
 ## Website configuration
 
@@ -35,9 +35,9 @@ The existing Worker and storage continue to serve the calendar. Calendar writes 
 
 ## Release and verification
 
-- [0.2.0 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.0): `tor-event-calendar-ai-0.2.0.tgz`, `tor-event-calendar-ai-plugin-0.2.0.zip`, `tor-event-calendar-ai-skill-0.2.0.zip` and `SHA256SUMS`. The skill ZIP has seven files inside `tor-event-calendar/`.
-- Published v0.1.0 compatibility artifacts remain unchanged. New installations should use 0.2.0.
-- The package site is served from `main:/docs`. Verify its Pages build and actual release assets before changing the private site's download version to 0.2.0.
+- [0.2.1 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.1): `tor-event-calendar-ai-0.2.1.tgz`, `tor-event-calendar-ai-plugin-0.2.1.zip`, `tor-event-calendar-ai-skill-0.2.1.zip` and `SHA256SUMS`. The skill ZIP has seven files inside `tor-event-calendar/`.
+- Published v0.1.0 compatibility artifacts remain unchanged. New installations should use 0.2.1.
+- The package site is served from `main:/docs`. Verify its Pages build and actual release assets before changing the private site's download version to 0.2.1.
 - Coordinated Nembli deployment passed nine live server CRUD/compatibility groups without resetting existing records. Server checks and temporary local plugin installation do not establish native Nembli OAuth.
 - Nembli domain verification and the pre-release Nembli skill scan passed in the existing OpenAI draft. The final release's skill references changed: upload these exact bytes and obtain a new scan result. Tools scan, native OAuth/new-session/refresh, reviewer materials and policy review remain pending.
 

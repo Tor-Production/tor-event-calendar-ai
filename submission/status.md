@@ -1,6 +1,6 @@
 # OpenAI directory and Nembli release status
 
-**State on 29 September 2026:** public package version **0.2.0**; existing OpenAI With MCP submission **draft**, not submitted, approved or published in the directory. The existing [Platform draft](https://platform.openai.com/plugins/edit/asdk_app_6ab9941edbfc819188d6307e41435bb3/asdk_app_v_6ab994203b188191bdad2b2739431a4d?section=Submit) belongs to Tor Production. No public Nembli directory install URL is verified. [`docs/install-config.json`](../docs/install-config.json) retains `listingStatus: "draft"` and `listingURL: null`.
+**State on 29 September 2026:** package release version **0.2.1**; existing OpenAI With MCP submission **draft**, not submitted, approved or published in the directory. The existing [Platform draft](https://platform.openai.com/plugins/edit/asdk_app_6ab9941edbfc819188d6307e41435bb3/asdk_app_v_6ab994203b188191bdad2b2739431a4d?section=Submit) belongs to Tor Production. No public Nembli directory install URL is verified. [`docs/install-config.json`](../docs/install-config.json) retains `listingStatus: "draft"` and `listingURL: null`.
 
 ## Public package and connection routes
 
