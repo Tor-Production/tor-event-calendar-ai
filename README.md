@@ -1,41 +1,42 @@
-# Tor Event Calendar AI · 0.1.0
+# Nembli AI · 0.2.0
 
-Manage your own calendar from a local AI workspace. Install once, approve a browser connection once, and reuse it in later sessions. This public package contains the portable client, explicitly invoked skill and API references. The calendar application's source repository remains private.
+Connect an AI workspace to your Nembli calendar through account-scoped remote MCP tools or the optional local CLI. This release also packages the explicitly invoked `tor-event-calendar` skill with the remote MCP definition. Nembli runs on the existing calendar Cloudflare Worker.
+
+**Downloads:** [v0.2.0 release and checksums](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.0) · [combined plugin ZIP](https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.0/tor-event-calendar-ai-plugin-0.2.0.zip) · [standalone skill ZIP](https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.0/tor-event-calendar-ai-skill-0.2.0.zip). The skill ZIP contains one `tor-event-calendar/` folder. The [v0.1.0 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.1.0) remains available for compatibility.
+
+**OpenAI directory:** the [With MCP submission remains a draft](submission/status.md); no public listing or directory install URL is verified. A GitHub package release does not establish directory approval or native OAuth acceptance. For current connection choices, use the [Nembli AI guide](https://nembli.com/connect-ai), with [GitHub Pages](https://tor-production.github.io/tor-event-calendar-ai/) as a compatibility guide. Do not use a private test app or another plugin's listing as a Nembli install link.
+
+## Remote tools and the combined plugin
+
+The remote Streamable HTTP endpoint is `https://nembli.com/mcp`. A client that supports browser OAuth can add it manually; this connects the tools without installing the skill. The combined package supplies both the remote definition in [`mcp.json`](mcp.json) and the explicitly invoked workflow in [`skills/tor-event-calendar/SKILL.md`](skills/tor-event-calendar/SKILL.md). Implicit invocation is disabled; request `$tor-event-calendar` when you want the skill. Installing a skill alone does not grant account access.
+
+After a future public listing is approved and published, the intended directory flow is **install Nembli by Tor Production → sign in and choose a calendar account → review scopes → start a new task**. That route needs no local Node helper, API token or separate MCP URL. Native combined-plugin OAuth, account labeling, fresh-session tool calls and refresh remain acceptance gates; existing server checks and a local package installation are separate evidence. [Package guide](https://developers.openai.com/plugins/build/plugins) · [current evidence](submission/status.md)
+
+Browser consent binds a grant to one selected calendar account and the exact MCP resource. `get_profile` returns a stable account ID and available verified email/label. If several connected accounts could satisfy a request, select one before private lookups or writes. The server advertises `calendar.read`, `calendar.manage`, and optional `offline_access` for refresh. Revoke an individual connection through calendar account settings. Changing website accounts or MCP origins does not transfer a grant; never paste credentials into a prompt or package file.
+
+Use an exact date, time and IANA timezone. The skill preserves arbitrary `customFields`, explicit `customFieldTypes` and File metadata. File bytes use authenticated browser-owned links rather than MCP JSON. Calendar writes never publish or schedule social posts, and `publication_automated` requires confirmed end-to-end automatic publishing evidence. Actual publication requires a separate authorized publisher. [API guide](skills/tor-event-calendar/references/api.md) · [publication rules](skills/tor-event-calendar/references/publication.md)
+
+## Optional local CLI
+
+Use Node 22.18+ and an unlocked OS keychain:
 
 ```sh
-npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.1.0/tor-event-calendar-ai-0.1.0.tgz
+npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.0/tor-event-calendar-ai-0.2.0.tgz
 tor-calendar install-skill codex
-tor-calendar connect
+tor-calendar connect --origin https://nembli.com --default
 tor-calendar whoami
 ```
 
-Choose `claude`, `hermes`, `gemini`, `cursor` or `copilot` instead of `codex` for the local skill directory. Requires Node 22.18+ and an unlocked OS keychain. Choose the correct verified email/account and matching code/device in the browser. `connect --scope read` requests read-only access. `connect --no-browser` gives the public verification URI/code for a separate browser; it never prints the device secret or token.
+The CLI is a separate connection route. It can install local skills for Codex, Claude Code, Hermes, Gemini CLI, Cursor and GitHub Copilot CLI. Those directory adapters are not evidence of native-host OAuth acceptance. Browser pairing, explicit account selection and `--scope read` are documented in [connections](skills/tor-event-calendar/references/connections.md#optional-local-cli). The CLI includes `doctor`, `preferences` and `publish-today`; it has no live social publishing credentials and reports capability blocks instead of claiming publication.
 
-Use `$tor-event-calendar` explicitly in Codex or `/tor-event-calendar` in clients supporting slash skills. Example: “Use tor-event-calendar to show today's posts in my connected account.” Ask the skill to create a generic event with title, exact time and IANA timezone; complete instructions need no generic approval. Missing post content offers an empty draft or supplied text/media. X and Reddit have their own planning fields.
+## Moving an existing connection to Nembli
 
-Set a known timezone once using `preferences set preferences.json`, where the file contains `{"timeZone":"Europe/Kyiv"}`. `today --posts` uses that preference; `--zone IANA` overrides it for the operation. Multiple accounts use `accounts list`, `accounts default EMAIL_OR_ID`, or per-command `--account EMAIL_OR_ID`; a batch pins its verified identity. Account identity is distinct from a social publishing actor.
+The current home is [nembli.com](https://nembli.com), with [privacy](https://nembli.com/privacy) and [AI integration terms](https://nembli.com/ai/terms). Package/repository ID `tor-event-calendar-ai`, command `tor-calendar`, and skill/MCP ID `tor-event-calendar` stay stable.
 
-| Client / runtime | Versioned installation / invocation | Actual verification |
-|---|---|---|
-| Codex local desktop/CLI | CLI `install-skill codex` → `~/.agents/skills`; `$tor-event-calendar`; implicit selection disabled | Windows CLI/keychain and package validators exercised; existing source junction preserved |
-| Claude Code | CLI `install-skill claude` → `~/.claude/skills`; explicit slash skill, model invocation disabled | Documented directory route; native client unavailable here |
-| Hermes | CLI `install-skill hermes` → `$HERMES_HOME/skills`, or `%LOCALAPPDATA%/hermes/skills` on Windows, `~/.hermes/skills` elsewhere; explicitly request skill | Documented directory route; native client unavailable here |
-| Gemini CLI | CLI `install-skill gemini` → `~/.gemini/skills`; host activation consent remains | Documented directory route; native client unavailable here |
-| Cursor | CLI `install-skill cursor` → `~/.cursor/skills`; `/tor-event-calendar`; model invocation disabled | Documented directory route; native client unavailable here |
-| GitHub Copilot CLI | CLI `install-skill copilot` → `~/.copilot/skills`; `/skills reload`, explicit skill | Documented directory route; native client unavailable here |
-| Other machine/container/cloud | Separate pairing with available keychain, or explicit runtime secret injection | Linux/macOS native stores not tested here |
-| ChatGPT cloud | Local keychain unavailable; no remote MCP/OAuth connector shipped | Not advertised as connected |
+Existing connections to `eventcalendar.torproduction.com` or workers.dev keep their saved origin. Configure `https://nembli.com/mcp`, sign in again, choose the intended account and approve a fresh grant. Verify its profile and a bounded read before deliberately revoking an older connection. The 0.2.0 CLI defaults new pairing to Nembli while preserving old profiles and OS credentials. A v0.1.0 client can also use `tor-calendar connect --origin https://nembli.com --default`; upgrading never silently rewrites its stored origin. See [migration steps](skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli).
 
-Primary docs checked 2026-09-28: [OpenAI skills](https://learn.chatgpt.com/docs/build-skills), [Claude skills](https://code.claude.com/docs/en/skills), [Hermes CLI](https://hermes-agent.nousresearch.com/docs/reference/cli-commands), [Gemini skills](https://geminicli.com/docs/cli/using-agent-skills/), [Cursor skills](https://cursor.com/docs/skills), [Copilot skills](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills). No invented client installer/deep-link or registry package is required: the exact release tarball installs our maintained CLI and its directory adapter. Native client host consent/reload behavior remains the client's responsibility.
+## Source validation and support
 
-`doctor` performs a read-only public service check and a synthetic keychain probe that it removes. `whoami` verifies the selected account. Tokens never enter prompts/argv/URLs/config/Git/stdout. Profiles are non-secret user-scoped metadata outside the install location. See [connections](skills/tor-event-calendar/references/connections.md) for multi-account/headless behavior and [API](skills/tor-event-calendar/references/api.md) for payloads, errors, ownership, timezones/files and complete [OpenAPI](skills/tor-event-calendar/references/openapi.json).
+From a clean checkout, run `npm ci --ignore-scripts`, `npm test`, create `dist/`, then run `npm pack --pack-destination dist`, `python scripts/package.py`, and `python scripts/test_package.py`. The scripts build deterministic ZIPs, compare packaged content and metadata with source, and verify the three hashes in `dist/SHA256SUMS`. A package test does not establish directory approval or native OAuth acceptance. [Evaluation cases](submission/test-cases.md) · [release notes](submission/release-notes.md)
 
-`publish-today --all` implements the scoped workflow and returns truthful per-item blocks when a publisher is absent. The portable CLI has **no social credentials**. LinkedIn requires a separately verified publisher for your account/actor/target; X/Reddit support planning only. External links are references, not ready video. Claims, pending receipt reconciliation and fake-adapter concurrency tests are implemented; no real social content was published to test this package. See [publication](skills/tor-event-calendar/references/publication.md).
-
-Upgrade by installing the next exact release tarball, then reinstalling the marked skill directory. Uninstall a skill with `tor-calendar uninstall-skill CLIENT`; profiles survive. `tor-calendar disconnect --account SELECTOR` revokes only that connection; `npm uninstall -g tor-event-calendar-ai` removes the CLI. Existing unowned skills/junctions are refused and preserved. Existing helper tokens/automations are not rotated.
-
-If keychain is unavailable, there is no silent plaintext fallback. Use a runtime secret manager with explicit `--environment --account IMMUTABLE_ACCOUNT_ID` as documented in the connection reference. Never paste a token into a setup prompt. Report issues at [GitHub support](https://github.com/Tor-Production/tor-event-calendar-ai/issues).
-
-The [official catalog status](submission/status.md) records the saved OpenAI Platform draft and the current Skills-only submission blocker. A public release or personal marketplace is not catalog acceptance.
-
-To validate a source checkout, run `npm ci --ignore-scripts` and `npm test` (isolated profiles and six directory adapters; no production or social requests). To package: `npm pack --pack-destination dist`, then `python scripts/package.py`. The plugin and standalone skill ZIPs use sorted allowlisted files, fixed timestamps and permissions; repeated runs produce identical SHA-256. The npm tarball and plugin ZIP include the same versioned skill/client; release checksums are published beside them.
+Report package issues at [GitHub Issues](https://github.com/Tor-Production/tor-event-calendar-ai/issues). The calendar application's source repository and server secrets remain private; no secret belongs in this public package.

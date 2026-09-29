@@ -1,6 +1,8 @@
-# API/client reference v1.1.0
+# REST/local CLI reference
 
-See [complete OpenAPI](openapi.json) for routes and schemas; load it only for direct API integration. `tor-calendar help` shows the maintained command surface. The canonical origin is `https://tor-event-calendar.chute-risk9361.workers.dev`; clients refuse authenticated redirects and send credentials only to their pinned origin. All private objects are account-owned. `/api/calendar-entries` is canonical; `/api/events` is a direct compatibility alias, including task/result/file/claim subroutes.
+Use this only for explicit local CLI or direct REST integration. The ordinary installed plugin uses the remote tools in [the MCP guide](mcp.md) and browser OAuth. Nembli is the default for new CLI connections (0.2.0+). The published v0.1.0 client and already saved profiles keep their original origin; see [reconnection guidance](connections.md#moving-an-existing-connection-to-nembli).
+
+See [complete OpenAPI](openapi.json) for routes and schemas; load it only for direct API integration. `tor-calendar help` shows the maintained command surface. The canonical origin is `https://nembli.com`; clients refuse authenticated redirects and send credentials only to their pinned origin. All private objects are account-owned. `/api/calendar-entries` is canonical; `/api/events` is a direct compatibility alias, including task/result/file/claim subroutes.
 
 ## Identity and auth
 

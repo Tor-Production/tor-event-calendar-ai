@@ -10,15 +10,15 @@ import {CalendarClient,publicRequest} from './client.mjs';
 import {CalendarError,relativeDate,dayRange} from './time.mjs';
 import {planCreate} from './plan.mjs';
 import {publishBatch} from './publish.mjs';
-const VERSION='0.1.0',output=value=>process.stdout.write(`${JSON.stringify(value)}\n`);
+const VERSION='0.2.0',output=value=>process.stdout.write(`${JSON.stringify(value)}\n`);
 function argumentsOf(args){const positional=[],options={};for(let i=0;i<args.length;i++){const a=args[i];if(a.startsWith('--')){const key=a.slice(2);if(['help','no-browser','default','environment','all','posts','local-only'].includes(key))options[key]=true;else{if(!args[i+1]||args[i+1].startsWith('--'))throw new CalendarError('OPTION_VALUE_REQUIRED',`Supply --${key}.`);options[key]=args[++i];}}else positional.push(a);}return {positional,options};}
 async function input(file){let text;if(file==='-'){text='';for await(const chunk of process.stdin){text+=chunk;if(Buffer.byteLength(text)>262144)throw new CalendarError('JSON_TOO_LARGE','Input exceeds 256 KiB.');}}else{text=await readFile(file,'utf8');}if(Buffer.byteLength(text)>262144)throw new CalendarError('JSON_TOO_LARGE','Input exceeds 256 KiB.');try{const b=JSON.parse(text);if(!b||typeof b!=='object'||Array.isArray(b))throw 0;return b;}catch{throw new CalendarError('INVALID_JSON','Supply a JSON object via a file or stdin.');}}
 function openBrowser(url){const [exe,args]=process.platform==='win32'?['rundll32.exe',['url.dll,FileProtocolHandler',url]]:process.platform==='darwin'?['open',[url]]:['xdg-open',[url]];const child=spawn(exe,args,{stdio:'ignore',detached:true,windowsHide:true});child.on('error',()=>{});child.unref();}
 async function connect(profiles,options){
   const origin=canonicalOrigin(options.origin),scope=options.scope??'manage';if(!['read','manage'].includes(scope))throw new CalendarError('INVALID_SCOPE','Choose read or manage.');await profiles.store.probe();
   const verifier=randomBytes(32).toString('base64url'),codeChallenge=createHash('sha256').update(verifier).digest('base64url');
-  const started=await publicRequest(origin,'/api/ai/device/start',{method:'POST',body:{clientName:options.name??`${process.platform} · Tor Calendar CLI`,codeChallenge,scope}});
-  output({action:'approve_connection',url:started.verificationUri,userCode:started.userCode,client:options.name??'Tor Calendar CLI',scope,expiresIn:started.expiresIn});
+  const started=await publicRequest(origin,'/api/ai/device/start',{method:'POST',body:{clientName:options.name??`${process.platform} · Nembli CLI`,codeChallenge,scope}});
+  output({action:'approve_connection',url:started.verificationUri,userCode:started.userCode,client:options.name??'Nembli CLI',scope,expiresIn:started.expiresIn});
   if(!options['no-browser'])openBrowser(`${started.verificationUri}?code=${encodeURIComponent(started.userCode)}`);
   const deadline=Date.now()+started.expiresIn*1000;let delay=started.interval*1000;
   while(Date.now()<deadline){await new Promise(r=>setTimeout(r,delay));let approved;try{approved=await publicRequest(origin,'/api/ai/device/poll',{method:'POST',body:{deviceCode:started.deviceCode,codeVerifier:verifier}});}catch(e){if(e.code==='AUTHORIZATION_PENDING')continue;if(e.code==='SLOW_DOWN'){delay+=5000;continue;}throw e;}

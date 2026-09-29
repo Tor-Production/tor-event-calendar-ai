@@ -1,1 +1,34 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Privacy · Tor Event Calendar AI</title><body><main><h1>Privacy</h1><p>Tor Event Calendar AI is a local client for your private calendar. Tokens are stored in your OS credential store; non-secret profile identity metadata is kept in a user-scoped config. No token is placed in a prompt, URL, public package or browser localStorage. The client sends authenticated calendar requests only to the pinned service origin and refuses redirects.</p><p>The service stores verified account identity, your own events/files, hashed token metadata and short-lived pairing requests. Publication receipts and pending receipt journals can contain external post IDs/URLs. Other calendar accounts cannot access your resources. The client adds no analytics; the host AI product and service infrastructure have their own policies. Your AI host receives the calendar content you explicitly request through it.</p><p>You can revoke connections in calendar settings or with the CLI. Removing a skill/CLI preserves local connection metadata until explicitly disconnected. Social network credentials are not bundled or shared. The client has no universal social publisher or cloud MCP connector.</p><p>Contact and privacy requests: <a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">project support</a>. Do not put private events, tokens or files in public issues.</p><a href="index.html">Installation</a></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy · Nembli</title>
+  <style>
+    body { max-width: 780px; margin: 0 auto; padding: 24px 20px 60px; background: #1e1e2e; color: #cdd6f4; font: 16px/1.65 system-ui, sans-serif; }
+    a { color: #cba6f7; }
+    h1, h2 { line-height: 1.2; }
+    a:focus-visible { outline: 3px solid #f9e2af; outline-offset: 3px; }
+    @media (prefers-color-scheme: light) { body { background: #eff1f5; color: #303446; } a { color: #7131bf; } a:focus-visible { outline-color: #bd4326; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Privacy · Nembli</h1>
+    <p>The current service policy is at <a href="https://nembli.com/privacy">nembli.com/privacy</a>. This page describes the AI integration.</p>
+    <p>The Nembli integration connects an AI client to the calendar's hosted MCP service. The <a href="https://nembli.com/connect-ai">installation guide</a> shows current directory availability and the optional manual route.</p>
+
+    <h2>Connecting an account</h2>
+    <p>When you connect from a supported client, that client opens the calendar's browser sign-in, where you approve an account-bound OAuth grant. The available scopes are <code>calendar.read</code>, <code>calendar.manage</code> and optional <code>offline_access</code> for refresh. The calendar checks the account, grant, scopes, audience and token expiry on MCP requests. Browser session cookies and legacy calendar API tokens do not authorize MCP access.</p>
+    <p>The AI client manages its own connection credentials according to that client's policy. The public plugin package contains no customer token or credential, and you should never paste a token into a prompt. The optional local CLI is a separate route: it stores its token in the OS credential store and non-secret account metadata in user-scoped configuration.</p>
+
+    <h2>Calendar data</h2>
+    <p>The calendar service stores verified account identity, your entries and attachment metadata in its database. File bytes are stored privately in Cloudflare KV and pass through authenticated browser upload or download links; the MCP tool exchange does not put file bytes in JSON. Calendar data you request through an AI client is returned to that client, whose own privacy terms and settings also apply. Calendar writes do not publish or schedule social content.</p>
+    <p>Access is tied to the chosen calendar account and exact service origin. Switching accounts on the website does not transfer a grant. You can revoke a client connection in calendar account settings; the service checks revocation on subsequent MCP requests. Removing a local skill or CLI does not itself revoke a separate grant.</p>
+
+    <h2>Questions and requests</h2>
+    <p>For privacy requests, use <a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">project support</a>. Do not include private events, tokens or files in public issues.</p>
+    <p><a href="https://nembli.com/connect-ai">Back to installation</a></p>
+  </main>
+</body>
+</html>
