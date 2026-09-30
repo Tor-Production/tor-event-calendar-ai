@@ -5,7 +5,6 @@ import json
 import struct
 import subprocess
 import zipfile
-import zlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,26 +14,20 @@ ALLOW = ('src', 'skills', 'assets', 'docs', 'submission', 'scripts', '.codex-plu
          'package.json', 'package-lock.json', 'plugin.json', 'mcp.json', '.mcp.json',
          'README.md', 'LICENSE', '.gitignore', '.gitattributes')
 
-def logo(size):
-    # Code-native Nembli calendar mark, rendered directly from geometric shapes.
-    def point(x, y):
-        def box(x0,y0,x1,y1): return x0 <= x < x1 and y0 <= y < y1
-        if box(.22,.26,.78,.78):
-            if box(.22,.26,.78,.40): return (203,166,247,255)
-            if box(.32,.47,.39,.70) or box(.61,.47,.68,.70) or (.37 <= x < .63 and .47 <= y < .70 and abs(y - (.47 + (x-.37)*.23/.26)) < .04): return (203,166,247,255)
-            return (30,30,46,255)
-        if box(.33,.19,.40,.32) or box(.60,.19,.67,.32): return (205,214,244,255)
-        return (30,30,46,255)
-    data = bytearray()
-    for y in range(size):
-        data.append(0)
-        for x in range(size): data.extend(point((x+.5)/size,(y+.5)/size))
-    def chunk(kind, value): return struct.pack('!I',len(value))+kind+value+struct.pack('!I',zlib.crc32(kind+value)&0xffffffff)
-    return b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('!2I5B',size,size,8,6,0,0,0))+chunk(b'IDAT',zlib.compress(data,9))+chunk(b'IEND',b'')
+def validate_brand_assets():
+    # Packaging must preserve the owner's supplied artwork byte-for-byte.
+    # Never regenerate or overwrite a logo as a side effect of building a ZIP.
+    for name, minimum in (('icon.png', 48), ('logo.png', 256)):
+        path = ROOT / 'assets' / name
+        data = path.read_bytes()
+        if len(data) < 24 or data[:8] != b'\x89PNG\r\n\x1a\n' or data[12:16] != b'IHDR':
+            raise ValueError(f'{name} must be the approved PNG artwork')
+        width, height = struct.unpack('!II', data[16:24])
+        if width != height or not minimum <= width <= 4096 or len(data) > 5 * 1024 * 1024:
+            raise ValueError(f'{name} must be square, {minimum}–4096 px and at most 5 MiB')
 
 def main():
-    assets=ROOT/'assets'; assets.mkdir(exist_ok=True)
-    (assets/'icon.png').write_bytes(logo(128)); (assets/'logo.png').write_bytes(logo(512))
+    validate_brand_assets()
     DIST.mkdir(exist_ok=True)
     output=DIST/f'tor-event-calendar-ai-plugin-{VERSION}.zip'
     tracked=subprocess.run(

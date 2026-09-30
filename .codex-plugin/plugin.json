@@ -1,6 +1,6 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Manage a connected private calendar through a remote MCP server and explicitly invoked skill.",
   "author": {
     "name": "Tor Production",
@@ -40,8 +40,11 @@
       "Use tor-event-calendar to create a project meeting tomorrow at 09:30 in Europe/Kyiv.",
       "Use tor-event-calendar to prepare a Reddit draft and ask for missing content."
     ],
-    "brandColor": "#CBA6F7",
+    "brandColor": "#6B7CFF",
     "composerIcon": "./assets/icon.png",
-    "logo": "./assets/logo.png"
+    "logo": "./assets/logo.png",
+    "brandColorDark": "#A6B5FF",
+    "logoDark": "./assets/logo.png",
+    "composerIconDark": "./assets/icon.png"
   }
 }
