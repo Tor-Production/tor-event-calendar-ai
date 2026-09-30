@@ -4,5 +4,7 @@
   "calendarURL": "https://nembli.com/",
   "mcpURL": "https://nembli.com/mcp",
   "listingURL": null,
-  "listingStatus": "draft"
+  "listingStatus": "draft",
+  "codexURL": "codex://plugins/install/tor-event-calendar-ai?marketplace=personal",
+  "codexDirectoryURL": "codex://plugins"
 }

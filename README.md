@@ -1,42 +1,152 @@
-# Nembli AI · 0.2.2
+# Nembli — your calendar in your AI client
 
-Connect an AI workspace to your Nembli calendar through account-scoped remote MCP tools or the optional local CLI. This release also packages the explicitly invoked `tor-event-calendar` skill with the remote MCP definition. Nembli runs on the existing calendar Cloudflare Worker.
+Open Nembli, connect your calendar, and ask for what you need.
 
-**Downloads:** [v0.2.2 release and checksums](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.2) · [combined plugin ZIP](https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-plugin-0.2.2.zip) · [standalone skill ZIP](https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-skill-0.2.2.zip). The skill ZIP contains one `tor-event-calendar/` folder. The [v0.1.0 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.1.0) remains available for compatibility.
+[**Open Nembli in Codex**](codex://plugins/install/tor-event-calendar-ai?marketplace=personal) · [Setup guide](https://nembli.com/connect-ai)
 
-**OpenAI directory:** the [With MCP submission remains a draft](https://github.com/Tor-Production/tor-event-calendar-ai/blob/main/submission/status.md); no public listing or directory install URL is verified. A GitHub package release does not establish directory approval or native OAuth acceptance. For current connection choices, use the [Nembli AI guide](https://nembli.com/connect-ai), with [GitHub Pages](https://tor-production.github.io/tor-event-calendar-ai/) as a compatibility guide. Do not use a private test app or another plugin's listing as a Nembli install link.
+1. Open the installed **Nembli** plugin by **Tor Production** and choose **Connect** if requested.
+2. Sign in to your calendar, check the account and requested access, and choose **Allow access**.
+3. Start a new Codex chat and try: **Use Nembli to show my connected account and today's events in Europe/Kyiv.**
 
-## Remote tools and the combined plugin
+The button opens an existing Personal marketplace installation. If Nembli is missing, use the setup help in the guide. The public OpenAI directory listing remains a draft; the GitHub package and marketplace are separate distribution routes. Installing a skill alone does not connect an account.
 
-The remote Streamable HTTP endpoint is `https://nembli.com/mcp`. A client that supports browser OAuth can add it manually; this connects the tools without installing the skill. The combined package supplies both the remote definition in [`mcp.json`](mcp.json) and the explicitly invoked workflow in [`skills/tor-event-calendar/SKILL.md`](skills/tor-event-calendar/SKILL.md). Implicit invocation is disabled; request `$tor-event-calendar` when you want the skill. Installing a skill alone does not grant account access.
+## First installation
 
-After a future public listing is approved and published, the intended directory flow is **install Nembli by Tor Production → sign in and choose a calendar account → review scopes → start a new task**. That route needs no local Node helper, API token or separate MCP URL. The owner confirmed completion of the v0.2.1 native connection checks. That local result is separate from public directory review, reviewer-account acceptance and compatibility in other clients. [Package guide](https://developers.openai.com/plugins/build/plugins) · [current evidence](https://github.com/Tor-Production/tor-event-calendar-ai/blob/main/submission/status.md)
+In Codex's plugin browser, add the GitHub marketplace `https://github.com/Tor-Production/tor-event-calendar-ai`, open **Nembli**, and install it. If your Codex version offers only custom MCP setup, use **Settings → Plugins → MCPs → Add → custom MCP**, name it **Nembli**, choose **Streamable HTTP**, and enter `https://nembli.com/mcp`. This manual route connects calendar tools; it does not install the packaged skill.
 
-Browser consent binds a grant to one selected calendar account and the exact MCP resource. `get_profile` returns a stable account ID and available verified email/label. If several connected accounts could satisfy a request, select one before private lookups or writes. The server advertises `calendar.read`, `calendar.manage`, and optional `offline_access` for refresh. Revoke an individual connection through calendar account settings. Changing website accounts or MCP origins does not transfer a grant; never paste credentials into a prompt or package file.
+The optional terminal route is:
 
-Use an exact date, time and IANA timezone. The skill preserves arbitrary `customFields`, explicit `customFieldTypes` and File metadata. File bytes use authenticated browser-owned links rather than MCP JSON. Calendar writes never publish or schedule social posts, and `publication_automated` requires confirmed end-to-end automatic publishing evidence. Actual publication requires a separate authorized publisher. [API guide](skills/tor-event-calendar/references/api.md) · [publication rules](skills/tor-event-calendar/references/publication.md)
+```sh
+codex plugin marketplace add Tor-Production/tor-event-calendar-ai --ref main
+codex plugin add tor-event-calendar-ai@nembli
+```
+
+The combined plugin includes the remote calendar tools, approved light/dark artwork, and explicitly invoked `tor-event-calendar` skill. Ask to use Nembli or invoke `$tor-event-calendar`; implicit invocation stays disabled.
+
+## Updating an existing installation
+
+Use the [v0.2.3 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.3) for consistent Nembli artwork and naming. If your Personal marketplace is pinned to an older tag, update its source to `v0.2.3`, then refresh the plugin.
+
+Version 0.2.3 changes the displayed MCP connection name from **Tor-event-calendar** to **Nembli**. The package and skill IDs stay stable. Codex may request a fresh connection under the new MCP name: sign in, approve the intended account, and check its profile before using it. Existing calendar records and website grants are not deleted or transferred.
+
+## Your calendar connection
+
+The MCP endpoint is `https://nembli.com/mcp`. Browser consent binds one grant to one calendar account. `get_profile` confirms its stable ID and verified email. Read access uses `calendar.read`; edits use `calendar.manage`; refresh may request `offline_access`. Review or revoke grants in [Connections & tokens](https://nembli.com/?settings=connections). Changing the website login does not change an existing Codex connection.
+
+Use an exact date, time and IANA timezone for changes. Custom values stay in `customFields`; types stay in `customFieldTypes`. Named File fields use authenticated browser upload links, with a 25 MiB file limit. Calendar actions never publish or schedule social posts. [API reference](skills/tor-event-calendar/references/api.md) · [Publication rules](skills/tor-event-calendar/references/publication.md)
+
+## Other AI clients
+
+Codex has a direct opening button. Other clients use the instructions below or the [setup guide](https://tor-production.github.io/tor-event-calendar-ai/#other-clients).
+
+### Ask your AI to set it up
+
+Copy this request into your AI client:
+
+```text
+Help me connect Nembli to this AI client. Use the client's official MCP setup method for a remote Streamable HTTP server named nembli at https://nembli.com/mcp, with browser OAuth. Inspect the existing configuration and preserve other connections. If you can configure it here, do so; otherwise give me the exact steps for this client. Let me finish sign-in and account consent in my browser. Then verify the connection by showing my connected account and today's events in Europe/Kyiv. If this client cannot use remote OAuth MCP, explain the supported local helper alternative at https://github.com/Tor-Production/tor-event-calendar-ai. Do not claim success until the connection is verified.
+```
+
+### Manual setup
+
+#### Claude Code
+
+Run the command below, then open /mcp in Claude Code and authenticate Nembli in your browser.
+
+```text
+claude mcp add --transport http nembli https://nembli.com/mcp
+```
+
+[Official instructions](https://code.claude.com/docs/en/mcp)
+
+#### Claude web and Desktop
+
+Open Customize → Connectors, add a custom connector named Nembli with the server URL below, then connect it. Enable it for your conversation. Custom connectors depend on your plan and workspace permissions.
+
+```text
+https://nembli.com/mcp
+```
+
+[Official instructions](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp)
+
+#### Cursor
+
+Merge this entry into your global ~/.cursor/mcp.json or project .cursor/mcp.json. Open the MCP settings and connect Nembli to finish browser sign-in.
+
+```json
+{
+  "mcpServers": {
+    "nembli": { "url": "https://nembli.com/mcp" }
+  }
+}
+```
+
+[Official instructions](https://cursor.com/docs/mcp)
+
+#### VS Code / GitHub Copilot
+
+Run MCP: Add Server from the Command Palette. Choose an HTTP server, enter the URL below, name it nembli, and choose where to save it. Start the server and finish authentication when prompted.
+
+```text
+https://nembli.com/mcp
+```
+
+[Official instructions](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
+
+#### GitHub Copilot CLI
+
+Run the command below, then open /mcp in Copilot CLI to check the server and finish authentication.
+
+```text
+copilot mcp add --transport http nembli https://nembli.com/mcp
+```
+
+[Official instructions](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview)
+
+#### Gemini CLI
+
+Merge this entry into ~/.gemini/settings.json. Restart Gemini CLI, then run /mcp auth nembli to complete browser sign-in.
+
+```json
+{
+  "mcpServers": {
+    "nembli": { "httpUrl": "https://nembli.com/mcp" }
+  }
+}
+```
+
+[Official instructions](https://geminicli.com/docs/tools/mcp-server/)
+
+#### Hermes Agent
+
+Merge this entry into ~/.hermes/config.yaml. From a fresh terminal, run hermes mcp login nembli and finish browser sign-in. Restart your chat to load the connection.
+
+```yaml
+mcp_servers:
+  nembli:
+    url: "https://nembli.com/mcp"
+    auth: oauth
+```
+
+[Official instructions](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/)
+
+For another client, add a remote Streamable HTTP server named **Nembli** at `https://nembli.com/mcp`, finish browser OAuth, and verify your connected account. Merge configuration examples with existing settings. If remote OAuth MCP is unavailable, use the optional local helper below. Manual MCP setup does not install the packaged skill.
 
 ## Optional local CLI
 
-Use Node 22.18+ and an unlocked OS keychain:
+The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/tor-event-calendar/references/connections.md#optional-local-cli) only when you choose this route.
+
+To install the helper and skill for your client, use the released tarball and replace `codex` with `claude`, `cursor`, `copilot`, `gemini`, or `hermes`:
 
 ```sh
-npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-0.2.2.tgz
+npm install --global https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.3/tor-event-calendar-ai-0.2.3.tgz
 tor-calendar install-skill codex
-tor-calendar connect --origin https://nembli.com --default
+tor-calendar connect
 tor-calendar whoami
 ```
 
-The CLI is a separate connection route. It can install local skills for Codex, Claude Code, Hermes, Gemini CLI, Cursor and GitHub Copilot CLI. Those directory adapters are not evidence of native-host OAuth acceptance. Browser pairing, explicit account selection and `--scope read` are documented in [connections](skills/tor-event-calendar/references/connections.md#optional-local-cli). The CLI includes `doctor`, `preferences` and `publish-today`; it has no live social publishing credentials and reports capability blocks instead of claiming publication.
-
-## Moving an existing connection to Nembli
-
-The current home is [nembli.com](https://nembli.com), with [privacy](https://nembli.com/privacy) and [AI integration terms](https://nembli.com/ai/terms). Package/repository ID `tor-event-calendar-ai`, command `tor-calendar`, and skill/MCP ID `tor-event-calendar` stay stable.
-
-Existing connections to `eventcalendar.torproduction.com` or workers.dev keep their saved origin. Configure `https://nembli.com/mcp`, sign in again, choose the intended account and approve a fresh grant. Verify its profile and a bounded read before deliberately revoking an older connection. The 0.2.0 CLI defaults new pairing to Nembli while preserving old profiles and OS credentials. A v0.1.0 client can also use `tor-calendar connect --origin https://nembli.com --default`; upgrading never silently rewrites its stored origin. See [migration steps](skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli).
+Follow the browser approval link printed by `connect`, approve the matching device and calendar account, and return to the terminal. The helper stores credentials in the OS keychain; never paste them into a conversation. Invoke the installed calendar skill explicitly when you want to use it.
 
 ## Source validation and support
 
-From a clean checkout, run `npm ci --ignore-scripts`, `npm test`, create `dist/`, then run `npm pack --pack-destination dist`, `python scripts/package.py`, and `python scripts/test_package.py`. The scripts build deterministic ZIPs, compare packaged content and metadata with source, and verify the three hashes in `dist/SHA256SUMS`. A package test does not establish directory approval or native OAuth acceptance. [Evaluation cases](https://github.com/Tor-Production/tor-event-calendar-ai/blob/main/submission/test-cases.md) · [release notes](https://github.com/Tor-Production/tor-event-calendar-ai/blob/main/submission/release-notes.md)
-
-Report package issues at [GitHub Issues](https://github.com/Tor-Production/tor-event-calendar-ai/issues). The calendar application's source repository and server secrets remain private; no secret belongs in this public package.
+From a clean checkout run `npm ci --ignore-scripts`, `npm test`, create `dist/`, then run `npm pack --pack-destination dist`, `python scripts/package.py`, and `python scripts/test_package.py`. Package checks do not establish catalog approval or OAuth acceptance. [Support](https://github.com/Tor-Production/tor-event-calendar-ai/issues) · [Privacy](https://nembli.com/privacy) · [Terms](https://nembli.com/ai/terms) · [Catalog status](submission/status.md)

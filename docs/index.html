@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Connect Nembli to Codex with one plugin install and browser sign-in. See the current directory status and optional MCP setup.">
+  <meta name="description" content="Connect Nembli to Codex with one plugin install and browser sign-in. Open Nembli, connect your calendar, and try your first request.">
   <meta name="color-scheme" content="dark light">
-  <title>Connect AI · Nembli</title>
+  <title>Connect Codex · Nembli</title>
   <link rel="icon" type="image/png" href="./assets/nembli-mark.png">
   <style>
     :root {
@@ -82,194 +82,90 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="shell">
-      <a class="brand" href="#top"><img src="./assets/nembli-mark.png" width="48" height="48" alt=""><span data-display-name>Nembli</span> · Connect AI</a>
-      <nav aria-label="Main navigation">
-        <a href="#install">Codex install</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="#other-clients">Other clients</a>
-        <a href="#manual-mcp">Manual setup</a>
-      </nav>
-    </div>
-  </header>
+  <header class="site-header"><div class="shell">
+    <a class="brand" href="https://nembli.com/"><img src="./assets/nembli-mark.png" width="48" height="48" alt=""><span>Nembli</span></a>
+    <nav aria-label="Main navigation"><a href="#install">Connect Codex</a><a href="#setup-help">Setup help</a><a href="#other-clients">Other AI clients</a><a href="https://nembli.com/?settings=connections">Your connections</a></nav>
+  </div></header>
   <main class="shell" id="main">
-    <section class="hero" id="top" aria-labelledby="hero-heading">
-      <img class="brand-lockup" src="./assets/nembli-brand.png" width="1254" height="1254" alt="Nembli — Your AI’s content workspace.">
-      <div class="eyebrow">A Tor Production plugin</div>
-      <h1 id="hero-heading">Your calendar, in your AI workspace.</h1>
-      <p class="small">Visit <a href="https://nembli.com/connect-ai">Nembli's primary AI installation guide</a>. This page remains a compatibility guide.</p>
-      <p class="small"><a href="https://nembli.com/demo">Watch the real product walkthrough</a> — calendar entries, drafts and named files in ChatGPT.</p>
-      <p class="lede">The Codex plugin packages the calendar skill and hosted MCP connection together. Check its directory status below; after installation, browser sign-in connects your chosen calendar account. This route needs no terminal, local helper, API token, or manual MCP URL.</p>
-      <div class="actions">
-        <a class="button primary" id="hero-listing" href="#install" target="_blank" rel="noopener" hidden>Open in Plugins Directory<span class="sr-only"> (opens in a new tab)</span></a>
-        <a class="button primary" id="hero-pending" href="#install">See installation status</a>
-        <a class="button" id="calendar-link" href="#install" target="_blank" rel="noopener" hidden>Open <span data-display-name>Nembli</span><span class="sr-only"> (opens in a new tab)</span></a>
-      </div>
-      <p class="status" id="listing-status" role="status" aria-live="polite">Checking directory status…</p>
+    <section class="hero" id="install" aria-labelledby="hero-heading">
+      <div class="eyebrow">Nembli for Codex</div>
+      <h1 id="hero-heading">Your calendar, one conversation away.</h1>
+      <p class="lede">Open Nembli in Codex, connect your calendar, and ask for what you need.</p>
+      <div class="actions"><a class="button primary" id="open-codex" href="codex://plugins/install/tor-event-calendar-ai?marketplace=personal">Open Nembli in Codex</a><a class="button" href="#setup-help">First-time setup</a></div>
+      <p class="small">The button opens Nembli from your Personal marketplace. If it is missing, use the setup help below.</p>
     </section>
-
-    <section class="panel" id="install" aria-labelledby="install-heading">
-      <div class="eyebrow">Codex and ChatGPT</div>
-      <h2 id="install-heading">Install one plugin</h2>
-      <p id="directory-copy">The public directory entry is not available yet. The plugin is a saved submission draft; the current CLI release is a separate option below.</p>
-      <div class="actions">
-        <a class="button primary" id="install-listing" href="#install" target="_blank" rel="noopener" hidden>Open <span data-display-name>Nembli</span> in Plugins Directory<span class="sr-only"> (opens in a new tab)</span></a>
-        <span class="status" id="install-pending">Directory install pending</span>
-      </div>
-      <ol class="steps">
-        <li>When the public listing appears here, open it while signed in to the ChatGPT account you use with Codex. In the desktop app, open <strong>Plugins</strong>, find <strong data-display-name>Nembli</strong> by <strong>Tor Production</strong>, and select <strong>+</strong> to install.</li>
-        <li>The plugin supplies both the <code>tor-event-calendar</code> skill and the remote calendar MCP connection. Open a new Codex task so the installed components are available; select the plugin in the task if your client asks.</li>
-        <li>When Codex asks to connect, continue to browser sign-in. Check the calendar account shown there and approve only the permissions you intend to use. Choose the correct verified email or account ID if you use more than one account.</li>
-        <li>Try a bounded read: <em>“Use $tor-event-calendar to show my connected account and the next five calendar entries. Do not change anything.”</em></li>
-      </ol>
-      <p class="notice">The browser authorization starts from the AI client. Opening the calendar site by itself does not connect the plugin. Switching accounts on the website also does not transfer an existing plugin grant to another account.</p>
-    </section>
-
-    <section id="how-it-works" aria-labelledby="how-heading">
-      <h2 id="how-heading">What the connection does</h2>
+    <section aria-labelledby="steps-heading">
+      <h2 id="steps-heading">Connect in three steps</h2>
       <div class="grid">
-        <article class="tile"><h3>Skill + tools</h3><p>The skill guides calendar workflows. The hosted MCP server supplies account-scoped tools for profile, capabilities, entries, drafts and supported file links. Both belong to the same plugin install.</p></article>
-        <article class="tile"><h3>Browser consent</h3><p>The calendar asks you to sign in and authorize <code>calendar.read</code> for reads and <code>calendar.manage</code> for changes. <code>offline_access</code> may be requested for a connection that can refresh. Never paste an API token into a chat.</p></article>
-        <article class="tile"><h3>Your account and time</h3><p>Check the selected account and exact time zone before changes. The plugin can prepare or manage a calendar entry, but a calendar write does not publish or schedule a social post.</p></article>
+        <article class="tile"><h3>1. Open Nembli</h3><p>In Codex, open the Nembli plugin by Tor Production. Choose <strong>Connect</strong> if requested.</p></article>
+        <article class="tile"><h3>2. Choose your calendar</h3><p>Sign in in your browser. Check your calendar account and the requested permissions, then choose <strong>Allow access</strong>.</p></article>
+        <article class="tile"><h3>3. Start a conversation</h3><p>Start a new Codex chat and try the request below.</p></article>
       </div>
-      <p class="small">File links are handled by the browser; file bytes are not put in MCP JSON. The calendar's file limit is 25 MiB. Revoke a connection from calendar account settings when you no longer want that client to use it.</p>
+      <div class="panel"><h3>Your first request</h3><div class="endpoint"><code id="first-prompt">Use Nembli to show my connected account and today's events in Europe/Kyiv.</code><button type="button" data-copy="first-prompt">Copy request</button></div><p class="small">Change Europe/Kyiv if you use another timezone.</p></div>
     </section>
-
+    <details class="panel" id="setup-help"><summary>Setup help and first installation</summary>
+      <h3>Nembli is not in Codex yet</h3>
+      <p><a class="button" href="codex://plugins">Open Codex plugins</a></p>
+      <p>In the plugin browser, add the GitHub marketplace <code>https://github.com/Tor-Production/tor-event-calendar-ai</code>, then find <strong>Nembli</strong> by <strong>Tor Production</strong> and install it. If your Codex version offers custom MCP setup instead, follow the steps below.</p>
+      <p class="small" id="catalog-status">Nembli's public OpenAI directory listing is still a draft. The GitHub installation is a separate route.</p>
+      <a class="button" id="public-listing" hidden>Open public Nembli listing</a>
+      <details id="manual-mcp"><summary>Connect the calendar manually</summary>
+        <ol class="steps"><li>Open <strong>Settings → Plugins → MCPs → Add → custom MCP</strong>.</li><li>Name the connection <strong>Nembli</strong>, select <strong>Streamable HTTP</strong>, and paste the server URL below.</li><li>Connect, sign in, and review the calendar account before allowing access.</li></ol>
+        <div class="endpoint"><code id="mcp-url">https://nembli.com/mcp</code><button type="button" data-copy="mcp-url">Copy server URL</button></div>
+        <p class="small">Manual setup connects the calendar tools. It does not install the packaged skill.</p>
+      </details>
+      <details><summary>Codex does not open from the button</summary><p>Start the Codex desktop app, open <strong>Plugins</strong>, and select <strong>Nembli</strong>. If it is missing, use the first installation steps above.</p></details>
+      <details><summary>Update an older Nembli installation</summary><p>Refresh the plugin to receive the approved Nembli logo. The next plugin update renames the old Tor-event-calendar MCP connection to Nembli; Codex may ask you to connect again. Check the calendar account before allowing access.</p></details>
+      <details><summary>Optional local helper</summary><p>The remote plugin needs no terminal or local helper. If you choose the advanced CLI route, follow the <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/main/skills/tor-event-calendar/references/connections.md#optional-local-cli">local connection reference</a>.</p></details>
+    </details>
     <section class="panel" id="other-clients" aria-labelledby="other-heading">
-      <div class="eyebrow">Additional routes</div>
       <h2 id="other-heading">Other AI clients</h2>
-      <p>The Codex plugin is the primary route. Other clients can use the same remote MCP server if they support Streamable HTTP and browser OAuth. These client-specific installations have not yet been verified with this calendar; follow each client's current guide.</p>
-      <div class="grid">
-        <article class="tile"><h3>Cursor</h3><p><a href="https://prod.cursor.com/docs/mcp/install-links">Cursor MCP install links</a> and <a href="https://prod.cursor.com/docs/plugins">Cursor plugins</a>. A Nembli-specific one-click link is not available yet.</p></article>
-        <article class="tile"><h3>VS Code</h3><p><a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">VS Code MCP setup</a>. A Nembli-specific install link is not available yet.</p></article>
-        <article class="tile"><h3>Claude, Hermes, Gemini</h3><p>Use their remote MCP guides: <a href="https://code.claude.com/docs/en/mcp">Claude Code</a>, <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/">Hermes</a>, <a href="https://geminicli.com/docs/tools/mcp-server/">Gemini CLI</a>. Native Nembli sign-in remains unverified in these clients.</p></article>
-      </div>
+      <p>Use Nembli with another MCP-compatible client. Ask its AI to help with setup, or expand the instructions for your app.</p>
+      <h3>Ask your AI to set it up</h3>
+      <p>Copy this request into your AI client. You will finish account sign-in and consent in your browser.</p>
+      <div class="endpoint"><code id="ai-setup-prompt">Help me connect Nembli to this AI client. Use the client&#x27;s official MCP setup method for a remote Streamable HTTP server named nembli at https://nembli.com/mcp, with browser OAuth. Inspect the existing configuration and preserve other connections. If you can configure it here, do so; otherwise give me the exact steps for this client. Let me finish sign-in and account consent in my browser. Then verify the connection by showing my connected account and today&#x27;s events in Europe/Kyiv. If this client cannot use remote OAuth MCP, explain the supported local helper alternative at https://github.com/Tor-Production/tor-event-calendar-ai. Do not claim success until the connection is verified.</code><button type="button" data-copy="ai-setup-prompt">Copy setup request</button></div>
+      <p class="small">After connecting, ask: “Use Nembli to show my connected account and today's events in Europe/Kyiv.” Change the timezone as needed.</p>
+      <details id="client-claude"><summary>Claude Code</summary><p>Run the command below, then open /mcp in Claude Code and authenticate Nembli in your browser.</p><pre><code id="config-claude">claude mcp add --transport http nembli https://nembli.com/mcp</code></pre><button type="button" data-copy="config-claude">Copy Claude Code setup</button><p><a href="https://code.claude.com/docs/en/mcp">Official Claude Code instructions</a></p></details>
+      <details id="client-claude-desktop"><summary>Claude web and Desktop</summary><p>Open Customize → Connectors, add a custom connector named Nembli with the server URL below, then connect it. Enable it for your conversation. Custom connectors depend on your plan and workspace permissions.</p><pre><code id="config-claude-desktop">https://nembli.com/mcp</code></pre><button type="button" data-copy="config-claude-desktop">Copy Claude web and Desktop setup</button><p><a href="https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp">Official Claude web and Desktop instructions</a></p></details>
+      <details id="client-cursor"><summary>Cursor</summary><p>Merge this entry into your global ~/.cursor/mcp.json or project .cursor/mcp.json. Open the MCP settings and connect Nembli to finish browser sign-in.</p><pre><code id="config-cursor">{
+  &quot;mcpServers&quot;: {
+    &quot;nembli&quot;: { &quot;url&quot;: &quot;https://nembli.com/mcp&quot; }
+  }
+}</code></pre><button type="button" data-copy="config-cursor">Copy Cursor setup</button><p><a href="https://cursor.com/docs/mcp">Official Cursor instructions</a></p></details>
+      <details id="client-vscode"><summary>VS Code / GitHub Copilot</summary><p>Run MCP: Add Server from the Command Palette. Choose an HTTP server, enter the URL below, name it nembli, and choose where to save it. Start the server and finish authentication when prompted.</p><pre><code id="config-vscode">https://nembli.com/mcp</code></pre><button type="button" data-copy="config-vscode">Copy VS Code / GitHub Copilot setup</button><p><a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Official VS Code / GitHub Copilot instructions</a></p></details>
+      <details id="client-copilot"><summary>GitHub Copilot CLI</summary><p>Run the command below, then open /mcp in Copilot CLI to check the server and finish authentication.</p><pre><code id="config-copilot">copilot mcp add --transport http nembli https://nembli.com/mcp</code></pre><button type="button" data-copy="config-copilot">Copy GitHub Copilot CLI setup</button><p><a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview">Official GitHub Copilot CLI instructions</a></p></details>
+      <details id="client-gemini"><summary>Gemini CLI</summary><p>Merge this entry into ~/.gemini/settings.json. Restart Gemini CLI, then run /mcp auth nembli to complete browser sign-in.</p><pre><code id="config-gemini">{
+  &quot;mcpServers&quot;: {
+    &quot;nembli&quot;: { &quot;httpUrl&quot;: &quot;https://nembli.com/mcp&quot; }
+  }
+}</code></pre><button type="button" data-copy="config-gemini">Copy Gemini CLI setup</button><p><a href="https://geminicli.com/docs/tools/mcp-server/">Official Gemini CLI instructions</a></p></details>
+      <details id="client-hermes"><summary>Hermes Agent</summary><p>Merge this entry into ~/.hermes/config.yaml. From a fresh terminal, run hermes mcp login nembli and finish browser sign-in. Restart your chat to load the connection.</p><pre><code id="config-hermes">mcp_servers:
+  nembli:
+    url: &quot;https://nembli.com/mcp&quot;
+    auth: oauth</code></pre><button type="button" data-copy="config-hermes">Copy Hermes Agent setup</button><p><a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/">Official Hermes Agent instructions</a></p></details>
+      <details><summary>Another client, or remote MCP is unavailable</summary><ol class="steps"><li>Find your client's MCP or connector settings and add a remote server named <strong>Nembli</strong>.</li><li>Choose <strong>Streamable HTTP</strong>, use <code>https://nembli.com/mcp</code>, and connect using browser OAuth.</li><li>Review your calendar account, allow access, then ask Nembli to confirm the connected account.</li></ol><p>If your client does not support this flow, use the <a href="https://github.com/Tor-Production/tor-event-calendar-ai#optional-local-cli">optional local helper</a>. Its installation supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes.</p></details>
+      <p class="small">Merge configuration examples with existing settings. Manual MCP setup connects calendar tools; the packaged skill is a separate optional installation.</p>
     </section>
-
-    <section class="panel" id="manual-mcp" aria-labelledby="manual-heading">
-      <div class="eyebrow">Optional fallback</div>
-      <h2 id="manual-heading">Add the remote MCP manually</h2>
-      <p>If your client can connect to an OAuth-protected Streamable HTTP MCP server, add this HTTPS endpoint in that client's MCP settings. This connects the tools; it does not install the calendar skill. The directory plugin above is the intended combined install.</p>
-      <div class="endpoint">
-        <code id="mcp-url">Loading endpoint…</code>
-        <button id="copy-mcp" type="button" disabled>Copy URL</button>
-      </div>
-      <p class="small" id="copy-result" role="status" aria-live="polite"></p>
-      <p class="small">Let your client start OAuth discovery and browser sign-in. Use the exact account and scopes you choose there; do not add a token or local proxy. If this page cannot load its configuration, see the <a href="https://github.com/Tor-Production/tor-event-calendar-ai">source repository</a> for the current endpoint.</p>
-      <details>
-        <summary>Moving an existing connection to Nembli?</summary>
-        <p>Use <code>https://nembli.com/mcp</code> for a new connection. Grants for <code>eventcalendar.torproduction.com</code> or the former workers.dev origin remain tied to their original origin. Update the connection URL in your AI client, complete a fresh browser sign-in and consent, then confirm your account and a small calendar read before revoking the old connection.</p>
-        <p>Existing CLI profiles keep their saved origins and credentials. To pair with Nembli explicitly, run <code>tor-calendar connect --origin https://nembli.com --default</code>, then verify with <code>tor-calendar whoami</code>. Use the exact old profile ID if you later disconnect it. The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/v0.2.2/skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli">connection guide</a> explains account and origin selection.</p>
-      </details>
-      <details>
-        <summary>Install the current local CLI (0.2.2)</summary>
-        <p>The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.2">0.2.2 release</a> includes a local CLI, standalone skill and combined plugin ZIP. The CLI requires Node 22.18+ and an unlocked OS keychain. Its account pairing is separate from MCP OAuth.</p>
-        <pre>npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-0.2.2.tgz
-tor-calendar install-skill codex
-tor-calendar connect --origin https://nembli.com --default
-tor-calendar whoami</pre>
-        <p>The CLI defaults new connections to Nembli. Existing profiles keep their saved origin until you deliberately pair a new connection.</p>
-      </details>
-      <details>
-        <summary>Already using the v0.1.0 local CLI?</summary>
-        <p>The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.1.0">v0.1.0 release</a> remains an optional local route using Node.js and the OS keychain. Its standalone skill and connection are separate from the new remote plugin. Keep your existing connection until you deliberately revoke it; an OAuth grant for one server origin or account does not move automatically to another.</p>
-      </details>
-    </section>
-
-    <footer>
-      <a href="https://github.com/Tor-Production/tor-event-calendar-ai">Source</a>
-      <a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">Support</a>
-      <a href="https://nembli.com/privacy">Privacy</a>
-      <a href="https://nembli.com/ai/terms">AI terms</a>
-    </footer>
+    <p class="small">Calendar access lets Codex find and manage your entries, drafts, and named files. Calendar actions never publish or schedule social posts. Changing the website login does not change an existing Codex connection. Review or revoke it in <a href="https://nembli.com/?settings=connections">Connections &amp; tokens</a>.</p>
+    <p class="small" id="copy-result" role="status" aria-live="polite"></p>
+    <footer><a href="https://nembli.com/">Open calendar</a><a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">Support</a><a href="https://nembli.com/privacy">Privacy</a><a href="https://nembli.com/ai/terms">Terms</a></footer>
   </main>
   <script>
-    // Customer-facing URLs, identity and directory state live in one file.
-    const CONFIG_PATH = './install-config.json';
-    const listingStatus = document.querySelector('#listing-status');
-    const directoryCopy = document.querySelector('#directory-copy');
-    const copyResult = document.querySelector('#copy-result');
-
-    function httpsURL(value) {
-      if (typeof value !== 'string') return null;
-      try {
-        const url = new URL(value);
-        return url.protocol === 'https:' && !url.username && !url.password ? url : null;
-      } catch { return null; }
-    }
-
-    function directoryURL(value) {
-      const url = httpsURL(value);
-      return url && url.origin === 'https://chatgpt.com' && !url.search && !url.hash && /^\/plugins\/plugins_[a-zA-Z0-9]+\/?$/.test(url.pathname) ? url : null;
-    }
-
-    async function loadConfig() {
-      try {
-        const response = await fetch(CONFIG_PATH, { cache: 'no-store' });
-        if (!response.ok) throw new Error('Configuration unavailable');
-        const config = await response.json();
-        if (!config || typeof config.displayName !== 'string' || !config.displayName.trim()) throw new Error('Invalid display name');
-        const site = httpsURL(config.siteURL);
-        const calendar = httpsURL(config.calendarURL);
-        const mcp = httpsURL(config.mcpURL);
-        if (!site || !calendar || !mcp) throw new Error('Invalid service URL');
-
-        document.title = `Connect AI · ${config.displayName}`;
-        const canonical = document.createElement('link');
-        canonical.rel = 'canonical';
-        canonical.href = site.href;
-        document.head.append(canonical);
-        document.querySelectorAll('[data-display-name]').forEach(node => { node.textContent = config.displayName; });
-        const calendarLink = document.querySelector('#calendar-link');
-        calendarLink.href = calendar.href;
-        calendarLink.hidden = false;
-        document.querySelector('#mcp-url').textContent = mcp.href;
-        document.querySelector('#copy-mcp').disabled = false;
-
-        const listing = directoryURL(config.listingURL);
-        if (config.listingStatus === 'published' && listing) {
-          for (const id of ['#hero-listing', '#install-listing']) {
-            const link = document.querySelector(id);
-            link.href = listing.href;
-            link.hidden = false;
-          }
-          document.querySelector('#hero-pending').hidden = true;
-          document.querySelector('#install-pending').hidden = true;
-          listingStatus.textContent = 'Published in the Plugins Directory';
-          listingStatus.classList.add('published');
-          directoryCopy.textContent = 'Open the verified public listing to install the skill and hosted MCP connection together.';
-          return;
-        }
-
-        const states = {
-          draft: 'Saved catalog draft · not submitted',
-          submitted: 'Submitted · awaiting OpenAI review',
-          review: 'Under OpenAI review',
-          approved: 'Approved · awaiting publication'
-        };
-        listingStatus.textContent = states[config.listingStatus] || 'Public listing not verified';
-        if (config.listingStatus === 'published') {
-          listingStatus.textContent = 'Publication reported, but the public listing URL is not verified';
-        }
-        directoryCopy.textContent = 'The public directory entry is not available yet. Installation from the directory will be linked here only after its URL is verified.';
-      } catch {
-        listingStatus.textContent = 'Directory status temporarily unavailable';
-        directoryCopy.textContent = 'This page could not load its installation configuration. Check the source repository or return later; no directory install link is being shown.';
-        document.querySelector('#mcp-url').textContent = 'Endpoint temporarily unavailable';
-      }
-    }
-
-    document.querySelector('#copy-mcp').addEventListener('click', async () => {
-      const value = document.querySelector('#mcp-url').textContent;
-      try {
-        await navigator.clipboard.writeText(value);
-        copyResult.textContent = 'MCP URL copied.';
-      } catch {
-        copyResult.textContent = 'Clipboard unavailable. Select and copy the URL shown above.';
-      }
-    });
-    loadConfig();
+    const result = document.querySelector('#copy-result');
+    document.querySelectorAll('[data-copy]').forEach(button => button.addEventListener('click', async () => {
+      const source = document.getElementById(button.dataset.copy);
+      try { await navigator.clipboard.writeText(source.textContent); button.textContent = 'Copied'; result.textContent = 'Copied to clipboard.'; }
+      catch { button.textContent = 'Select and copy'; source.tabIndex = 0; source.focus(); const range = document.createRange(); range.selectNodeContents(source); const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range); result.textContent = 'The text is selected. Copy it to continue.'; }
+    }));
+    document.querySelectorAll('a[href="#setup-help"]').forEach(link => link.addEventListener('click', () => { document.querySelector('#setup-help').open = true; }));
+    if (location.hash === '#setup-help') document.querySelector('#setup-help').open = true;
+    fetch('./install-config.json', { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error(); return response.json(); }).then(config => {
+      if (config.listingStatus !== 'published' || typeof config.listingURL !== 'string') return;
+      const url = new URL(config.listingURL);
+      if (url.origin !== 'https://chatgpt.com' || url.username || url.password || url.search || url.hash || !/^\/plugins\/plugins_[a-zA-Z0-9]+\/?$/.test(url.pathname)) return;
+      const listing = document.querySelector('#public-listing'); listing.href = url.href; listing.hidden = false;
+      document.querySelector('#catalog-status').textContent = 'Nembli is available in the public Plugins Directory.';
+    }).catch(() => {});
   </script>
 </body>
 </html>

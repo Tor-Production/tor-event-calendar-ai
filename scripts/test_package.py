@@ -40,6 +40,7 @@ def main():
         names = archive.namelist()
         required = {
             'plugin.json', 'mcp.json', '.mcp.json',
+            '.agents/plugins/marketplace.json',
             'skills/tor-event-calendar/SKILL.md',
             'skills/tor-event-calendar/agents/openai.yaml',
         }
@@ -58,10 +59,16 @@ def main():
                 raise AssertionError(f'Combined plugin does not contain the standalone skill: {name}')
 
         manifest = json.loads(archive.read('plugin.json'))
-        mcp = json.loads(archive.read('mcp.json'))['mcpServers']['tor-event-calendar']
-        legacy_mcp = json.loads(archive.read('.mcp.json'))['mcpServers']['tor-event-calendar']
+        mcp = json.loads(archive.read('mcp.json'))['mcpServers']['nembli']
+        legacy_mcp = json.loads(archive.read('.mcp.json'))['mcpServers']['nembli']
         site = json.loads(archive.read('docs/install-config.json'))
         dependency = archive.read('skills/tor-event-calendar/agents/openai.yaml').decode('utf-8')
+        marketplace = json.loads(archive.read('.agents/plugins/marketplace.json'))
+        if marketplace['name'] != 'nembli' or marketplace['plugins'][0]['name'] != 'tor-event-calendar-ai':
+            raise AssertionError('Repository marketplace does not expose the Nembli plugin')
+        for name, original in [('icon.png', 'icon-dark.png'), ('logo.png', 'logo-dark.png')]:
+            if archive.read(f'skills/tor-event-calendar/assets/{name}') != archive.read(f'assets/{original}'):
+                raise AssertionError('Skill artwork differs from the approved Nembli artwork')
         if manifest['version'] != VERSION or manifest['name'] != 'tor-event-calendar-ai':
             raise AssertionError('Plugin identity/version differs from package.json')
         if mcp != {'type': 'streamable-http', 'url': MCP_URL}:
@@ -77,7 +84,7 @@ def main():
                 or interface['termsOfServiceURL'] != 'https://nembli.com/ai/terms'
                 or site['listingStatus'] != 'draft' or site['listingURL'] is not None):
             raise AssertionError('Nembli identity or unpublished listing state differs')
-        if 'value: "tor-event-calendar"' not in dependency or f'url: "{MCP_URL}"' not in dependency:
+        if 'value: "nembli"' not in dependency or f'url: "{MCP_URL}"' not in dependency:
             raise AssertionError('Skill dependency does not match packaged MCP server')
 
     checksums = {}
