@@ -30,7 +30,7 @@ Expected: Read the LinkedIn schema and latest event revision. Preserve the event
 
 Tools: get_platform_schema, get_event, update_event, get_event or get_publishing_task
 
-### 4. Attach a harmless file to the same disposable event. Setup: download the public sample TXT linked below. The reviewer selects it in Nembli’s authenticated upload page. Preserve the resulting revision and attachment ID.
+### 4. Attach a harmless file to the same disposable event. Setup: download the harmless sample from https://nembli.com/media/review-note.txt. The reviewer selects it in Nembli’s authenticated upload page. Preserve the resulting revision and attachment ID.
 
 Prompt: Add this small review-note.txt to the named File field Review brief on the demo event. Show me the browser upload page, then check the saved filename and size after I upload it.
 
