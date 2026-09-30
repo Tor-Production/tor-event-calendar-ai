@@ -10,7 +10,7 @@ Use a sample-only reviewer account with calendar.manage. Run the positive cases 
 
 Prompt: Which Nembli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Kyiv?
 
-Expected: get_profile identifies the grant-bound account. get_capabilities reports fileBytes=26214400. list_events uses day=2026-10-15 and timeZone=Europe/Kyiv, or the equivalent half-open ISO range. Every listed item falls in that day; an empty result is stated honestly. No writes.
+Expected: get_profile identifies the grant-bound account. get_capabilities reports fileBytes=26214400. list_events uses localDate=2026-10-15 and timeZone=Europe/Kyiv, or the equivalent half-open ISO range. Every listed item falls in that day; an empty result is stated honestly. No writes.
 
 Tools: get_profile, get_capabilities, list_events
 
