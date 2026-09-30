@@ -1,10 +1,8 @@
-# Nembli AI · 0.2.2 candidate
+# Nembli AI · 0.2.2
 
 Connect an AI workspace to your Nembli calendar through account-scoped remote MCP tools or the optional local CLI. This release also packages the explicitly invoked `tor-event-calendar` skill with the remote MCP definition. Nembli runs on the existing calendar Cloudflare Worker.
 
-The current source is a branding and review-material candidate. The published downloads below remain v0.2.1 until a separate release.
-
-**Downloads:** [v0.2.1 release and checksums](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.1) · [combined plugin ZIP](https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.1/tor-event-calendar-ai-plugin-0.2.1.zip) · [standalone skill ZIP](https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.1/tor-event-calendar-ai-skill-0.2.1.zip). The skill ZIP contains one `tor-event-calendar/` folder. The [v0.1.0 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.1.0) remains available for compatibility.
+**Downloads:** [v0.2.2 release and checksums](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.2) · [combined plugin ZIP](https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-plugin-0.2.2.zip) · [standalone skill ZIP](https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-skill-0.2.2.zip). The skill ZIP contains one `tor-event-calendar/` folder. The [v0.1.0 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.1.0) remains available for compatibility.
 
 **OpenAI directory:** the [With MCP submission remains a draft](https://github.com/Tor-Production/tor-event-calendar-ai/blob/main/submission/status.md); no public listing or directory install URL is verified. A GitHub package release does not establish directory approval or native OAuth acceptance. For current connection choices, use the [Nembli AI guide](https://nembli.com/connect-ai), with [GitHub Pages](https://tor-production.github.io/tor-event-calendar-ai/) as a compatibility guide. Do not use a private test app or another plugin's listing as a Nembli install link.
 
@@ -23,7 +21,7 @@ Use an exact date, time and IANA timezone. The skill preserves arbitrary `custom
 Use Node 22.18+ and an unlocked OS keychain:
 
 ```sh
-npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.1/tor-event-calendar-ai-0.2.1.tgz
+npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-0.2.2.tgz
 tor-calendar install-skill codex
 tor-calendar connect --origin https://nembli.com --default
 tor-calendar whoami
