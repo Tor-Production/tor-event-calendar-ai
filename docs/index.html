@@ -160,12 +160,12 @@
       <details>
         <summary>Moving an existing connection to Nembli?</summary>
         <p>Use <code>https://nembli.com/mcp</code> for a new connection. Grants for <code>eventcalendar.torproduction.com</code> or the former workers.dev origin remain tied to their original origin. Update the connection URL in your AI client, complete a fresh browser sign-in and consent, then confirm your account and a small calendar read before revoking the old connection.</p>
-        <p>Existing CLI profiles keep their saved origins and credentials. To pair with Nembli explicitly, run <code>tor-calendar connect --origin https://nembli.com --default</code>, then verify with <code>tor-calendar whoami</code>. Use the exact old profile ID if you later disconnect it. The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/v0.2.1/skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli">connection guide</a> explains account and origin selection.</p>
+        <p>Existing CLI profiles keep their saved origins and credentials. To pair with Nembli explicitly, run <code>tor-calendar connect --origin https://nembli.com --default</code>, then verify with <code>tor-calendar whoami</code>. Use the exact old profile ID if you later disconnect it. The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/v0.2.2/skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli">connection guide</a> explains account and origin selection.</p>
       </details>
       <details>
-        <summary>Install the current local CLI (0.2.1)</summary>
-        <p>The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.1">0.2.1 release</a> includes a local CLI, standalone skill and combined plugin ZIP. The CLI requires Node 22.18+ and an unlocked OS keychain. Its account pairing is separate from MCP OAuth.</p>
-        <pre>npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.1/tor-event-calendar-ai-0.2.1.tgz
+        <summary>Install the current local CLI (0.2.2)</summary>
+        <p>The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.2">0.2.2 release</a> includes a local CLI, standalone skill and combined plugin ZIP. The CLI requires Node 22.18+ and an unlocked OS keychain. Its account pairing is separate from MCP OAuth.</p>
+        <pre>npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-0.2.2.tgz
 tor-calendar install-skill codex
 tor-calendar connect --origin https://nembli.com --default
 tor-calendar whoami</pre>
