@@ -44,7 +44,7 @@
     "composerIcon": "./assets/icon.png",
     "logo": "./assets/logo.png",
     "brandColorDark": "#A6B5FF",
-    "logoDark": "./assets/logo.png",
-    "composerIconDark": "./assets/icon.png"
+    "logoDark": "./assets/logo-dark.png",
+    "composerIconDark": "./assets/icon-dark.png"
   }
 }

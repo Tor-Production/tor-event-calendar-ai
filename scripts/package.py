@@ -17,7 +17,7 @@ ALLOW = ('src', 'skills', 'assets', 'docs', 'submission', 'scripts', '.codex-plu
 def validate_brand_assets():
     # Packaging must preserve the owner's supplied artwork byte-for-byte.
     # Never regenerate or overwrite a logo as a side effect of building a ZIP.
-    for name, minimum in (('icon.png', 48), ('logo.png', 256)):
+    for name, minimum in (('icon.png', 48), ('logo.png', 256), ('icon-dark.png', 48), ('logo-dark.png', 256)):
         path = ROOT / 'assets' / name
         data = path.read_bytes()
         if len(data) < 24 or data[:8] != b'\x89PNG\r\n\x1a\n' or data[12:16] != b'IHDR':

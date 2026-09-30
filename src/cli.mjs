@@ -10,7 +10,8 @@ import {CalendarClient,publicRequest} from './client.mjs';
 import {CalendarError,relativeDate,dayRange} from './time.mjs';
 import {planCreate} from './plan.mjs';
 import {publishBatch} from './publish.mjs';
-const VERSION='0.2.1',output=value=>process.stdout.write(`${JSON.stringify(value)}\n`);
+const {version:VERSION}=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8'));
+const output=value=>process.stdout.write(`${JSON.stringify(value)}\n`);
 function argumentsOf(args){const positional=[],options={};for(let i=0;i<args.length;i++){const a=args[i];if(a.startsWith('--')){const key=a.slice(2);if(['help','no-browser','default','environment','all','posts','local-only'].includes(key))options[key]=true;else{if(!args[i+1]||args[i+1].startsWith('--'))throw new CalendarError('OPTION_VALUE_REQUIRED',`Supply --${key}.`);options[key]=args[++i];}}else positional.push(a);}return {positional,options};}
 async function input(file){let text;if(file==='-'){text='';for await(const chunk of process.stdin){text+=chunk;if(Buffer.byteLength(text)>262144)throw new CalendarError('JSON_TOO_LARGE','Input exceeds 256 KiB.');}}else{text=await readFile(file,'utf8');}if(Buffer.byteLength(text)>262144)throw new CalendarError('JSON_TOO_LARGE','Input exceeds 256 KiB.');try{const b=JSON.parse(text);if(!b||typeof b!=='object'||Array.isArray(b))throw 0;return b;}catch{throw new CalendarError('INVALID_JSON','Supply a JSON object via a file or stdin.');}}
 function openBrowser(url){const [exe,args]=process.platform==='win32'?['rundll32.exe',['url.dll,FileProtocolHandler',url]]:process.platform==='darwin'?['open',[url]]:['xdg-open',[url]];const child=spawn(exe,args,{stdio:'ignore',detached:true,windowsHide:true});child.on('error',()=>{});child.unref();}
