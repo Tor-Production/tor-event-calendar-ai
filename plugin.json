@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tor-event-calendar-ai",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Manage a connected private calendar through a remote MCP server and explicitly invoked skill.",
   "author": {
     "name": "Tor Production",
@@ -37,9 +37,9 @@
         "privacyPolicyURL": "https://nembli.com/privacy",
         "termsOfServiceURL": "https://nembli.com/ai/terms",
         "defaultPrompt": [
-          "Use tor-event-calendar to show today's events in my connected account.",
-          "Use tor-event-calendar to create a project meeting tomorrow at 09:30 in Europe/Kyiv.",
-          "Use tor-event-calendar to prepare a Reddit draft and ask for missing content."
+          "Use Nembli to show today's events in my connected account.",
+          "Use Nembli to create a project meeting tomorrow at 09:30 in Europe/Kyiv.",
+          "Use Nembli to prepare a Reddit draft and ask for missing content."
         ],
         "brandColor": "#6B7CFF",
         "composerIcon": "./assets/icon.png",

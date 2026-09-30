@@ -1,3 +1,5 @@
+> **0.2.3:** The Codex guide uses `codex://plugins/install/tor-event-calendar-ai?marketplace=personal` for an existing Personal installation and `codex://plugins` as its plugin-browser fallback. A repository marketplace named `nembli` is prepared for first installs after release. The MCP display key is `nembli`, with a matching skill dependency; previous connection names may require fresh browser consent. Other ecosystems retain manual setup instructions and a copyable request asking their AI to configure Nembli. Only Codex has the direct opening button. Historical release evidence below remains unchanged.
+
 # Nembli installation and release handoff
 
 State on **29 September 2026**. Package release version **0.2.1** supplies the explicit `tor-event-calendar` skill, remote Nembli MCP configuration and optional local CLI. The primary guide is `https://nembli.com/connect-ai`; GitHub Pages is a compatibility guide. A package release does not establish directory publication or native OAuth acceptance.
