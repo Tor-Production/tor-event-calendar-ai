@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "tor-event-calendar": {
+    "nembli": {
       "type": "http",
       "url": "https://nembli.com/mcp"
     }
