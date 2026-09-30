@@ -6,6 +6,7 @@
   <meta name="description" content="Connect Nembli to Codex with one plugin install and browser sign-in. See the current directory status and optional MCP setup.">
   <meta name="color-scheme" content="dark light">
   <title>Connect AI · Nembli</title>
+  <link rel="icon" type="image/png" href="./assets/nembli-mark.png">
   <style>
     :root {
       --bg: #1e1e2e; --surface: #181825; --text: #cdd6f4;
@@ -25,6 +26,9 @@
     .site-header { border-bottom: 1px solid var(--line); }
     .site-header .shell { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 18px; }
     .brand { color: var(--text); text-decoration: none; font-weight: 750; letter-spacing: .01em; }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .brand img { border-radius:12px; flex:none; }
+    .brand-lockup { width:220px; max-width:100%; height:auto; border-radius:18px; }
     nav { display: flex; flex-wrap: wrap; gap: 10px 22px; }
     nav a { white-space: nowrap; }
     main { padding-block: 42px 72px; }
@@ -80,7 +84,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="shell">
-      <a class="brand" href="#top"><span data-display-name>Nembli</span> · Connect AI</a>
+      <a class="brand" href="#top"><img src="./assets/nembli-mark.png" width="48" height="48" alt=""><span data-display-name>Nembli</span> · Connect AI</a>
       <nav aria-label="Main navigation">
         <a href="#install">Codex install</a>
         <a href="#how-it-works">How it works</a>
@@ -91,9 +95,11 @@
   </header>
   <main class="shell" id="main">
     <section class="hero" id="top" aria-labelledby="hero-heading">
+      <img class="brand-lockup" src="./assets/nembli-brand.png" width="1254" height="1254" alt="Nembli — Your AI’s content workspace.">
       <div class="eyebrow">A Tor Production plugin</div>
       <h1 id="hero-heading">Your calendar, in your AI workspace.</h1>
       <p class="small">Visit <a href="https://nembli.com/connect-ai">Nembli's primary AI installation guide</a>. This page remains a compatibility guide.</p>
+      <p class="small"><a href="https://nembli.com/demo">Watch the real product walkthrough</a> — calendar entries, drafts and named files in ChatGPT.</p>
       <p class="lede">The Codex plugin packages the calendar skill and hosted MCP connection together. Check its directory status below; after installation, browser sign-in connects your chosen calendar account. This route needs no terminal, local helper, API token, or manual MCP URL.</p>
       <div class="actions">
         <a class="button primary" id="hero-listing" href="#install" target="_blank" rel="noopener" hidden>Open in Plugins Directory<span class="sr-only"> (opens in a new tab)</span></a>
@@ -154,12 +160,12 @@
       <details>
         <summary>Moving an existing connection to Nembli?</summary>
         <p>Use <code>https://nembli.com/mcp</code> for a new connection. Grants for <code>eventcalendar.torproduction.com</code> or the former workers.dev origin remain tied to their original origin. Update the connection URL in your AI client, complete a fresh browser sign-in and consent, then confirm your account and a small calendar read before revoking the old connection.</p>
-        <p>Existing CLI profiles keep their saved origins and credentials. To pair with Nembli explicitly, run <code>tor-calendar connect --origin https://nembli.com --default</code>, then verify with <code>tor-calendar whoami</code>. Use the exact old profile ID if you later disconnect it. The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/v0.2.1/skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli">connection guide</a> explains account and origin selection.</p>
+        <p>Existing CLI profiles keep their saved origins and credentials. To pair with Nembli explicitly, run <code>tor-calendar connect --origin https://nembli.com --default</code>, then verify with <code>tor-calendar whoami</code>. Use the exact old profile ID if you later disconnect it. The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/v0.2.2/skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli">connection guide</a> explains account and origin selection.</p>
       </details>
       <details>
-        <summary>Install the current local CLI (0.2.1)</summary>
-        <p>The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.1">0.2.1 release</a> includes a local CLI, standalone skill and combined plugin ZIP. The CLI requires Node 22.18+ and an unlocked OS keychain. Its account pairing is separate from MCP OAuth.</p>
-        <pre>npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.1/tor-event-calendar-ai-0.2.1.tgz
+        <summary>Install the current local CLI (0.2.2)</summary>
+        <p>The <a href="https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.2">0.2.2 release</a> includes a local CLI, standalone skill and combined plugin ZIP. The CLI requires Node 22.18+ and an unlocked OS keychain. Its account pairing is separate from MCP OAuth.</p>
+        <pre>npm install -g https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.2/tor-event-calendar-ai-0.2.2.tgz
 tor-calendar install-skill codex
 tor-calendar connect --origin https://nembli.com --default
 tor-calendar whoami</pre>
