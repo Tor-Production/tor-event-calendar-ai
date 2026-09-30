@@ -25,7 +25,7 @@ The combined plugin includes the remote calendar tools, approved light/dark artw
 
 ## Updating an existing installation
 
-Use the [v0.2.3 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.3) for consistent Nembli artwork and naming. If your Personal marketplace is pinned to an older tag, update its source to `v0.2.3`, then refresh the plugin.
+Use the [v0.2.4 release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.4) for consistent Nembli artwork and naming. If your Personal marketplace is pinned to an older tag, update its source to `v0.2.4`, then refresh the plugin.
 
 Version 0.2.3 changes the displayed MCP connection name from **Tor-event-calendar** to **Nembli**. The package and skill IDs stay stable. Codex may request a fresh connection under the new MCP name: sign in, approve the intended account, and check its profile before using it. Existing calendar records and website grants are not deleted or transferred.
 
@@ -33,7 +33,7 @@ Version 0.2.3 changes the displayed MCP connection name from **Tor-event-calenda
 
 The MCP endpoint is `https://nembli.com/mcp`. Browser consent binds one grant to one calendar account. `get_profile` confirms its stable ID and verified email. Read access uses `calendar.read`; edits use `calendar.manage`; refresh may request `offline_access`. Review or revoke grants in [Connections & tokens](https://nembli.com/?settings=connections). Changing the website login does not change an existing Codex connection.
 
-Use an exact date, time and IANA timezone for changes. Custom values stay in `customFields`; types stay in `customFieldTypes`. Named File fields use authenticated browser upload links, with a 25 MiB file limit. Calendar actions never publish or schedule social posts. [API reference](skills/tor-event-calendar/references/api.md) · [Publication rules](skills/tor-event-calendar/references/publication.md)
+Use an exact date, time and IANA timezone for changes. Custom values stay in `customFields`; types stay in `customFieldTypes`. Named File fields accept chat attachments through `upload_file` in hosts that support file inputs, including supported Codex and ChatGPT flows, with a 25 MiB file limit. Attach a file and ask Nembli to add it to a specific event and File field. Other hosts retain an authenticated browser upload fallback. Calendar actions never publish or schedule social posts. [API reference](skills/tor-event-calendar/references/api.md) · [Publication rules](skills/tor-event-calendar/references/publication.md)
 
 ## Other AI clients
 
@@ -139,7 +139,7 @@ The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI,
 To install the helper and skill for your client, use the released tarball and replace `codex` with `claude`, `cursor`, `copilot`, `gemini`, or `hermes`:
 
 ```sh
-npm install --global https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.3/tor-event-calendar-ai-0.2.3.tgz
+npm install --global https://github.com/Tor-Production/tor-event-calendar-ai/releases/download/v0.2.4/tor-event-calendar-ai-0.2.4.tgz
 tor-calendar install-skill codex
 tor-calendar connect
 tor-calendar whoami
