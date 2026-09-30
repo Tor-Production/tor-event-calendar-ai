@@ -12,3 +12,12 @@ The public GitHub package release is separate from OpenAI directory review and a
 - Preserve all six optional local helper adapters, explicit skill invocation and account-scoped consent. Renaming the MCP key may require a new browser sign-in.
 
 This release does not publish the draft OpenAI directory listing. Calendar writes do not publish or schedule social posts.
+
+# 0.2.4 — Attach files from chat
+
+- Prefer the new hosted `upload_file` MCP tool for Codex/ChatGPT attachment inputs.
+- Preserve the account-bound browser upload fallback for hosts without file-input support.
+- Require an explicitly typed File field, current revision and stable upload UUID; verify attachment metadata after upload.
+- No API tokens, base64 or local paths are sent in remote MCP JSON. Host file links are temporary and are not saved in calendar records.
+
+Local official-SDK tests verify upload/replacement/retry, account and scope isolation, bounded downloads, URL restrictions and the 25 MiB limit. Native Codex and ChatGPT attachment transport still needs a user-host acceptance run; server/schema support is not a claim that every client version exposes it.

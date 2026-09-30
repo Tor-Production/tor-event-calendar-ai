@@ -30,13 +30,13 @@ Expected: Read the LinkedIn schema and latest event revision. Preserve the event
 
 Tools: get_platform_schema, get_event, update_event, get_event or get_publishing_task
 
-### 4. Attach a harmless file to the same disposable event. Setup: download the harmless sample from https://nembli.com/media/review-note.txt. The reviewer selects it in Nembli’s authenticated upload page. Preserve the resulting revision and attachment ID.
+### 4. Attach a harmless chat file to the same disposable event. Setup: attach the sample https://nembli.com/media/review-note.txt to this conversation using the host file input. Preserve the resulting revision and attachment ID.
 
-Prompt: Add this small review-note.txt to the named File field Review brief on the demo event. Show me the browser upload page, then check the saved filename and size after I upload it.
+Prompt: Add the attached review-note.txt to the named File field Review brief on the demo event, directly from this chat. Check the saved filename and size.
 
-Expected: Declare Review brief explicitly as File, obtain its owned browser upload link, and let the reviewer choose the local TXT. After reviewer confirmation, read back fieldName=Review brief, filename, MIME type, size and attachment UUID. Never place file bytes in MCP JSON, claim upload before browser completion, or expose another account’s event.
+Expected: Declare Review brief explicitly as File, read its current revision, and use upload_file with the host attachment and one stable upload UUID. Read back fieldName=Review brief, filename, MIME type, size and attachment UUID. Never place file bytes or local paths in remote MCP JSON, invent a download URL, claim upload without a receipt, or expose another account. Use the browser link only when this host cannot transport attachments, explaining the limitation.
 
-Tools: get_capabilities if needed, get_event, update_event if File field is absent, get_file_upload_link, get_event
+Tools: get_event, update_event if File field is absent, upload_file, get_event
 
 Fixture: https://nembli.com/media/review-note.txt
 
