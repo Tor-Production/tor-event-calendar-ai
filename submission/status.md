@@ -1,3 +1,5 @@
+> **30 September 2026 update:** source candidate 0.2.2 includes owner-approved artwork, non-overwriting packaging, the demo at https://nembli.com/demo, and five positive/three negative review cases. The published release remains v0.2.1. Native Nembli OAuth and read-only profile/capabilities were confirmed on 29 September; the owner subsequently confirmed the post-release work. Dedicated reviewer access, exact-case execution, legal attestations and final submission remain pending. Historical evidence below is retained; do not treat its superseded native-connection status as current.
+
 # OpenAI directory and Nembli release status
 
 **State on 29 September 2026:** package release version **0.2.1**; existing OpenAI With MCP submission **draft**, not submitted, approved or published in the directory. The existing [Platform draft](https://platform.openai.com/plugins/edit/asdk_app_6ab9941edbfc819188d6307e41435bb3/asdk_app_v_6ab994203b188191bdad2b2739431a4d?section=Submit) belongs to Tor Production. No public Nembli directory install URL is verified. [`docs/install-config.json`](../docs/install-config.json) retains `listingStatus: "draft"` and `listingURL: null`.
