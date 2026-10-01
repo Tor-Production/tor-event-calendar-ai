@@ -13,6 +13,8 @@
   "files": [
     "src",
     "skills",
+    "ecosystems",
+    "contracts",
     ".codex-plugin",
     ".claude-plugin",
     "LICENSE",
@@ -23,13 +25,14 @@
     "assets",
     "scripts/package.py",
     "scripts/test_package.py",
-    "scripts/test.mjs"
+    "scripts/test.mjs",
+    "scripts/test-download.mjs"
   ],
   "dependencies": {
     "@napi-rs/keyring": "2.1.0"
   },
   "scripts": {
-    "test": "node scripts/test.mjs",
+    "test": "node scripts/test.mjs && node scripts/test-download.mjs",
     "package": "python scripts/package.py"
   }
 }

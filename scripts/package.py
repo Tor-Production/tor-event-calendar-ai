@@ -13,6 +13,7 @@ DIST = ROOT / 'dist'
 ALLOW = ('src', 'skills', 'assets', 'docs', 'submission', 'scripts', '.codex-plugin', '.claude-plugin', '.agents/plugins/marketplace.json',
          'package.json', 'package-lock.json', 'plugin.json', 'mcp.json', '.mcp.json',
          'README.md', 'LICENSE', '.gitignore', '.gitattributes')
+ALLOW += ('ecosystems', 'contracts')
 
 def validate_brand_assets():
     # Packaging must preserve the owner's supplied artwork byte-for-byte.

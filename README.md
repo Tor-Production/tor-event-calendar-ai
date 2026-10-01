@@ -150,3 +150,7 @@ Follow the browser approval link printed by `connect`, approve the matching devi
 ## Source validation and support
 
 From a clean checkout run `npm ci --ignore-scripts`, `npm test`, create `dist/`, then run `npm pack --pack-destination dist`, `python scripts/package.py`, and `python scripts/test_package.py`. Package checks do not establish catalog approval or OAuth acceptance. [Support](https://github.com/Tor-Production/tor-event-calendar-ai/issues) · [Privacy](https://nembli.com/privacy) · [Terms](https://nembli.com/ai/terms) · [Catalog status](submission/status.md)
+
+## Plugin development workspace
+
+All ecosystem plugins live in this repository; the private calendar repository owns the server. See [ecosystem ownership and task map](ecosystems/README.md). Shared upload/download recovery is documented in [file workflow](skills/tor-event-calendar/references/files.md), including setup when no connector is installed. Source download support is pending release/deployment; existing 0.2.3 review and 0.2.4 artifacts are preserved.

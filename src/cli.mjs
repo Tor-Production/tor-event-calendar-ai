@@ -59,7 +59,7 @@ export async function main(args=process.argv.slice(2)){
   const {positional:[command,...rest],options}=argumentsOf(args),profiles=new Profiles();
   if(options.help){output({usage:'tor-calendar help'});return;}
   const allowed=['account','origin','scope','name','no-browser','default','environment','all','posts','local-only','zone','date'];for(const key of Object.keys(options))if(!allowed.includes(key))throw new CalendarError('UNKNOWN_OPTION',`Unknown option --${key}.`);
-  if(!command||['help','--help'].includes(command)){output({version:VERSION,commands:['connect [--scope read|manage]','accounts list|default EMAIL_OR_ID','whoami','doctor','disconnect','preferences get|set JSON','capabilities','platform PLATFORM','plan JSON','create JSON','get ID','list FROM TO','today [--date today|tomorrow|YYYY-MM-DD] [--zone IANA] [--posts]','publish-today --all','task ID','result ID JSON','update ID JSON','move ID ISO --zone IANA','upload ID FIELD PATH','delete ID','install-skill CLIENT','uninstall-skill CLIENT'],account:'--account VERIFIED_EMAIL_OR_ID (required when multiple connections have no explicit default)',headless:'--environment --account IMMUTABLE_ACCOUNT_ID; secret injected externally'});return;}
+  if(!command||['help','--help'].includes(command)){output({version:VERSION,commands:['connect [--scope read|manage]','accounts list|default EMAIL_OR_ID','whoami','doctor','disconnect','preferences get|set JSON','capabilities','platform PLATFORM','plan JSON','create JSON','get ID','list FROM TO','today [--date today|tomorrow|YYYY-MM-DD] [--zone IANA] [--posts]','publish-today --all','task ID','result ID JSON','update ID JSON','move ID ISO --zone IANA','upload ID FIELD PATH','download ID ATTACHMENT_ID DESTINATION','delete ID','install-skill CLIENT','uninstall-skill CLIENT'],account:'--account VERIFIED_EMAIL_OR_ID (required when multiple connections have no explicit default)',headless:'--environment --account IMMUTABLE_ACCOUNT_ID; secret injected externally'});return;}
   if(command==='version'){output({version:VERSION});return;}
   if(command==='install-skill'||command==='uninstall-skill'){output(await installSkill(rest[0],{uninstall:command==='uninstall-skill'}));return;}
   if(command==='accounts'){if(rest[0]==='default'){output({default:await profiles.setDefault(rest[1])});}else output({accounts:await profiles.list()});return;}
@@ -80,6 +80,7 @@ export async function main(args=process.argv.slice(2)){
   if(command==='update'){output({identity,event:await client.update(rest[0],await input(rest[1]))});return;}
   if(command==='move'){if(!options.zone)throw new CalendarError('TIMEZONE_REQUIRED','Specify the target IANA timezone.');output({identity,event:await client.update(rest[0],{scheduledAt:rest[1],timeZone:options.zone})});return;}
   if(command==='upload'){output({identity,event:await client.upload(...rest)});return;}
+  if(command==='download'){if(rest.length!==3)throw new CalendarError('DOWNLOAD_INPUT_REQUIRED','Use download EVENT_ID ATTACHMENT_ID DESTINATION.');output({identity,file:await client.download(...rest)});return;}
   if(command==='delete'){output({identity,...await client.delete(rest[0])});return;}
   if(command==='task'){output({identity,task:await client.task(rest[0])});return;}
   if(command==='result'){output({identity,result:await client.result(rest[0],await input(rest[1]))});return;}
