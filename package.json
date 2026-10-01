@@ -21,6 +21,9 @@
     "mcp.json",
     ".mcp.json",
     "assets",
+    "ecosystems/claude-code",
+    "scripts/claude_code.py",
+    "scripts/test_claude_code.py",
     "scripts/package.py",
     "scripts/test_package.py",
     "scripts/test.mjs"
@@ -30,6 +33,10 @@
   },
   "scripts": {
     "test": "node scripts/test.mjs",
-    "package": "python scripts/package.py"
+    "package": "python scripts/package.py",
+    "validate:claude-code": "python scripts/claude_code.py validate",
+    "test:claude-code": "python scripts/test_claude_code.py",
+    "build:claude-code": "python scripts/claude_code.py build",
+    "probe:claude-code": "python scripts/claude_code.py probe"
   }
 }

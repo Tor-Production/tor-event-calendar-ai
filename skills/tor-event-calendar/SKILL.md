@@ -1,6 +1,7 @@
 ---
 name: tor-event-calendar
 description: Manage a connected Nembli account, calendar events, files, and publication handoffs when explicitly requested. Calendar actions never publish social content.
+disable-model-invocation: true
 ---
 
 # Nembli
@@ -8,6 +9,8 @@ description: Manage a connected Nembli account, calendar events, files, and publ
 Use only when the user explicitly invokes `$tor-event-calendar` or asks to use this integration. Installation and OAuth consent authorize access to an account, not a particular write or social publication. Prefer the plugin's remote MCP tools; they need no local CLI, Node runtime, API token, or manual MCP setup after plugin installation. If the tools are missing, report the connection problem. Use the [optional local CLI reference](references/connections.md#optional-local-cli) only when the user explicitly chooses that advanced route; do not silently switch credentials or accounts.
 
 ## Establish scope
+
+In Claude Code, first read [the Claude Code workflow](references/claude-code.md) for its connection, explicit invocation and file transport limits.
 
 Use the host's selected calendar connection. If several connected accounts could match and the user has not selected one, ask which verified account before private lookup; do not infer ownership from a display name. Call `get_profile` to confirm its stable `id` and optional verified `email`, and keep that connection fixed for the operation. Browser sign-in, account choice, and OAuth consent happen in the host/calendar UI; never request, print, or place bearer tokens in prompts or files. `calendar.read` supports reads; `calendar.manage` is needed for writes and File uploads. If the host requests reauthorization, let the user grant the needed scope in the browser. See [connections](references/connections.md) for account changes and revocation.
 

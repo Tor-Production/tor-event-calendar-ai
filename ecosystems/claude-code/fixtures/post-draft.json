@@ -1,0 +1,24 @@
+{
+  "title": "Disposable Claude Code connector check",
+  "scheduledAt": "2026-10-12T14:00:00+03:00",
+  "timeZone": "Europe/Kyiv",
+  "customFields": {
+    "social_network": "linkedin",
+    "post_text": "Synthetic connector test: a clear brief helps a team prepare a draft. This disposable calendar record must not be published.",
+    "image_alt": "Synthetic square used only for a connector file check."
+  },
+  "customFieldTypes": {
+    "social_network": "String",
+    "post_text": "String",
+    "image_alt": "String",
+    "image": "File",
+    "brief_pdf": "File"
+  },
+  "publishingSettings": {
+    "platform": "linkedin",
+    "actor": { "kind": "personal", "id": null, "url": null },
+    "destination": { "kind": "public_feed", "id": null, "url": null },
+    "audience": "public",
+    "requestedFollowUps": { "reaction": "none", "firstComment": null, "featured": false }
+  }
+}

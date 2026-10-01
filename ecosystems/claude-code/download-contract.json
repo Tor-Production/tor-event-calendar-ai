@@ -1,0 +1,16 @@
+{
+  "sourceIssue": "https://github.com/Tor-Production/tor-event-calendar/issues/66",
+  "sourceContract": "https://github.com/Tor-Production/tor-event-calendar/issues/66#issuecomment-5939503980",
+  "tool": "get_file_download",
+  "requiredInputs": ["eventId", "eventRevision", "attachmentId", "fieldName"],
+  "scope": "calendar.read",
+  "nativeMaxBytes": 524288,
+  "fileMaxBytes": 26214400,
+  "resourceScheme": "nembli",
+  "nativeReadMethod": "resources/read",
+  "metadataDeliversBytes": false,
+  "browserResultField": "browserUrl",
+  "helperCommand": "tor-calendar download EVENT_ID ATTACHMENT_ID DESTINATION --account PROFILE_ID",
+  "hostResourceDelivery": "requires-native-verification",
+  "availability": "check-actual-exposed-tool-and-helper-version"
+}

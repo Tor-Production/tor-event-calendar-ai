@@ -51,6 +51,8 @@ Help me connect Nembli to this AI client. Use the client's official MCP setup me
 
 #### Claude Code
 
+See the [Claude Code connector guide](ecosystems/claude-code/README.md) for native plugin installation, scoped HTTP MCP configuration, browser OAuth, file fallbacks, updates and disposable verification. Native acceptance is tracked separately in [#79](https://github.com/Tor-Production/tor-event-calendar/issues/79).
+
 Run the command below, then open /mcp in Claude Code and authenticate Nembli in your browser.
 
 ```text
