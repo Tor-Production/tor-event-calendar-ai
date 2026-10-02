@@ -7,9 +7,9 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'skills' / 'tor-event-calendar'
+SKILL = ROOT / 'skills' / 'nambli'
 VERSION = json.loads((ROOT / 'package.json').read_text(encoding='utf-8'))['version']
-ARCHIVE = ROOT / 'dist' / f'tor-event-calendar-ai-skill-{VERSION}.zip'
+ARCHIVE = ROOT / 'dist' / f'nambli-skill-{VERSION}.zip'
 PLUGIN_ARCHIVE = ROOT / 'dist' / f'tor-event-calendar-ai-plugin-{VERSION}.zip'
 MCP_URL = 'https://nambli.com/mcp'
 
@@ -41,8 +41,8 @@ def main():
         required = {
             'plugin.json', 'mcp.json', '.mcp.json',
             '.agents/plugins/marketplace.json',
-            'skills/tor-event-calendar/SKILL.md',
-            'skills/tor-event-calendar/agents/openai.yaml',
+            'skills/nambli/SKILL.md',
+            'skills/nambli/agents/openai.yaml',
         }
         if not required.issubset(names):
             raise AssertionError(f'Combined plugin ZIP is missing: {required - set(names)}')
@@ -62,12 +62,12 @@ def main():
         mcp = json.loads(archive.read('mcp.json'))['mcpServers']['nambli']
         legacy_mcp = json.loads(archive.read('.mcp.json'))['mcpServers']['nambli']
         site = json.loads(archive.read('docs/install-config.json'))
-        dependency = archive.read('skills/tor-event-calendar/agents/openai.yaml').decode('utf-8')
+        dependency = archive.read('skills/nambli/agents/openai.yaml').decode('utf-8')
         marketplace = json.loads(archive.read('.agents/plugins/marketplace.json'))
         if marketplace['name'] != 'nambli' or marketplace['plugins'][0]['name'] != 'tor-event-calendar-ai':
             raise AssertionError('Repository marketplace does not expose the nambli plugin')
         for name, original in [('icon.png', 'icon-dark.png'), ('logo.png', 'logo-dark.png')]:
-            if archive.read(f'skills/tor-event-calendar/assets/{name}') != archive.read(f'assets/{original}'):
+            if archive.read(f'skills/nambli/assets/{name}') != archive.read(f'assets/{original}'):
                 raise AssertionError('Skill artwork differs from the approved nambli artwork')
         if manifest['version'] != VERSION or manifest['name'] != 'tor-event-calendar-ai':
             raise AssertionError('Plugin identity/version differs from package.json')

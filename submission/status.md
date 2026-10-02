@@ -4,6 +4,7 @@ New source/package identity for https://nambli.com/mcp. Technical package prepar
 
 ## Current technical evidence — 2 October 2026
 
+- The owner requested **nambli** as the skill name as well as the plugin display name. Current source uses `skills/nambli`, frontmatter `name: nambli`, `$nambli`, and the standalone archive `nambli-skill-0.3.0.zip` with one `nambli/` folder. Implicit invocation remains disabled. The CLI preserves account profiles and backs up only its own legacy skill outside discovery; owner-managed junctions/unowned skills require deliberate migration. Historical release names below describe the old artifacts only.
 - Production server 1.4.0 at `https://nambli.com/mcp` is deployed from calendar main `c65f3025dab2e4d4b57054346fe202787a4aca23`, Worker version `083c3308-8819-4d3c-ab53-6109e7031582`. The original gradient n logo is retained; only the lowercase wordmark uses Nambli Bold 0.7.3.
 - Google Branding is verified and is being shown to users. The actual Google account chooser now displays **Nambli** and the canonical privacy/terms links. Search Console reports the new sitemap as **Success**, with six discovered pages; both properties and the Change of Address are confirmed. Discovered pages are not an indexing receipt. The requested next-day retry timer was removed after verification completed.
 - A reserved synthetic reviewer passed fresh browser PKCE/consent and the official MCP SDK's protocol `2026-07-28` flow: account read, typed unpublished draft, authenticated upload, resource-byte and fallback download, saved/opened text with matching SHA-256, move retaining the exact file, and exact fixture cleanup. The test grant was revoked. This is backend/SDK evidence, separate from the eight model review cases.
@@ -30,7 +31,7 @@ The [0.2.0 release](https://github.com/Tor-Production/tor-event-calendar-ai/rele
 
 Current URLs are homepage `https://nembli.com`, primary guide `/connect-ai`, MCP `/mcp`, privacy `/privacy`, and AI integration terms `/ai/terms`. GitHub Pages remains a compatibility guide, served from `main:/docs`. Confirm its actual build status after a release; a source merge alone does not establish deployment. Stable IDs are package/repository `tor-event-calendar-ai`, skill/MCP `tor-event-calendar`, and command `tor-calendar`.
 
-New CLI connections default to Nembli. Existing profiles keep their saved origin, profile directory and OS keyring credential. An older OAuth grant does not transfer across origins; use a fresh browser sign-in and consent, confirm account identity, then deliberately revoke an older connection if desired. [Migration guidance](../skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli)
+New CLI connections default to Nembli. Existing profiles keep their saved origin, profile directory and OS keyring credential. An older OAuth grant does not transfer across origins; use a fresh browser sign-in and consent, confirm account identity, then deliberately revoke an older connection if desired. [Migration guidance](../skills/nambli/references/connections.md#moving-an-existing-connection-to-nembli)
 
 ## Evidence and separate acceptance gates
 

@@ -1,6 +1,6 @@
 # Claude Code workflow
 
-Use this host guidance with the shared calendar skill. Invoke the installed plugin skill explicitly with `/tor-event-calendar-ai:tor-event-calendar`; a standalone skill is `/tor-event-calendar`. Installing or invoking either skill does not authenticate an account. No skill grants blanket tool approval.
+Use this host guidance with the shared calendar skill. Invoke the installed plugin skill explicitly with `/tor-event-calendar-ai:nambli`; a standalone skill is `/nambli`. Installing or invoking either skill does not authenticate an account. No skill grants blanket tool approval.
 
 ## Connection and discovery
 
