@@ -204,13 +204,13 @@
   "test_cases": [
     {
       "description": "Read the connected demo account and a bounded day. Setup: authorize the dedicated reviewer account; no seeded events are required. Return only events owned by that account.",
-      "user_prompt": "Which nambli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Kyiv?",
+      "user_prompt": "Which nambli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Bucharest?",
       "tools_triggered": "get_profile, get_capabilities, list_events",
-      "expected_output": "get_profile identifies the grant-bound account. get_capabilities reports fileBytes=26214400. list_events uses localDate=2026-10-15 and timeZone=Europe/Kyiv, or the equivalent half-open ISO range. Every listed item falls in that day; an empty result is stated honestly. No writes."
+      "expected_output": "get_profile identifies the grant-bound account. get_capabilities reports fileBytes=26214400. list_events uses localDate=2026-10-15 and timeZone=Europe/Bucharest, or the equivalent half-open ISO range. Every listed item falls in that day; an empty result is stated honestly. No writes."
     },
     {
       "description": "Create one disposable event at an exact local time. Setup: reviewer account with calendar.manage. Keep the returned UUID and revision for cases 3\u20135 in the same conversation. Repeated runs may have the same title; never infer identity from title alone.",
-      "user_prompt": "Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Kyiv. Add the description Synthetic review data. Show its ID and saved start time.",
+      "user_prompt": "Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Bucharest. Add the description Synthetic review data. Show its ID and saved start time.",
       "tools_triggered": "get_profile if needed, prepare_event, create_event, get_event",
       "expected_output": "Prepare the explicit title, instant and IANA timezone; reuse the prepared UUID for creation/retry. Exactly one new owned event is created. Description is a typed String. Return its UUID, revision, saved instant and local start time. No end-time, social publication or automation is invented."
     },
@@ -231,7 +231,7 @@
     },
     {
       "description": "Reschedule and clean up only the disposable UUID created in case 2, with case 3\u20134 content present. This multi-step prompt explicitly authorizes deletion of that one review fixture; never delete events merely sharing its title.",
-      "user_prompt": "Move the demo event we created to 15:00 Europe/Kyiv on the same day, keeping its draft and file. Show that they were preserved. Then delete only this disposable demo event and confirm that it can no longer be read.",
+      "user_prompt": "Move the demo event we created to 15:00 Europe/Bucharest on the same day, keeping its draft and file. Show that they were preserved. Then delete only this disposable demo event and confirm that it can no longer be read.",
       "tools_triggered": "get_event, move_event, get_event, delete_event, get_event",
       "expected_output": "Use the exact UUID and latest revision for each mutation. Show the saved 15:00 start and unchanged draft/File metadata before deleting. Delete only that UUID. The final read returns HTTP_404/Event not found, which is reported as expected cleanup. Do not claim social cancellation/publication or modify other records."
     }

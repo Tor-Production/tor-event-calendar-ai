@@ -21,13 +21,14 @@ Calendar operations never publish or schedule social content. LinkedIn, X, and R
 - Compatibility guide: https://tor-production.github.io/tor-event-calendar-ai/
 - Privacy: https://nambli.com/privacy
 - Terms: https://nambli.com/ai/terms
-- Support: https://github.com/Tor-Production/tor-event-calendar-ai/issues
+- Support email: support@nambli.com
+- General bug reports: https://github.com/Tor-Production/tor-event-calendar-ai/issues
 - Public package source: https://github.com/Tor-Production/tor-event-calendar-ai
 
 ## Starter prompts
 
 1. Use nambli to show today's events in my connected account.
-2. Use nambli to create a project meeting tomorrow at 09:30 in Europe/Kyiv.
+2. Use nambli to create a project meeting tomorrow at 09:30 in Europe/Bucharest.
 3. Use nambli to prepare a Reddit draft and ask for missing content.
 
 The existing release downloads and optional local CLI are documented in the [README](../README.md); the 0.3.0 archives are prepared candidates. The original gradient n logo is retained, and the new wordmark uses Nambli Bold 0.7.3 artwork. Before submission, replace the old footage on `/demo` with the owner's new recording, execute and record the five positive/three negative cases in the actual host, and complete publisher/legal attestations. No public directory install URL has been verified. [Status and gates](status.md) · [OpenAI submission requirements](https://developers.openai.com/plugins/deploy/submission)

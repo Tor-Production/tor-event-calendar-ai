@@ -6,15 +6,15 @@ Prepared source; new live target outcomes are Not run until recorded. Exactly fi
 
 Read the connected demo account and a bounded day. Setup: authorize the dedicated reviewer account; no seeded events are required. Return only events owned by that account.
 
-> Which nambli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Kyiv?
+> Which nambli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Bucharest?
 
-Expected: get_profile identifies the grant-bound account. get_capabilities reports fileBytes=26214400. list_events uses localDate=2026-10-15 and timeZone=Europe/Kyiv, or the equivalent half-open ISO range. Every listed item falls in that day; an empty result is stated honestly. No writes.
+Expected: get_profile identifies the grant-bound account. get_capabilities reports fileBytes=26214400. list_events uses localDate=2026-10-15 and timeZone=Europe/Bucharest, or the equivalent half-open ISO range. Every listed item falls in that day; an empty result is stated honestly. No writes.
 
 ## P02
 
 Create one disposable event at an exact local time. Setup: reviewer account with calendar.manage. Keep the returned UUID and revision for cases 3–5 in the same conversation. Repeated runs may have the same title; never infer identity from title alone.
 
-> Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Kyiv. Add the description Synthetic review data. Show its ID and saved start time.
+> Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Bucharest. Add the description Synthetic review data. Show its ID and saved start time.
 
 Expected: Prepare the explicit title, instant and IANA timezone; reuse the prepared UUID for creation/retry. Exactly one new owned event is created. Description is a typed String. Return its UUID, revision, saved instant and local start time. No end-time, social publication or automation is invented.
 
@@ -38,7 +38,7 @@ Expected: Declare Review brief explicitly as File, use the current revision and 
 
 Reschedule and clean up only the disposable UUID created in case 2, with case 3–4 content present. This multi-step prompt explicitly authorizes deletion of that one review fixture; never delete events merely sharing its title.
 
-> Move the demo event we created to 15:00 Europe/Kyiv on the same day, keeping its draft and file. Show that they were preserved. Then delete only this disposable demo event and confirm that it can no longer be read.
+> Move the demo event we created to 15:00 Europe/Bucharest on the same day, keeping its draft and file. Show that they were preserved. Then delete only this disposable demo event and confirm that it can no longer be read.
 
 Expected: Use the exact UUID and latest revision for each mutation. Show the saved 15:00 start and unchanged draft/File metadata before deleting. Delete only that UUID. The final read returns HTTP_404/Event not found, which is reported as expected cleanup. Do not claim social cancellation/publication or modify other records.
 

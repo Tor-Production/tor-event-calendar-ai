@@ -6,9 +6,11 @@ Open nambli, connect your calendar, and ask for what you need.
 
 1. Open the installed **nambli** plugin by **Tor Production** and choose **Connect** if requested.
 2. Sign in to your calendar, check the account and requested access, and choose **Allow access**.
-3. Start a new Codex chat and try: **Use nambli to show my connected account and today's events in Europe/Kyiv.**
+3. Start a new Codex chat and try: **Use nambli to show my connected account and today's events in Europe/Bucharest.**
 
 The button opens an existing Personal marketplace installation. If nambli is missing, use the setup help in the guide. The public OpenAI directory listing remains a draft; the GitHub package and marketplace are separate distribution routes. Installing a skill alone does not connect an account.
+
+Recording a demo with an existing installation? Follow the [English recording guide](submission/recording-guide.txt), with exact prompts, the isolated demo identity and Europe/Bucharest examples. Show the installed plugin and connection; reinstalling is unnecessary.
 
 ## First installation
 
@@ -46,7 +48,7 @@ Codex has a direct opening button. Other clients use the instructions below or t
 Copy this request into your AI client:
 
 ```text
-Help me connect nambli to this AI client. Use the client's official MCP setup method for a remote Streamable HTTP server named nambli at https://nambli.com/mcp, with browser OAuth. Inspect the existing configuration and preserve other connections. If you can configure it here, do so; otherwise give me the exact steps for this client. Let me finish sign-in and account consent in my browser. Then verify the connection by showing my connected account and today's events in Europe/Kyiv. If this client cannot use remote OAuth MCP, explain the supported local helper alternative at https://github.com/Tor-Production/tor-event-calendar-ai. Do not claim success until the connection is verified.
+Help me connect nambli to this AI client. Use the client's official MCP setup method for a remote Streamable HTTP server named nambli at https://nambli.com/mcp, with browser OAuth. Inspect the existing configuration and preserve other connections. If you can configure it here, do so; otherwise give me the exact steps for this client. Let me finish sign-in and account consent in my browser. Then verify the connection by showing my connected account and today's events in Europe/Bucharest. If this client cannot use remote OAuth MCP, explain the supported local helper alternative at https://github.com/Tor-Production/tor-event-calendar-ai. Do not claim success until the connection is verified.
 ```
 
 ### Manual setup
