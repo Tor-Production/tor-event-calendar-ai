@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 HOST = Path('ecosystems/claude-code')
-SKILL = Path('skills/tor-event-calendar')
+SKILL = Path('skills/nambli')
 MCP_URL = 'https://nambli.com/mcp'
 ISSUER = 'https://nambli.com/api/v1/auth'
 
@@ -50,7 +50,7 @@ def validate(root=ROOT):
     frontmatter = skill.split('---', 2)[1]
     require(re.findall(r'^disable-model-invocation:\s*(\S+)\s*$', frontmatter, re.M) == ['true'],
             'Claude skill must disable implicit invocation exactly once')
-    require('name: tor-event-calendar\n' in frontmatter, 'Skill ID drift')
+    require('name: nambli\n' in frontmatter, 'Skill ID drift')
     require('(references/claude-code.md)' in skill, 'Claude runtime guidance is not wired')
     require((root / SKILL / 'references/claude-code.md').is_file(), 'Claude runtime guidance missing')
     fixture = read_json(root, HOST / 'fixtures/post-draft.json')

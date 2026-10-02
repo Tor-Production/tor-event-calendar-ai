@@ -50,7 +50,7 @@ class ClaudeCodeTests(unittest.TestCase):
             self.assertEqual(result.namelist(), list(first['files']))
             for name in result.namelist():
                 self.assertEqual(result.read(name), (self.root / name).read_bytes())
-            self.assertIn('skills/tor-event-calendar/references/claude-code.md', result.namelist())
+            self.assertIn('skills/nambli/references/claude-code.md', result.namelist())
             self.assertNotIn('.claude-plugin/marketplace.json', result.namelist())
             self.assertNotIn('plugin.json', result.namelist())  # No OpenAI distribution copy.
             self.assertFalse(any('work/' in name or 'node_modules/' in name for name in result.namelist()))

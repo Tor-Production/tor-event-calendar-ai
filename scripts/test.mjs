@@ -28,15 +28,47 @@ try{
   for(const client of ['codex','claude','hermes','gemini','cursor','copilot']){
     const target=path.join(directory,client);const installed=await installSkill(client,{directory:target});
     assert.equal(installed.version,packageVersion,'installed skill version matches package.json');
-    const text=await readFile(path.join(target,'skills','tor-event-calendar','SKILL.md'),'utf8');assert.match(text,/name: tor-event-calendar/);
+    const text=await readFile(path.join(target,'skills','nambli','SKILL.md'),'utf8');assert.match(text,/name: nambli/);
     if(['claude','cursor','copilot'].includes(client))assert.match(text,/disable-model-invocation: true/);
     await installSkill(client,{directory:target});await installSkill(client,{directory:target,uninstall:true});
-    await assert.rejects(readFile(path.join(target,'skills','tor-event-calendar','SKILL.md')),{code:'ENOENT'});
+    await assert.rejects(readFile(path.join(target,'skills','nambli','SKILL.md')),{code:'ENOENT'});
   }
   assert.equal(await readFile(profiles.file,'utf8'),before,'upgrade/uninstall never touches connected profiles');
-  const occupied=path.join(directory,'occupied','skills','tor-event-calendar');await mkdir(occupied,{recursive:true});await writeFile(path.join(occupied,'SKILL.md'),'unowned skill');
+  for(const client of ['codex','claude','hermes','gemini','cursor','copilot']){
+    const root=path.join(directory,`legacy-${client}`),legacy=path.join(root,'skills','tor-event-calendar');
+    await mkdir(legacy,{recursive:true});
+    await writeFile(path.join(legacy,'.tor-calendar-install.json'),JSON.stringify({owner:'tor-event-calendar-ai',client,version:'0.2.4'}));
+    await writeFile(path.join(legacy,'SKILL.md'),'legacy skill');
+    await writeFile(path.join(legacy,'owner-note.txt'),'preserve these bytes');
+    const installed=await installSkill(client,{directory:root});
+    assert.equal(path.basename(installed.target),'nambli');
+    assert.equal(installed.migratedFrom,'tor-event-calendar');
+    assert.equal(path.dirname(installed.legacyBackupPath),path.join(root,'skill-backups'));
+    await assert.rejects(readFile(path.join(legacy,'SKILL.md')),{code:'ENOENT'});
+    assert.equal(await readFile(path.join(installed.legacyBackupPath,'owner-note.txt'),'utf8'),'preserve these bytes');
+    assert.equal(await readFile(path.join(installed.legacyBackupPath,'SKILL.md'),'utf8'),'legacy skill');
+    const text=await readFile(path.join(installed.target,'SKILL.md'),'utf8');assert.match(text,/^name: nambli$/m);
+    await installSkill(client,{directory:root,uninstall:true});
+    assert.equal(await readFile(path.join(installed.legacyBackupPath,'owner-note.txt'),'utf8'),'preserve these bytes');
+  }
+  const unmanagedRoot=path.join(directory,'unmanaged-legacy'),unmanaged=path.join(unmanagedRoot,'skills','tor-event-calendar');
+  await mkdir(unmanaged,{recursive:true});await writeFile(path.join(unmanaged,'SKILL.md'),'owner-managed');
+  assert.equal((await installSkill('codex',{directory:unmanagedRoot})).legacySkillPreserved,'unowned');
+  assert.equal(await readFile(path.join(unmanaged,'SKILL.md'),'utf8'),'owner-managed');
+  const linkRoot=path.join(directory,'linked-legacy'),linkSource=path.join(directory,'owner-source');
+  await mkdir(linkSource);await writeFile(path.join(linkSource,'SKILL.md'),'linked owner source');
+  await mkdir(path.join(linkRoot,'skills'),{recursive:true});
+  await symlink(linkSource,path.join(linkRoot,'skills','tor-event-calendar'),process.platform==='win32'?'junction':'dir');
+  assert.equal((await installSkill('codex',{directory:linkRoot})).legacySkillPreserved,'junction');
+  assert.equal(await readFile(path.join(linkRoot,'skills','tor-event-calendar','SKILL.md'),'utf8'),'linked owner source');
+  const newLinkRoot=path.join(directory,'linked-new');await mkdir(path.join(newLinkRoot,'skills'),{recursive:true});
+  await symlink(linkSource,path.join(newLinkRoot,'skills','nambli'),process.platform==='win32'?'junction':'dir');
+  await assert.rejects(installSkill('codex',{directory:newLinkRoot}),{code:'EXISTING_JUNCTION'});
+  assert.equal(await readFile(path.join(linkSource,'SKILL.md'),'utf8'),'linked owner source');
+  assert.equal(await readFile(profiles.file,'utf8'),before,'skill rename preserves all connected profiles');
+  const occupied=path.join(directory,'occupied','skills','nambli');await mkdir(occupied,{recursive:true});await writeFile(path.join(occupied,'SKILL.md'),'unowned skill');
   await assert.rejects(installSkill('codex',{directory:path.join(directory,'occupied')}),{code:'UNOWNED_SKILL'});
-  console.log(JSON.stringify({result:'PASS',directoryAdapters:6,isolatedProfiles:4,credentialExposure:false,nativeClientExecution:false,productionRequests:0}));
+  console.log(JSON.stringify({result:'PASS',directoryAdapters:6,legacyMigrationAdapters:6,unownedAndJunctionsPreserved:true,isolatedProfiles:4,credentialExposure:false,nativeClientExecution:false,productionRequests:0}));
 }finally{await rm(directory,{recursive:true,force:true});}
 
 await import('./test-download.mjs');

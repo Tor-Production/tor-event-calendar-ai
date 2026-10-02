@@ -11,6 +11,6 @@
     "src/platforms.mjs": "da20dda0b85a7e74e6bda4278e8daa806ff3987499d114045165254360420c4c",
     "src/platforms.d.mts": "9da380f74bd037904110821576ffc875c65bdc2764e19c91d5ce7184feb529d9",
     "src/api-contract.mjs": "4c0e51a460d5428d232f915a93c0e164d2e981d239343b9d1cd2c034e554a2d9",
-    "skills/tor-event-calendar/references/openapi.json": "8a2ed987770972a3f29e1936cb7b2df9bace404b2348def72170087e524ee24f"
+    "skills/nambli/references/openapi.json": "8a2ed987770972a3f29e1936cb7b2df9bace404b2348def72170087e524ee24f"
   }
 }

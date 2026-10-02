@@ -1,6 +1,6 @@
 # nambli update — 2 October 2026
 
-The 0.3.0 candidate uses nambli.com, the retained gradient n logo and Nambli Bold wordmark. This earlier handoff below is historical; its version and Nembli URLs are not new-release evidence. Follow README.md and submission/status.md for current readiness.
+The 0.3.0 candidate uses nambli.com, the retained gradient n logo and Nambli Bold wordmark. The owner-requested skill name is now **nambli** (`$nambli`, `skills/nambli`, standalone `nambli-skill-0.3.0.zip`). The package ID remains stable for updates; the earlier skill IDs and archive names below are historical. Follow README.md and submission/status.md for current readiness.
 
 ---
 
@@ -37,7 +37,7 @@ Homepage is `https://nembli.com`; privacy `/privacy`; AI integration terms `/ai/
 | Access/refresh lifetime | 900 seconds / 30 days with refresh rotation |
 | Identity | Stable ID from authenticated `get_profile`, plus verified email/nickname when available |
 
-Use live metadata during client integration. Old-origin grants never migrate by redirect or website account switching. New CLI connections default to Nembli; saved profiles and keyring credentials keep their original origin. Complete fresh browser consent, verify the new profile/read, then deliberately revoke an older connection if desired. [Migration steps](../skills/tor-event-calendar/references/connections.md#moving-an-existing-connection-to-nembli)
+Use live metadata during client integration. Old-origin grants never migrate by redirect or website account switching. New CLI connections default to Nembli; saved profiles and keyring credentials keep their original origin. Complete fresh browser consent, verify the new profile/read, then deliberately revoke an older connection if desired. [Migration steps](../skills/nambli/references/connections.md#moving-an-existing-connection-to-nembli)
 
 The existing Worker and storage continue to serve the calendar. Calendar writes never publish or schedule social posts; File bytes use authenticated browser-owned links, not MCP JSON. Stable package/repository ID `tor-event-calendar-ai`, skill/MCP ID `tor-event-calendar` and command `tor-calendar` remain unchanged.
 
