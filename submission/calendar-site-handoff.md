@@ -1,3 +1,9 @@
+# nambli update — 2 October 2026
+
+The 0.3.0 candidate uses nambli.com, the retained gradient n logo and Nambli Bold wordmark. This earlier handoff below is historical; its version and Nembli URLs are not new-release evidence. Follow README.md and submission/status.md for current readiness.
+
+---
+
 > **0.2.3:** The Codex guide uses `codex://plugins/install/tor-event-calendar-ai?marketplace=personal` for an existing Personal installation and `codex://plugins` as its plugin-browser fallback. A repository marketplace named `nembli` is prepared for first installs after release. The MCP display key is `nembli`, with a matching skill dependency; previous connection names may require fresh browser consent. Other ecosystems retain manual setup instructions and a copyable request asking their AI to configure Nembli. Only Codex has the direct opening button. Historical release evidence below remains unchanged.
 
 # Nembli installation and release handoff

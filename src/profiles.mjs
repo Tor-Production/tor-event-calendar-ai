@@ -3,7 +3,7 @@ import path from 'node:path';
 import {readFile,writeFile,mkdir,rename,rm} from 'node:fs/promises';
 import {createHash,randomUUID} from 'node:crypto';
 import {CalendarError} from './time.mjs';
-export const DEFAULT_ORIGIN='https://nembli.com';
+export const DEFAULT_ORIGIN='https://nambli.com';
 export function canonicalOrigin(input=DEFAULT_ORIGIN){const u=new URL(input);if(u.username||u.password||u.pathname!=='/'||u.search||u.hash||!(u.protocol==='https:'||u.protocol==='http:'&&['localhost','127.0.0.1'].includes(u.hostname)))throw new CalendarError('INVALID_ORIGIN','Choose the canonical HTTPS calendar origin.');return u.origin;}
 export class KeyringStore {
   async entry(key){try{const {AsyncEntry}=await import('@napi-rs/keyring');return new AsyncEntry('Tor Event Calendar',key,{linux:{store:'secret-service'}});}catch{throw new CalendarError('KEYCHAIN_UNAVAILABLE','OS credential storage is unavailable. Unlock/install the OS keychain, or explicitly use the headless environment route.');}}

@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Connect Nembli to Codex with one plugin install and browser sign-in. Open Nembli, connect your calendar, and try your first request.">
+  <meta name="description" content="Connect nambli to Codex with one plugin install and browser sign-in. Open nambli, connect your calendar, and try your first request.">
   <meta name="color-scheme" content="dark light">
-  <title>Connect Codex · Nembli</title>
-  <link rel="icon" type="image/png" href="./assets/nembli-mark.png">
+  <title>Connect Codex · nambli</title>
+  <link rel="icon" type="image/png" href="./assets/nambli-mark.png">
   <style>
     :root {
       --bg: #1e1e2e; --surface: #181825; --text: #cdd6f4;
@@ -27,6 +27,7 @@
     .site-header .shell { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 18px; }
     .brand { color: var(--text); text-decoration: none; font-weight: 750; letter-spacing: .01em; }
     .brand { display:flex; align-items:center; gap:12px; }
+    .brand-wordmark{display:block;width:112px;height:29px;background:currentColor;-webkit-mask:url("./assets/nambli-wordmark.svg") center/contain no-repeat;mask:url("./assets/nambli-wordmark.svg") center/contain no-repeat}
     .brand img { border-radius:12px; flex:none; }
     .brand-lockup { width:220px; max-width:100%; height:auto; border-radius:18px; }
     nav { display: flex; flex-wrap: wrap; gap: 10px 22px; }
@@ -83,73 +84,74 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="shell">
-    <a class="brand" href="https://nembli.com/"><img src="./assets/nembli-mark.png" width="48" height="48" alt=""><span>Nembli</span></a>
-    <nav aria-label="Main navigation"><a href="#install">Connect Codex</a><a href="#setup-help">Setup help</a><a href="#other-clients">Other AI clients</a><a href="https://nembli.com/?settings=connections">Your connections</a></nav>
+    <a class="brand" href="https://nambli.com/" aria-label="nambli"><img src="./assets/nambli-mark.png" width="48" height="48" alt=""><span class="brand-wordmark" aria-hidden="true"></span></a>
+    <nav aria-label="Main navigation"><a href="#install">Connect Codex</a><a href="#setup-help">Setup help</a><a href="#other-clients">Other AI clients</a><a href="https://nambli.com/?settings=connections">Your connections</a></nav>
   </div></header>
   <main class="shell" id="main">
     <section class="hero" id="install" aria-labelledby="hero-heading">
-      <div class="eyebrow">Nembli for Codex</div>
+      <div class="eyebrow">nambli for Codex</div>
       <h1 id="hero-heading">Your calendar, one conversation away.</h1>
-      <p class="lede">Open Nembli in Codex, connect your calendar, and ask for what you need.</p>
-      <div class="actions"><a class="button primary" id="open-codex" href="codex://plugins/install/tor-event-calendar-ai?marketplace=personal">Open Nembli in Codex</a><a class="button" href="#setup-help">First-time setup</a></div>
-      <p class="small">The button opens Nembli from your Personal marketplace. If it is missing, use the setup help below.</p>
+      <p class="lede">Open nambli in Codex, connect your calendar, and ask for what you need.</p>
+      <div class="actions"><a class="button primary" id="open-codex" href="codex://plugins/install/tor-event-calendar-ai?marketplace=personal">Open nambli in Codex</a><a class="button" href="#setup-help">First-time setup</a></div>
+      <p class="small">The button opens nambli from your Personal marketplace. If it is missing, use the setup help below.</p>
     </section>
     <section aria-labelledby="steps-heading">
       <h2 id="steps-heading">Connect in three steps</h2>
       <div class="grid">
-        <article class="tile"><h3>1. Open Nembli</h3><p>In Codex, open the Nembli plugin by Tor Production. Choose <strong>Connect</strong> if requested.</p></article>
+        <article class="tile"><h3>1. Open nambli</h3><p>In Codex, open the nambli plugin by Tor Production. Choose <strong>Connect</strong> if requested.</p></article>
         <article class="tile"><h3>2. Choose your calendar</h3><p>Sign in in your browser. Check your calendar account and the requested permissions, then choose <strong>Allow access</strong>.</p></article>
         <article class="tile"><h3>3. Start a conversation</h3><p>Start a new Codex chat and try the request below.</p></article>
       </div>
-      <div class="panel"><h3>Your first request</h3><div class="endpoint"><code id="first-prompt">Use Nembli to show my connected account and today's events in Europe/Kyiv.</code><button type="button" data-copy="first-prompt">Copy request</button></div><p class="small">Change Europe/Kyiv if you use another timezone.</p></div>
+      <div class="panel"><h3>Your first request</h3><div class="endpoint"><code id="first-prompt">Use nambli to show my connected account and today's events in Europe/Kyiv.</code><button type="button" data-copy="first-prompt">Copy request</button></div><p class="small">Change Europe/Kyiv if you use another timezone.</p></div>
     </section>
     <details class="panel" id="setup-help"><summary>Setup help and first installation</summary>
-      <h3>Nembli is not in Codex yet</h3>
+      <h3>nambli is not in Codex yet</h3>
       <p><a class="button" href="codex://plugins">Open Codex plugins</a></p>
-      <p>In the plugin browser, add the GitHub marketplace <code>https://github.com/Tor-Production/tor-event-calendar-ai</code>, then find <strong>Nembli</strong> by <strong>Tor Production</strong> and install it. If your Codex version offers custom MCP setup instead, follow the steps below.</p>
-      <p class="small" id="catalog-status">Nembli's public OpenAI directory listing is still a draft. The GitHub installation is a separate route.</p>
-      <a class="button" id="public-listing" hidden>Open public Nembli listing</a>
+      <p>In the plugin browser, add the GitHub marketplace <code>https://github.com/Tor-Production/tor-event-calendar-ai</code>, then find <strong>nambli</strong> by <strong>Tor Production</strong> and install it. If your Codex version offers custom MCP setup instead, follow the steps below.</p>
+      <p class="small" id="catalog-status">nambli's public OpenAI directory listing is still a draft. The GitHub installation is a separate route.</p>
+      <a class="button" id="public-listing" hidden>Open public nambli listing</a>
       <details id="manual-mcp"><summary>Connect the calendar manually</summary>
-        <ol class="steps"><li>Open <strong>Settings → Plugins → MCPs → Add → custom MCP</strong>.</li><li>Name the connection <strong>Nembli</strong>, select <strong>Streamable HTTP</strong>, and paste the server URL below.</li><li>Connect, sign in, and review the calendar account before allowing access.</li></ol>
-        <div class="endpoint"><code id="mcp-url">https://nembli.com/mcp</code><button type="button" data-copy="mcp-url">Copy server URL</button></div>
+        <ol class="steps"><li>Open <strong>Settings → Plugins → MCPs → Add → custom MCP</strong>.</li><li>Name the connection <strong>nambli</strong>, select <strong>Streamable HTTP</strong>, and paste the server URL below.</li><li>Connect, sign in, and review the calendar account before allowing access.</li></ol>
+        <div class="endpoint"><code id="mcp-url">https://nambli.com/mcp</code><button type="button" data-copy="mcp-url">Copy server URL</button></div>
         <p class="small">Manual setup connects the calendar tools. It does not install the packaged skill.</p>
       </details>
-      <details><summary>Codex does not open from the button</summary><p>Start the Codex desktop app, open <strong>Plugins</strong>, and select <strong>Nembli</strong>. If it is missing, use the first installation steps above.</p></details>
-      <details><summary>Update an older Nembli installation</summary><p>Refresh the plugin to receive the approved Nembli logo. The next plugin update renames the old Tor-event-calendar MCP connection to Nembli; Codex may ask you to connect again. Check the calendar account before allowing access.</p></details>
+      <details><summary>Codex does not open from the button</summary><p>Start the Codex desktop app, open <strong>Plugins</strong>, and select <strong>nambli</strong>. If it is missing, use the first installation steps above.</p></details>
+      <details><summary>Update an older nambli installation</summary><p>Refresh the plugin to receive the approved nambli logo. The next plugin update renames the old Tor-event-calendar MCP connection to nambli; Codex may ask you to connect again. Check the calendar account before allowing access.</p></details>
       <details><summary>Optional local helper</summary><p>The remote plugin needs no terminal or local helper. If you choose the advanced CLI route, follow the <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/main/skills/tor-event-calendar/references/connections.md#optional-local-cli">local connection reference</a>.</p></details>
     </details>
     <section class="panel" id="other-clients" aria-labelledby="other-heading">
       <h2 id="other-heading">Other AI clients</h2>
-      <p>Use Nembli with another MCP-compatible client. Ask its AI to help with setup, or expand the instructions for your app.</p>
+      <p>Use nambli with another MCP-compatible client. Ask its AI to help with setup, or expand the instructions for your app.</p>
       <h3>Ask your AI to set it up</h3>
       <p>Copy this request into your AI client. You will finish account sign-in and consent in your browser.</p>
-      <div class="endpoint"><code id="ai-setup-prompt">Help me connect Nembli to this AI client. Use the client&#x27;s official MCP setup method for a remote Streamable HTTP server named nembli at https://nembli.com/mcp, with browser OAuth. Inspect the existing configuration and preserve other connections. If you can configure it here, do so; otherwise give me the exact steps for this client. Let me finish sign-in and account consent in my browser. Then verify the connection by showing my connected account and today&#x27;s events in Europe/Kyiv. If this client cannot use remote OAuth MCP, explain the supported local helper alternative at https://github.com/Tor-Production/tor-event-calendar-ai. Do not claim success until the connection is verified.</code><button type="button" data-copy="ai-setup-prompt">Copy setup request</button></div>
-      <p class="small">After connecting, ask: “Use Nembli to show my connected account and today's events in Europe/Kyiv.” Change the timezone as needed.</p>
-      <details id="client-claude"><summary>Claude Code</summary><p>Run the command below, then open /mcp in Claude Code and authenticate Nembli in your browser.</p><pre><code id="config-claude">claude mcp add --transport http nembli https://nembli.com/mcp</code></pre><button type="button" data-copy="config-claude">Copy Claude Code setup</button><p><a href="https://code.claude.com/docs/en/mcp">Official Claude Code instructions</a></p></details>
-      <details id="client-claude-desktop"><summary>Claude web and Desktop</summary><p>Open Customize → Connectors, add a custom connector named Nembli with the server URL below, then connect it. Enable it for your conversation. Custom connectors depend on your plan and workspace permissions.</p><pre><code id="config-claude-desktop">https://nembli.com/mcp</code></pre><button type="button" data-copy="config-claude-desktop">Copy Claude web and Desktop setup</button><p><a href="https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp">Official Claude web and Desktop instructions</a></p></details>
-      <details id="client-cursor"><summary>Cursor</summary><p>Merge this entry into your global ~/.cursor/mcp.json or project .cursor/mcp.json. Open the MCP settings and connect Nembli to finish browser sign-in.</p><pre><code id="config-cursor">{
+      <div class="endpoint"><code id="ai-setup-prompt">Help me connect nambli to this AI client. Use the client&#x27;s official MCP setup method for a remote Streamable HTTP server named nambli at https://nambli.com/mcp, with browser OAuth. Inspect the existing configuration and preserve other connections. If you can configure it here, do so; otherwise give me the exact steps for this client. Let me finish sign-in and account consent in my browser. Then verify the connection by showing my connected account and today&#x27;s events in Europe/Kyiv. If this client cannot use remote OAuth MCP, explain the supported local helper alternative at https://github.com/Tor-Production/tor-event-calendar-ai. Do not claim success until the connection is verified.</code><button type="button" data-copy="ai-setup-prompt">Copy setup request</button></div>
+      <p class="small">After connecting, ask: “Use nambli to show my connected account and today's events in Europe/Kyiv.” Change the timezone as needed.</p>
+      <details id="client-claude"><summary>Claude Code</summary><p>Run the command below, then open /mcp in Claude Code and authenticate nambli in your browser.</p><pre><code id="config-claude">claude mcp add --transport http nambli https://nambli.com/mcp</code></pre><button type="button" data-copy="config-claude">Copy Claude Code setup</button><p><a href="https://code.claude.com/docs/en/mcp">Official Claude Code instructions</a></p></details>
+      <details id="client-claude-desktop"><summary>Claude web and Desktop</summary><p>Open Customize → Connectors, add a custom connector named nambli with the server URL below, then connect it. Enable it for your conversation. Custom connectors depend on your plan and workspace permissions.</p><pre><code id="config-claude-desktop">https://nambli.com/mcp</code></pre><button type="button" data-copy="config-claude-desktop">Copy Claude web and Desktop setup</button><p><a href="https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp">Official Claude web and Desktop instructions</a></p></details>
+      <details id="client-cursor"><summary>Cursor</summary><p>Merge this entry into your global ~/.cursor/mcp.json or project .cursor/mcp.json. Open the MCP settings and connect nambli to finish browser sign-in.</p><pre><code id="config-cursor">{
   &quot;mcpServers&quot;: {
-    &quot;nembli&quot;: { &quot;url&quot;: &quot;https://nembli.com/mcp&quot; }
+    &quot;nambli&quot;: { &quot;url&quot;: &quot;https://nambli.com/mcp&quot; }
   }
 }</code></pre><button type="button" data-copy="config-cursor">Copy Cursor setup</button><p><a href="https://cursor.com/docs/mcp">Official Cursor instructions</a></p></details>
-      <details id="client-vscode"><summary>VS Code / GitHub Copilot</summary><p>Run MCP: Add Server from the Command Palette. Choose an HTTP server, enter the URL below, name it nembli, and choose where to save it. Start the server and finish authentication when prompted.</p><pre><code id="config-vscode">https://nembli.com/mcp</code></pre><button type="button" data-copy="config-vscode">Copy VS Code / GitHub Copilot setup</button><p><a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Official VS Code / GitHub Copilot instructions</a></p></details>
-      <details id="client-copilot"><summary>GitHub Copilot CLI</summary><p>Run the command below, then open /mcp in Copilot CLI to check the server and finish authentication.</p><pre><code id="config-copilot">copilot mcp add --transport http nembli https://nembli.com/mcp</code></pre><button type="button" data-copy="config-copilot">Copy GitHub Copilot CLI setup</button><p><a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview">Official GitHub Copilot CLI instructions</a></p></details>
-      <details id="client-gemini"><summary>Gemini CLI</summary><p>Merge this entry into ~/.gemini/settings.json. Restart Gemini CLI, then run /mcp auth nembli to complete browser sign-in.</p><pre><code id="config-gemini">{
+      <details id="client-vscode"><summary>VS Code / GitHub Copilot</summary><p>Run MCP: Add Server from the Command Palette. Choose an HTTP server, enter the URL below, name it nambli, and choose where to save it. Start the server and finish authentication when prompted.</p><pre><code id="config-vscode">https://nambli.com/mcp</code></pre><button type="button" data-copy="config-vscode">Copy VS Code / GitHub Copilot setup</button><p><a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Official VS Code / GitHub Copilot instructions</a></p></details>
+      <details id="client-copilot"><summary>GitHub Copilot CLI</summary><p>Run the command below, then open /mcp in Copilot CLI to check the server and finish authentication.</p><pre><code id="config-copilot">copilot mcp add --transport http nambli https://nambli.com/mcp</code></pre><button type="button" data-copy="config-copilot">Copy GitHub Copilot CLI setup</button><p><a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview">Official GitHub Copilot CLI instructions</a></p></details>
+      <details id="client-gemini"><summary>Gemini CLI</summary><p>Merge this entry into ~/.gemini/settings.json. Restart Gemini CLI, then run /mcp auth nambli to complete browser sign-in.</p><pre><code id="config-gemini">{
   &quot;mcpServers&quot;: {
-    &quot;nembli&quot;: { &quot;httpUrl&quot;: &quot;https://nembli.com/mcp&quot; }
+    &quot;nambli&quot;: { &quot;httpUrl&quot;: &quot;https://nambli.com/mcp&quot; }
   }
 }</code></pre><button type="button" data-copy="config-gemini">Copy Gemini CLI setup</button><p><a href="https://geminicli.com/docs/tools/mcp-server/">Official Gemini CLI instructions</a></p></details>
-      <details id="client-hermes"><summary>Hermes Agent</summary><p>Merge this entry into ~/.hermes/config.yaml. From a fresh terminal, run hermes mcp login nembli and finish browser sign-in. Restart your chat to load the connection.</p><pre><code id="config-hermes">mcp_servers:
-  nembli:
-    url: &quot;https://nembli.com/mcp&quot;
+      <details id="client-hermes"><summary>Hermes Agent</summary><p>Merge this entry into ~/.hermes/config.yaml. From a fresh terminal, run hermes mcp login nambli and finish browser sign-in. Restart your chat to load the connection.</p><pre><code id="config-hermes">mcp_servers:
+  nambli:
+    url: &quot;https://nambli.com/mcp&quot;
     auth: oauth</code></pre><button type="button" data-copy="config-hermes">Copy Hermes Agent setup</button><p><a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/">Official Hermes Agent instructions</a></p></details>
-      <details><summary>Another client, or remote MCP is unavailable</summary><ol class="steps"><li>Find your client's MCP or connector settings and add a remote server named <strong>Nembli</strong>.</li><li>Choose <strong>Streamable HTTP</strong>, use <code>https://nembli.com/mcp</code>, and connect using browser OAuth.</li><li>Review your calendar account, allow access, then ask Nembli to confirm the connected account.</li></ol><p>If your client does not support this flow, use the <a href="https://github.com/Tor-Production/tor-event-calendar-ai#optional-local-cli">optional local helper</a>. Its installation supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes.</p></details>
+      <details><summary>Another client, or remote MCP is unavailable</summary><ol class="steps"><li>Find your client's MCP or connector settings and add a remote server named <strong>nambli</strong>.</li><li>Choose <strong>Streamable HTTP</strong>, use <code>https://nambli.com/mcp</code>, and connect using browser OAuth.</li><li>Review your calendar account, allow access, then ask nambli to confirm the connected account.</li></ol><p>If your client does not support this flow, use the <a href="https://github.com/Tor-Production/tor-event-calendar-ai#optional-local-cli">optional local helper</a>. Its installation supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes.</p></details>
       <p class="small">Merge configuration examples with existing settings. Manual MCP setup connects calendar tools; the packaged skill is a separate optional installation.</p>
     </section>
-    <p class="small">To attach a file, add it to your chat and ask Nembli which event and File field to save it to. Supported Codex and ChatGPT hosts transfer it directly; clients without attachment support can use the signed-in calendar upload page.</p>
-    <p class="small">Calendar access lets Codex find and manage your entries, drafts, and named files. Calendar actions never publish or schedule social posts. Changing the website login does not change an existing Codex connection. Review or revoke it in <a href="https://nembli.com/?settings=connections">Connections &amp; tokens</a>.</p>
+    <p class="small">No nambli connection yet? Use the setup instructions above first. The server cannot read a chat attachment until your client supplies a supported file transfer. A browser upload link still requires you to select and upload the file; ask your AI to verify the saved attachment afterward. <a href="https://github.com/Tor-Production/tor-event-calendar-ai/blob/develop/skills/tor-event-calendar/references/files.md">File workflow and downloads</a></p>
+    <p class="small">To attach a file, add it to your chat and ask nambli which event and File field to save it to. Supported Codex and ChatGPT hosts transfer it directly; clients without attachment support can use the signed-in calendar upload page.</p>
+    <p class="small">Calendar access lets Codex find and manage your entries, drafts, and named files. Calendar actions never publish or schedule social posts. Changing the website login does not change an existing Codex connection. Review or revoke it in <a href="https://nambli.com/?settings=connections">Connections &amp; tokens</a>.</p>
     <p class="small" id="copy-result" role="status" aria-live="polite"></p>
-    <footer><a href="https://nembli.com/">Open calendar</a><a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">Support</a><a href="https://nembli.com/privacy">Privacy</a><a href="https://nembli.com/ai/terms">Terms</a></footer>
+    <footer><a href="https://nambli.com/">Open calendar</a><a href="https://github.com/Tor-Production/tor-event-calendar-ai/issues">Support</a><a href="https://nambli.com/privacy">Privacy</a><a href="https://nambli.com/ai/terms">Terms</a></footer>
   </main>
   <script>
     const result = document.querySelector('#copy-result');
@@ -165,7 +167,7 @@
       const url = new URL(config.listingURL);
       if (url.origin !== 'https://chatgpt.com' || url.username || url.password || url.search || url.hash || !/^\/plugins\/plugins_[a-zA-Z0-9]+\/?$/.test(url.pathname)) return;
       const listing = document.querySelector('#public-listing'); listing.href = url.href; listing.hidden = false;
-      document.querySelector('#catalog-status').textContent = 'Nembli is available in the public Plugins Directory.';
+      document.querySelector('#catalog-status').textContent = 'nambli is available in the public Plugins Directory.';
     }).catch(() => {});
   </script>
 </body>

@@ -1,12 +1,12 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Manage a connected private calendar through a remote MCP server and explicitly invoked skill.",
   "author": {
     "name": "Tor Production",
     "url": "https://github.com/Tor-Production"
   },
-  "homepage": "https://nembli.com",
+  "homepage": "https://nambli.com",
   "repository": "https://github.com/Tor-Production/tor-event-calendar-ai",
   "license": "MIT",
   "keywords": [
@@ -22,7 +22,7 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Nembli",
+    "displayName": "nambli",
     "shortDescription": "Manage your private calendar",
     "longDescription": "Connect a verified calendar account through browser sign-in, then use the remote MCP server and an explicitly invoked skill to find events, create meetings, prepare platform-specific drafts, move appointments and manage file links. Account access is scoped to the selected calendar account. Calendar writes never publish or schedule social posts. The local CLI remains an optional advanced route.",
     "developerName": "Tor Production",
@@ -31,14 +31,14 @@
       "Read",
       "Write"
     ],
-    "websiteURL": "https://nembli.com",
+    "websiteURL": "https://nambli.com",
     "supportURL": "https://github.com/Tor-Production/tor-event-calendar-ai/issues",
-    "privacyPolicyURL": "https://nembli.com/privacy",
-    "termsOfServiceURL": "https://nembli.com/ai/terms",
+    "privacyPolicyURL": "https://nambli.com/privacy",
+    "termsOfServiceURL": "https://nambli.com/terms",
     "defaultPrompt": [
-      "Use Nembli to show today's events in my connected account.",
-      "Use Nembli to create a project meeting tomorrow at 09:30 in Europe/Kyiv.",
-      "Use Nembli to prepare a Reddit draft and ask for missing content."
+      "Use nambli to show today's events in my connected account.",
+      "Use nambli to create a project meeting tomorrow at 09:30 in Europe/Kyiv.",
+      "Use nambli to prepare a Reddit draft and ask for missing content."
     ],
     "brandColor": "#6B7CFF",
     "composerIcon": "./assets/icon.png",

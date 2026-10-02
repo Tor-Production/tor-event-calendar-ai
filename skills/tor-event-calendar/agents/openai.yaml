@@ -1,5 +1,5 @@
 interface:
-  display_name: "Nembli"
+  display_name: "nambli"
   icon_small: "./assets/icon.png"
   icon_large: "./assets/logo.png"
   short_description: "Manage your connected calendar on explicit request"
@@ -7,9 +7,9 @@ interface:
 dependencies:
   tools:
     - type: "mcp"
-      value: "nembli"
-      description: "Account-scoped Nembli tools"
+      value: "nambli"
+      description: "Account-scoped nambli tools"
       transport: "streamable_http"
-      url: "https://nembli.com/mcp"
+      url: "https://nambli.com/mcp"
 policy:
   allow_implicit_invocation: false
