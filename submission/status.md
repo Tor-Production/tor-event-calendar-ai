@@ -1,3 +1,9 @@
+# nambli 0.3.0 preparation — 2 October 2026
+
+New source/package identity for https://nambli.com/mcp. Technical package preparation only: not submitted or published in the OpenAI catalog. Old Nembli 0.2.3 review cancellation is still unverified; no deletion workaround. Existing released v0.2.4 assets and earlier evidence below remain unchanged. Exactly five positive and three negative cases are prepared; live target execution and new videos remain pending. New origin requires a separately registered app and new consent; it does not inherit old review/ownership proofs. Legal attestations and final catalog submission require the owner.
+
+## Historical record (original text retained)
+
 > **Prepared 30 September 2026: 0.2.3 release preparation.** Codex now opens the installed Personal marketplace plugin directly. The MCP display key becomes `nembli`; package and skill IDs stay stable. Skill icons use copies of the approved transparent artwork. Public directory status remains draft; this work does not submit or publish that listing.
 
 > **30 September 2026 update:** version 0.2.2 includes owner-approved artwork, non-overwriting packaging, the demo at https://nembli.com/demo, and five positive/three negative review cases. GitHub publication is tracked separately from this OpenAI draft; historical v0.2.1 evidence remains below. Native Nembli OAuth and read-only profile/capabilities were confirmed on 29 September; the owner subsequently confirmed the post-release work. Dedicated reviewer access, exact-case execution, legal attestations and final submission remain pending. Historical evidence below is retained; do not treat its superseded native-connection status as current.

@@ -1,8 +1,8 @@
 {
-  "displayName": "Nembli",
-  "siteURL": "https://nembli.com/connect-ai",
-  "calendarURL": "https://nembli.com/",
-  "mcpURL": "https://nembli.com/mcp",
+  "displayName": "nambli",
+  "siteURL": "https://nambli.com/connect-ai",
+  "calendarURL": "https://nambli.com/",
+  "mcpURL": "https://nambli.com/mcp",
   "listingURL": null,
   "listingStatus": "draft",
   "codexURL": "codex://plugins/install/tor-event-calendar-ai?marketplace=personal",

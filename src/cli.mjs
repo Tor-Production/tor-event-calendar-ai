@@ -18,8 +18,8 @@ function openBrowser(url){const [exe,args]=process.platform==='win32'?['rundll32
 async function connect(profiles,options){
   const origin=canonicalOrigin(options.origin),scope=options.scope??'manage';if(!['read','manage'].includes(scope))throw new CalendarError('INVALID_SCOPE','Choose read or manage.');await profiles.store.probe();
   const verifier=randomBytes(32).toString('base64url'),codeChallenge=createHash('sha256').update(verifier).digest('base64url');
-  const started=await publicRequest(origin,'/api/ai/device/start',{method:'POST',body:{clientName:options.name??`${process.platform} · Nembli CLI`,codeChallenge,scope}});
-  output({action:'approve_connection',url:started.verificationUri,userCode:started.userCode,client:options.name??'Nembli CLI',scope,expiresIn:started.expiresIn});
+  const started=await publicRequest(origin,'/api/ai/device/start',{method:'POST',body:{clientName:options.name??`${process.platform} · nambli CLI`,codeChallenge,scope}});
+  output({action:'approve_connection',url:started.verificationUri,userCode:started.userCode,client:options.name??'nambli CLI',scope,expiresIn:started.expiresIn});
   if(!options['no-browser'])openBrowser(`${started.verificationUri}?code=${encodeURIComponent(started.userCode)}`);
   const deadline=Date.now()+started.expiresIn*1000;let delay=started.interval*1000;
   while(Date.now()<deadline){await new Promise(r=>setTimeout(r,delay));let approved;try{approved=await publicRequest(origin,'/api/ai/device/poll',{method:'POST',body:{deviceCode:started.deviceCode,codeVerifier:verifier}});}catch(e){if(e.code==='AUTHORIZATION_PENDING')continue;if(e.code==='SLOW_DOWN'){delay+=5000;continue;}throw e;}
@@ -52,14 +52,14 @@ export async function installSkill(client,{uninstall=false,directory}={}){
   if(uninstall){if(existing)await rm(target,{recursive:true});return {uninstalled:!!existing,target,profilesPreserved:true};}
   const source=fileURLToPath(new URL('../skills/tor-event-calendar/',import.meta.url));
   await mkdir(target,{recursive:true});await cp(source,target,{recursive:true});
-  if(['claude','cursor','copilot'].includes(client)){const skill=await readFile(path.join(target,'SKILL.md'),'utf8');await writeFile(path.join(target,'SKILL.md'),skill.replace('description:','disable-model-invocation: true\ndescription:'));}
+  if(['claude','cursor','copilot'].includes(client)){const skill=await readFile(path.join(target,'SKILL.md'),'utf8');if(!/^disable-model-invocation: true$/m.test(skill))await writeFile(path.join(target,'SKILL.md'),skill.replace('description:','disable-model-invocation: true\ndescription:'));}
   await writeFile(marker,JSON.stringify({owner:'tor-event-calendar-ai',version:VERSION,client}));return {installed:true,target,version:VERSION,profilesPreserved:true,restartClient:true};
 }
 export async function main(args=process.argv.slice(2)){
   const {positional:[command,...rest],options}=argumentsOf(args),profiles=new Profiles();
   if(options.help){output({usage:'tor-calendar help'});return;}
   const allowed=['account','origin','scope','name','no-browser','default','environment','all','posts','local-only','zone','date'];for(const key of Object.keys(options))if(!allowed.includes(key))throw new CalendarError('UNKNOWN_OPTION',`Unknown option --${key}.`);
-  if(!command||['help','--help'].includes(command)){output({version:VERSION,commands:['connect [--scope read|manage]','accounts list|default EMAIL_OR_ID','whoami','doctor','disconnect','preferences get|set JSON','capabilities','platform PLATFORM','plan JSON','create JSON','get ID','list FROM TO','today [--date today|tomorrow|YYYY-MM-DD] [--zone IANA] [--posts]','publish-today --all','task ID','result ID JSON','update ID JSON','move ID ISO --zone IANA','upload ID FIELD PATH','delete ID','install-skill CLIENT','uninstall-skill CLIENT'],account:'--account VERIFIED_EMAIL_OR_ID (required when multiple connections have no explicit default)',headless:'--environment --account IMMUTABLE_ACCOUNT_ID; secret injected externally'});return;}
+  if(!command||['help','--help'].includes(command)){output({version:VERSION,commands:['connect [--scope read|manage]','accounts list|default EMAIL_OR_ID','whoami','doctor','disconnect','preferences get|set JSON','capabilities','platform PLATFORM','plan JSON','create JSON','get ID','list FROM TO','today [--date today|tomorrow|YYYY-MM-DD] [--zone IANA] [--posts]','publish-today --all','task ID','result ID JSON','update ID JSON','move ID ISO --zone IANA','upload ID FIELD PATH','download ID ATTACHMENT_ID DESTINATION','delete ID','install-skill CLIENT','uninstall-skill CLIENT'],account:'--account VERIFIED_EMAIL_OR_ID (required when multiple connections have no explicit default)',headless:'--environment --account IMMUTABLE_ACCOUNT_ID; secret injected externally'});return;}
   if(command==='version'){output({version:VERSION});return;}
   if(command==='install-skill'||command==='uninstall-skill'){output(await installSkill(rest[0],{uninstall:command==='uninstall-skill'}));return;}
   if(command==='accounts'){if(rest[0]==='default'){output({default:await profiles.setDefault(rest[1])});}else output({accounts:await profiles.list()});return;}
@@ -80,6 +80,7 @@ export async function main(args=process.argv.slice(2)){
   if(command==='update'){output({identity,event:await client.update(rest[0],await input(rest[1]))});return;}
   if(command==='move'){if(!options.zone)throw new CalendarError('TIMEZONE_REQUIRED','Specify the target IANA timezone.');output({identity,event:await client.update(rest[0],{scheduledAt:rest[1],timeZone:options.zone})});return;}
   if(command==='upload'){output({identity,event:await client.upload(...rest)});return;}
+  if(command==='download'){if(rest.length!==3)throw new CalendarError('DOWNLOAD_INPUT_REQUIRED','Use download EVENT_ID ATTACHMENT_ID DESTINATION.');output({identity,file:await client.download(...rest)});return;}
   if(command==='delete'){output({identity,...await client.delete(rest[0])});return;}
   if(command==='task'){output({identity,task:await client.task(rest[0])});return;}
   if(command==='result'){output({identity,result:await client.result(rest[0],await input(rest[1]))});return;}

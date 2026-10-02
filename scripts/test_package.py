@@ -11,7 +11,7 @@ SKILL = ROOT / 'skills' / 'tor-event-calendar'
 VERSION = json.loads((ROOT / 'package.json').read_text(encoding='utf-8'))['version']
 ARCHIVE = ROOT / 'dist' / f'tor-event-calendar-ai-skill-{VERSION}.zip'
 PLUGIN_ARCHIVE = ROOT / 'dist' / f'tor-event-calendar-ai-plugin-{VERSION}.zip'
-MCP_URL = 'https://nembli.com/mcp'
+MCP_URL = 'https://nambli.com/mcp'
 
 
 def main():
@@ -59,32 +59,32 @@ def main():
                 raise AssertionError(f'Combined plugin does not contain the standalone skill: {name}')
 
         manifest = json.loads(archive.read('plugin.json'))
-        mcp = json.loads(archive.read('mcp.json'))['mcpServers']['nembli']
-        legacy_mcp = json.loads(archive.read('.mcp.json'))['mcpServers']['nembli']
+        mcp = json.loads(archive.read('mcp.json'))['mcpServers']['nambli']
+        legacy_mcp = json.loads(archive.read('.mcp.json'))['mcpServers']['nambli']
         site = json.loads(archive.read('docs/install-config.json'))
         dependency = archive.read('skills/tor-event-calendar/agents/openai.yaml').decode('utf-8')
         marketplace = json.loads(archive.read('.agents/plugins/marketplace.json'))
-        if marketplace['name'] != 'nembli' or marketplace['plugins'][0]['name'] != 'tor-event-calendar-ai':
-            raise AssertionError('Repository marketplace does not expose the Nembli plugin')
+        if marketplace['name'] != 'nambli' or marketplace['plugins'][0]['name'] != 'tor-event-calendar-ai':
+            raise AssertionError('Repository marketplace does not expose the nambli plugin')
         for name, original in [('icon.png', 'icon-dark.png'), ('logo.png', 'logo-dark.png')]:
             if archive.read(f'skills/tor-event-calendar/assets/{name}') != archive.read(f'assets/{original}'):
-                raise AssertionError('Skill artwork differs from the approved Nembli artwork')
+                raise AssertionError('Skill artwork differs from the approved nambli artwork')
         if manifest['version'] != VERSION or manifest['name'] != 'tor-event-calendar-ai':
             raise AssertionError('Plugin identity/version differs from package.json')
         if mcp != {'type': 'streamable-http', 'url': MCP_URL}:
             raise AssertionError('Portable MCP definition differs from the production endpoint')
         if legacy_mcp != {'type': 'http', 'url': MCP_URL}:
             raise AssertionError('Legacy MCP definition differs from the production endpoint')
-        if (site['mcpURL'] != MCP_URL or site['siteURL'] != 'https://nembli.com/connect-ai'
-                or manifest['homepage'] != 'https://nembli.com' or site['calendarURL'] != 'https://nembli.com/'):
-            raise AssertionError('Installation guide configuration differs from Nembli metadata')
+        if (site['mcpURL'] != MCP_URL or site['siteURL'] != 'https://nambli.com/connect-ai'
+                or manifest['homepage'] != 'https://nambli.com' or site['calendarURL'] != 'https://nambli.com/'):
+            raise AssertionError('Installation guide configuration differs from nambli metadata')
         interface = manifest['extensions']['com.openai']['interface']
-        if (interface['displayName'] != 'Nembli' or interface['websiteURL'] != 'https://nembli.com'
-                or interface['privacyPolicyURL'] != 'https://nembli.com/privacy'
-                or interface['termsOfServiceURL'] != 'https://nembli.com/ai/terms'
+        if (interface['displayName'] != 'nambli' or interface['websiteURL'] != 'https://nambli.com'
+                or interface['privacyPolicyURL'] != 'https://nambli.com/privacy'
+                or interface['termsOfServiceURL'] != 'https://nambli.com/terms'
                 or site['listingStatus'] != 'draft' or site['listingURL'] is not None):
-            raise AssertionError('Nembli identity or unpublished listing state differs')
-        if 'value: "nembli"' not in dependency or f'url: "{MCP_URL}"' not in dependency:
+            raise AssertionError('nambli identity or unpublished listing state differs')
+        if 'value: "nambli"' not in dependency or f'url: "{MCP_URL}"' not in dependency:
             raise AssertionError('Skill dependency does not match packaged MCP server')
 
     checksums = {}
