@@ -1,0 +1,15 @@
+{
+  "family": "Nambli",
+  "weight": 700,
+  "version": "0.7.3",
+  "source": "Nambli-Family-0.7.3/fonts/Nambli-Bold.ttf",
+  "sourceSha256": "9bec4221ae8fd467c69165e42927800845ffd1a237a687ffd1a4b27e1b025816",
+  "archiveSha256": "9684edb8522a74dc04014dfde4971f443ce835be4c080d93b4ee65c47552e47a",
+  "wordmark": "Lowercase nambli outlines from production Bold glyphs, unmodified shapes.",
+  "fontRedistribution": "Proprietary owner font; full font is served only by the private website source. Public package contains rendered brand artwork, not the font family.",
+  "mark": "Existing owner-approved blue/purple gradient n logo, unchanged. The Nambli font is used only for the wordmark.",
+  "markSourceSha256": {
+    "nembli-mark.png": "cd16298d2db1188ecea88b67f7eb935b912ab5d9069a669397bdae2c4ba22011",
+    "nembli-mark-dark.png": "7c17692b5866a230452edbebb78832b1cfd5923fc78c4df24dcf4fcc5cf9abdd"
+  }
+}

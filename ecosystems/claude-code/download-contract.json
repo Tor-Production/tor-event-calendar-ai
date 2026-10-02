@@ -6,7 +6,7 @@
   "scope": "calendar.read",
   "nativeMaxBytes": 524288,
   "fileMaxBytes": 26214400,
-  "resourceScheme": "nembli",
+  "resourceScheme": "nambli",
   "nativeReadMethod": "resources/read",
   "metadataDeliversBytes": false,
   "browserResultField": "browserUrl",

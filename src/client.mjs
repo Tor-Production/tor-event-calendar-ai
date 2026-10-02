@@ -45,7 +45,7 @@ export class CalendarClient {
     if(size!==file.size)throw new CalendarError('FILE_CONTENT_MISMATCH','File transfer ended before its declared size.');
     const latest=await this.get(id);
     if(latest.revision!==event.revision||!latest.attachments?.some(item=>item.id===attachmentId&&item.fieldName===file.fieldName))throw new CalendarError('STALE_REVISION','Event changed during the download. Read it again before saving.');
-    const bytes=Buffer.concat(chunks,size),target=path.resolve(destination),temporary=path.join(path.dirname(target),`.nembli-download-${randomUUID()}.tmp`);
+    const bytes=Buffer.concat(chunks,size),target=path.resolve(destination),temporary=path.join(path.dirname(target),`.nambli-download-${randomUUID()}.tmp`);
     let temporaryCreated=false;
     try{const handle=await open(temporary,'wx',0o600);temporaryCreated=true;try{await handle.writeFile(bytes);}finally{await handle.close();}await link(temporary,target);}
     catch(error){if(error.code==='EEXIST')throw new CalendarError('DESTINATION_EXISTS','Destination already exists. Choose another path; existing files are never overwritten.');throw error;}

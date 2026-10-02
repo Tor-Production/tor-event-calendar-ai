@@ -18,8 +18,8 @@ function openBrowser(url){const [exe,args]=process.platform==='win32'?['rundll32
 async function connect(profiles,options){
   const origin=canonicalOrigin(options.origin),scope=options.scope??'manage';if(!['read','manage'].includes(scope))throw new CalendarError('INVALID_SCOPE','Choose read or manage.');await profiles.store.probe();
   const verifier=randomBytes(32).toString('base64url'),codeChallenge=createHash('sha256').update(verifier).digest('base64url');
-  const started=await publicRequest(origin,'/api/ai/device/start',{method:'POST',body:{clientName:options.name??`${process.platform} · Nembli CLI`,codeChallenge,scope}});
-  output({action:'approve_connection',url:started.verificationUri,userCode:started.userCode,client:options.name??'Nembli CLI',scope,expiresIn:started.expiresIn});
+  const started=await publicRequest(origin,'/api/ai/device/start',{method:'POST',body:{clientName:options.name??`${process.platform} · nambli CLI`,codeChallenge,scope}});
+  output({action:'approve_connection',url:started.verificationUri,userCode:started.userCode,client:options.name??'nambli CLI',scope,expiresIn:started.expiresIn});
   if(!options['no-browser'])openBrowser(`${started.verificationUri}?code=${encodeURIComponent(started.userCode)}`);
   const deadline=Date.now()+started.expiresIn*1000;let delay=started.interval*1000;
   while(Date.now()<deadline){await new Promise(r=>setTimeout(r,delay));let approved;try{approved=await publicRequest(origin,'/api/ai/device/poll',{method:'POST',body:{deviceCode:started.deviceCode,codeVerifier:verifier}});}catch(e){if(e.code==='AUTHORIZATION_PENDING')continue;if(e.code==='SLOW_DOWN'){delay+=5000;continue;}throw e;}

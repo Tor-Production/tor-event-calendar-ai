@@ -1,7 +1,7 @@
 {
-  "name": "nembli",
+  "name": "nambli",
   "interface": {
-    "displayName": "Nembli"
+    "displayName": "nambli"
   },
   "plugins": [
     {

@@ -60,7 +60,7 @@ class ClaudeCodeTests(unittest.TestCase):
                       {'type': 'http', 'url': 'https://other.test/mcp'},
                       {'type': 'http', 'url': host.MCP_URL, 'headers': {'Authorization': 'test-only'}}]:
             with self.subTest(entry=entry):
-                self.write_json('.mcp.json', {'mcpServers': {'nembli': entry}})
+                self.write_json('.mcp.json', {'mcpServers': {'nambli': entry}})
                 with self.assertRaisesRegex(ValueError, 'HTTP MCP config drift'):
                     host.validate(self.root)
 
@@ -99,7 +99,7 @@ class ClaudeCodeTests(unittest.TestCase):
             host.validate(self.root)
 
     def metadata(self):
-        return [(401, {'WWW-Authenticate': 'Bearer resource_metadata="https://nembli.com/.well-known/oauth-protected-resource/mcp"'}, b''),
+        return [(401, {'WWW-Authenticate': 'Bearer resource_metadata="https://nambli.com/.well-known/oauth-protected-resource/mcp"'}, b''),
                 (200, {}, json.dumps({'resource': host.MCP_URL, 'authorization_servers': [host.ISSUER]}).encode()),
                 (200, {}, json.dumps({'issuer': host.ISSUER, 'scopes_supported': ['calendar.read', 'calendar.manage', 'offline_access'],
                                      'code_challenge_methods_supported': ['S256'],
@@ -113,8 +113,8 @@ class ClaudeCodeTests(unittest.TestCase):
         self.assertEqual(len(request.call_args_list), 3)
         self.assertEqual(json.loads(request.call_args_list[0].args[1])['method'], 'initialize')
         self.assertEqual([call.args[0] for call in request.call_args_list[1:]],
-                         ['https://nembli.com/.well-known/oauth-protected-resource/mcp',
-                          'https://nembli.com/.well-known/oauth-authorization-server/api/v1/auth'])
+                         ['https://nambli.com/.well-known/oauth-protected-resource/mcp',
+                          'https://nambli.com/.well-known/oauth-authorization-server/api/v1/auth'])
 
     def test_probe_rejects_missing_auth_or_foreign_origin(self):
         for records in [[(200, {}, b'{}')], [(403, {}, b'{}')],

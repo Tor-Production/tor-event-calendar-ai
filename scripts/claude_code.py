@@ -13,8 +13,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 HOST = Path('ecosystems/claude-code')
 SKILL = Path('skills/tor-event-calendar')
-MCP_URL = 'https://nembli.com/mcp'
-ISSUER = 'https://nembli.com/api/v1/auth'
+MCP_URL = 'https://nambli.com/mcp'
+ISSUER = 'https://nambli.com/api/v1/auth'
 
 
 def require(condition, message):
@@ -32,15 +32,15 @@ def validate(root=ROOT):
     require(manifest['name'] == package['name'] == 'tor-event-calendar-ai', 'Plugin ID changed')
     require(manifest['version'] == package['version'], 'Plugin version drift')
     require(manifest['author']['name'] == 'Tor Production', 'Plugin owner drift')
-    require(manifest['homepage'] == 'https://nembli.com', 'Homepage drift')
+    require(manifest['homepage'] == 'https://nambli.com', 'Homepage drift')
     # The existing default layout needs no hooks, secrets or component overrides.
     require(not {'hooks', 'settings', 'userConfig', 'mcpServers', 'skills', 'commands'} & manifest.keys(),
             'Review unexpected Claude component overrides')
-    expected = {'mcpServers': {'nembli': {'type': 'http', 'url': MCP_URL}}}
+    expected = {'mcpServers': {'nambli': {'type': 'http', 'url': MCP_URL}}}
     require(read_json(root, '.mcp.json') == expected, 'Root Claude HTTP MCP config drift')
     require(read_json(root, HOST / 'mcp.json') == expected, 'Host HTTP MCP config drift')
     marketplace = read_json(root, '.claude-plugin/marketplace.json')
-    require(marketplace['name'] == 'nembli' and marketplace['owner']['name'] == 'Tor Production',
+    require(marketplace['name'] == 'nambli' and marketplace['owner']['name'] == 'Tor Production',
             'Claude marketplace identity drift')
     entries = marketplace['plugins']
     require(len(entries) == 1 and entries[0]['name'] == manifest['name'] and entries[0]['source'] == './',
@@ -119,7 +119,7 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 def public_request(url, body=None):
-    headers = {'Accept': 'application/json, text/event-stream', 'User-Agent': 'nembli-claude-config-check/0.1'}
+    headers = {'Accept': 'application/json, text/event-stream', 'User-Agent': 'nambli-claude-config-check/0.1'}
     if body is not None:
         headers['Content-Type'] = 'application/json'
     request = urllib.request.Request(url, data=body, headers=headers)
@@ -136,17 +136,17 @@ def public_request(url, body=None):
 def probe():
     body = json.dumps({'jsonrpc': '2.0', 'id': 1, 'method': 'initialize',
                        'params': {'protocolVersion': '2025-03-26', 'capabilities': {},
-                                  'clientInfo': {'name': 'nembli-claude-config-check', 'version': '0.1'}}}).encode()
+                                  'clientInfo': {'name': 'nambli-claude-config-check', 'version': '0.1'}}}).encode()
     status, headers, _ = public_request(MCP_URL, body)
     require(status == 401, f'Unauthenticated MCP initialization must require OAuth (401); got {status}')
     challenge = headers.get('WWW-Authenticate', '')
-    require(re.search(r'resource_metadata="https://nembli\.com/\.well-known/oauth-protected-resource(?:/mcp)?"',
+    require(re.search(r'resource_metadata="https://nambli\.com/\.well-known/oauth-protected-resource(?:/mcp)?"',
                       challenge), 'OAuth resource discovery challenge missing')
-    status, _, data = public_request('https://nembli.com/.well-known/oauth-protected-resource/mcp')
+    status, _, data = public_request('https://nambli.com/.well-known/oauth-protected-resource/mcp')
     require(status == 200, 'Protected resource metadata unavailable')
     resource = json.loads(data)
     require(resource['resource'] == MCP_URL and ISSUER in resource['authorization_servers'], 'OAuth origin drift')
-    status, _, data = public_request('https://nembli.com/.well-known/oauth-authorization-server/api/v1/auth')
+    status, _, data = public_request('https://nambli.com/.well-known/oauth-authorization-server/api/v1/auth')
     require(status == 200, 'Authorization server metadata unavailable')
     auth = json.loads(data)
     require(auth['issuer'] == ISSUER, 'Issuer drift')

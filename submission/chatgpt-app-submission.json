@@ -2,7 +2,7 @@
   "$schema": "https://developers.openai.com/plugins/schemas/chatgpt-app-submission.v1.json",
   "schema_version": 1,
   "app_info": {
-    "display_name": "Nembli",
+    "display_name": "nambli",
     "subtitle": "Manage your private calendar",
     "description": "Connect a verified calendar account through browser sign-in, then use the remote MCP server and an explicitly invoked skill to find events, create meetings, prepare platform-specific drafts, move appointments and manage file links. Account access is scoped to the selected calendar account. Calendar writes never publish or schedule social posts. The local CLI remains an optional advanced route.",
     "category": "PRODUCTIVITY"
@@ -16,7 +16,7 @@
       },
       "justifications": {
         "read_only_justification": "Returns the account ID and verified profile bound to the existing OAuth grant; it does not create or change accounts.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -28,7 +28,7 @@
       },
       "justifications": {
         "read_only_justification": "Reads supported operations, limits and the current grant scope; it does not configure resources or permissions.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -40,7 +40,7 @@
       },
       "justifications": {
         "read_only_justification": "Returns the configured schema for LinkedIn, X or Reddit; it does not connect to or act on a social account.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -52,7 +52,7 @@
       },
       "justifications": {
         "read_only_justification": "Reads bounded summaries of events owned by the grant account, with filters and pagination; no records are changed.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -64,7 +64,7 @@
       },
       "justifications": {
         "read_only_justification": "Reads one owned event and selected content; it does not update or claim publication.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -76,7 +76,7 @@
       },
       "justifications": {
         "read_only_justification": "Reads a bounded content chunk from one owned event at an exact revision; it writes no state.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -88,7 +88,7 @@
       },
       "justifications": {
         "read_only_justification": "Validates proposed fields and returns missing-input questions and a UUID for a future create; it does not persist an event.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -100,7 +100,7 @@
       },
       "justifications": {
         "read_only_justification": "Returns an authenticated first-party upload page URL after ownership validation; the tool does not upload or replace files.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -112,7 +112,7 @@
       },
       "justifications": {
         "read_only_justification": "Reads the prepared task and readiness blockers for one owned event; it does not publish, schedule, or claim execution.",
-        "open_world_justification": "Operates only on the connected Nembli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
+        "open_world_justification": "Operates only on the connected nambli account or fixed first-party metadata. It does not contact arbitrary destinations or social services.",
         "destructive_justification": "This tool only returns data or validation results; it deletes or overwrites no calendar content."
       }
     },
@@ -124,7 +124,7 @@
       },
       "justifications": {
         "read_only_justification": "Creates one owned calendar event using a stable UUID and validated typed fields.",
-        "open_world_justification": "Acts only inside the connected Nembli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
+        "open_world_justification": "Acts only inside the connected nambli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
         "destructive_justification": "Creation is additive. An existing UUID with conflicting content is rejected instead of overwriting the event."
       }
     },
@@ -136,7 +136,7 @@
       },
       "justifications": {
         "read_only_justification": "Patches selected fields of one owned event, guarded by its last-read revision.",
-        "open_world_justification": "Acts only inside the connected Nembli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
+        "open_world_justification": "Acts only inside the connected nambli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
         "destructive_justification": "It can replace values or remove custom fields explicitly named by the caller. Unrelated fields and attachments are preserved."
       }
     },
@@ -148,7 +148,7 @@
       },
       "justifications": {
         "read_only_justification": "Changes the scheduled start of one owned event at its last-read revision.",
-        "open_world_justification": "Acts only inside the connected Nembli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
+        "open_world_justification": "Acts only inside the connected nambli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
         "destructive_justification": "Changes only the reversible start time; it does not delete the entry, its content or attachments."
       }
     },
@@ -160,7 +160,7 @@
       },
       "justifications": {
         "read_only_justification": "Deletes one specified owned event after checking its revision.",
-        "open_world_justification": "Acts only inside the connected Nembli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
+        "open_world_justification": "Acts only inside the connected nambli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
         "destructive_justification": "Removes the chosen event from the calendar, so this is explicitly marked destructive."
       }
     },
@@ -172,7 +172,7 @@
       },
       "justifications": {
         "read_only_justification": "Removes one specified attachment from a named File field on an owned event.",
-        "open_world_justification": "Acts only inside the connected Nembli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
+        "open_world_justification": "Acts only inside the connected nambli account and its first-party calendar storage. It cannot publish to social networks or call arbitrary destinations.",
         "destructive_justification": "The attachment is removed; the empty typed File field remains. The destructive annotation covers this content removal."
       }
     },
@@ -187,38 +187,50 @@
         "open_world_justification": "Fetches only temporary HTTPS host file URLs on allowlisted OpenAI user-content/Azure blob storage; does not crawl arbitrary links or forward calendar credentials.",
         "destructive_justification": "May replace the current attachment in the exact owned File field; requires the current event revision and a stable upload UUID."
       }
+    },
+    "get_file_download": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Checks one current-revision owned File attachment and returns an authenticated browser action or a bounded native resource. The tool writes no state and does not claim bytes were delivered.",
+        "open_world_justification": "Operates only on the connected calendar account and its private files. No arbitrary external URL is fetched.",
+        "destructive_justification": "Reads owned metadata and download options only; does not delete or overwrite content."
+      }
     }
   },
   "test_cases": [
     {
       "description": "Read the connected demo account and a bounded day. Setup: authorize the dedicated reviewer account; no seeded events are required. Return only events owned by that account.",
-      "user_prompt": "Which Nembli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Kyiv?",
+      "user_prompt": "Which nambli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Kyiv?",
       "tools_triggered": "get_profile, get_capabilities, list_events",
       "expected_output": "get_profile identifies the grant-bound account. get_capabilities reports fileBytes=26214400. list_events uses localDate=2026-10-15 and timeZone=Europe/Kyiv, or the equivalent half-open ISO range. Every listed item falls in that day; an empty result is stated honestly. No writes."
     },
     {
-      "description": "Create one disposable event at an exact local time. Setup: reviewer account with calendar.manage. Keep the returned UUID and revision for cases 3–5 in the same conversation. Repeated runs may have the same title; never infer identity from title alone.",
-      "user_prompt": "Create a Nembli event titled Nembli reviewer demo on 15 October 2026 at 14:00 Europe/Kyiv. Add the description Synthetic review data. Show its ID and saved start time.",
+      "description": "Create one disposable event at an exact local time. Setup: reviewer account with calendar.manage. Keep the returned UUID and revision for cases 3\u20135 in the same conversation. Repeated runs may have the same title; never infer identity from title alone.",
+      "user_prompt": "Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Kyiv. Add the description Synthetic review data. Show its ID and saved start time.",
       "tools_triggered": "get_profile if needed, prepare_event, create_event, get_event",
       "expected_output": "Prepare the explicit title, instant and IANA timezone; reuse the prepared UUID for creation/retry. Exactly one new owned event is created. Description is a typed String. Return its UUID, revision, saved instant and local start time. No end-time, social publication or automation is invented."
     },
     {
       "description": "Store a complete LinkedIn draft on the event UUID from case 2. All platform choices are supplied. This is a draft-only workflow; it does not require or create a LinkedIn connection.",
-      "user_prompt": "On that demo event, save this LinkedIn draft: A small review of Nembli: private calendar entries, typed drafts and named files. Use my personal profile, public feed and public audience. No media, reaction, comment or Featured action. Keep it unpublished and do not set up automation.",
+      "user_prompt": "On that demo event, save this LinkedIn draft: A small review of nambli: private calendar entries, typed drafts and named files. Use my personal profile, public feed and public audience. No media, reaction, comment or Featured action. Keep it unpublished and do not set up automation.",
       "tools_triggered": "get_platform_schema, get_event, update_event, get_event or get_publishing_task",
       "expected_output": "Read the LinkedIn schema and latest event revision. Preserve the event identity and start; store social_network and post text with explicit String types. Valid publishing settings use actor.kind=personal, destination.kind=public_feed, audience=public, reaction=none, firstComment=null and featured=false. The event remains not_published with publicationAutomated=false; no social calls or scheduler claims. A validation error must be explained, not reported as a successful settings write."
     },
     {
-      "description": "Attach a harmless chat file to the same disposable event. Setup: attach the sample https://nembli.com/media/review-note.txt to this conversation using the host file input. Preserve the resulting revision and attachment ID.",
-      "user_prompt": "Add the attached review-note.txt to the named File field Review brief on the demo event, directly from this chat. Check the saved filename and size.",
-      "tools_triggered": "get_event, update_event if File field is absent, upload_file, get_event",
-      "expected_output": "Declare Review brief explicitly as File, read its current revision, and use upload_file with the host attachment and one stable upload UUID. Read back fieldName=Review brief, filename, MIME type, size and attachment UUID. Never place file bytes or local paths in remote MCP JSON, invent a download URL, claim upload without a receipt, or expose another account. Use the browser link only when this host cannot transport attachments, explaining the limitation.",
+      "description": "Upload and actually download the harmless fixture on the same disposable event. Setup: attach https://nambli.com/media/review-note.txt through the host file input; retain the original bytes, exact UUID, latest revision and attachment ID. Browser fallback is explicitly labelled if native transport is unavailable.",
+      "user_prompt": "Add the attached review-note.txt to the named File field Review brief on the demo event. Check the saved filename and size. Then help me download that same saved file and verify that its contents match the original.",
+      "tools_triggered": "get_event, update_event if File field is absent, upload_file or get_file_upload_link, get_event, get_file_download, resources/read or authenticated browser download",
+      "expected_output": "Declare Review brief explicitly as File, use the current revision and stable upload UUID, then read back exact field/filename/size/attachment ID. Call get_file_download with the current revision and exact attachment. Receive bounded native resource bytes or explicitly download from the authenticated browser/local helper; open the result and compare its bytes/content to the original. A resource link or bytesDelivered=false alone does not prove delivery. Never store file bytes in JSON, expose another account, or claim unsupported native transfer.",
       "file_attachment_urls": [
-        "https://nembli.com/media/review-note.txt"
+        "https://nambli.com/media/review-note.txt"
       ]
     },
     {
-      "description": "Reschedule and clean up only the disposable UUID created in case 2, with case 3–4 content present. This multi-step prompt explicitly authorizes deletion of that one review fixture; never delete events merely sharing its title.",
+      "description": "Reschedule and clean up only the disposable UUID created in case 2, with case 3\u20134 content present. This multi-step prompt explicitly authorizes deletion of that one review fixture; never delete events merely sharing its title.",
       "user_prompt": "Move the demo event we created to 15:00 Europe/Kyiv on the same day, keeping its draft and file. Show that they were preserved. Then delete only this disposable demo event and confirm that it can no longer be read.",
       "tools_triggered": "get_event, move_event, get_event, delete_event, get_event",
       "expected_output": "Use the exact UUID and latest revision for each mutation. Show the saved 15:00 start and unchanged draft/File metadata before deleting. Delete only that UUID. The final read returns HTTP_404/Event not found, which is reported as expected cleanup. Do not claim social cancellation/publication or modify other records."
@@ -226,19 +238,19 @@
   ],
   "negative_test_cases": [
     {
-      "description": "Pure date arithmetic needs no calendar access. No Nembli tool or private-account lookup should occur.",
+      "description": "Pure date arithmetic needs no calendar access. No nambli tool or private-account lookup should occur.",
       "user_prompt": "What day of the week is 5 November 2031?",
-      "expected_output": "Answer using date arithmetic, without invoking Nembli."
+      "expected_output": "Answer using date arithmetic, without invoking nambli."
     },
     {
-      "description": "Direct social publication is outside this calendar plugin. Do not call Nembli tools to simulate publication or create an unsolicited calendar entry.",
+      "description": "Direct social publication is outside this calendar plugin. Do not call nambli tools to simulate publication or create an unsolicited calendar entry.",
       "user_prompt": "Publish this LinkedIn post now: Our new guide is live.",
-      "expected_output": "Explain that Nembli cannot publish social posts. Use a separate authorized publishing integration only if available; do not claim publication."
+      "expected_output": "Explain that nambli cannot publish social posts. Use a separate authorized publishing integration only if available; do not claim publication."
     },
     {
-      "description": "Email search is outside Nembli. Do not inspect the private calendar as a substitute for mailbox access.",
+      "description": "Email search is outside nambli. Do not inspect the private calendar as a substitute for mailbox access.",
       "user_prompt": "Find the email from Alex about the quarterly budget.",
-      "expected_output": "Use a separately authorized email integration if available, otherwise state that mailbox access is unavailable. No Nembli tool calls."
+      "expected_output": "Use a separately authorized email integration if available, otherwise state that mailbox access is unavailable. No nambli tool calls."
     }
   ]
 }

@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {CalendarClient} from '../src/client.mjs';
 
-const directory=await mkdtemp(path.join(tmpdir(),'nembli-download-'));
+const directory=await mkdtemp(path.join(tmpdir(),'nambli-download-'));
 const accountId=randomUUID(),id=randomUUID(),attachmentId=randomUUID(),origin='https://calendar.example.test';
 const bytes=Buffer.from('%PDF-1.4\nsynthetic\0\xff\n%%EOF','binary');
 let event={id,revision:3,customFieldTypes:{document:'File'},attachments:[{id:attachmentId,fieldName:'document',filename:'../untrusted-ї.pdf',contentType:'application/pdf',size:bytes.length}]};

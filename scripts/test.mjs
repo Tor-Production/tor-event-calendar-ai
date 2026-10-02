@@ -9,8 +9,8 @@ import {Profiles,DEFAULT_ORIGIN,canonicalOrigin} from '../src/profiles.mjs';
 const directory=await mkdtemp(path.join(tmpdir(),'tor-calendar-consumer-'));
 const packageVersion=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8')).version;
 try{
-  assert.equal(DEFAULT_ORIGIN,'https://nembli.com');
-  assert.equal(canonicalOrigin(),'https://nembli.com');
+  assert.equal(DEFAULT_ORIGIN,'https://nambli.com');
+  assert.equal(canonicalOrigin(),'https://nambli.com');
   assert.equal(dayRange('2026-09-06','America/Santiago').hours,23);
   assert.throws(()=>localInstant('2026-11-01','01:30','America/New_York'),{code:'DST_OVERLAP'});
   assert.throws(()=>validateInstant('2026-02-30T12:00:00Z'),{code:'INVALID_DATE'});
