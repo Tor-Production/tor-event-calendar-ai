@@ -1,0 +1,11 @@
+{
+  "name": "nembli",
+  "owner": { "name": "Tor Production" },
+  "plugins": [
+    {
+      "name": "tor-event-calendar-ai",
+      "source": "./",
+      "description": "Nembli account-scoped remote calendar tools and explicitly invoked skill."
+    }
+  ]
+}

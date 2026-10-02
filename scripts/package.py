@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = json.loads((ROOT / 'package.json').read_text(encoding='utf-8'))['version']
 DIST = ROOT / 'dist'
-ALLOW = ('src', 'skills', 'assets', 'docs', 'submission', 'scripts', '.codex-plugin', '.claude-plugin', '.agents/plugins/marketplace.json',
+ALLOW = ('src', 'skills', 'assets', 'docs', 'submission', 'scripts', 'ecosystems/claude-code', '.codex-plugin', '.claude-plugin', '.agents/plugins/marketplace.json',
          'package.json', 'package-lock.json', 'plugin.json', 'mcp.json', '.mcp.json',
          'README.md', 'LICENSE', '.gitignore', '.gitattributes')
 ALLOW += ('ecosystems', 'contracts')

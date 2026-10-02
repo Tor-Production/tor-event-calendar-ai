@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "nembli": {
+      "type": "http",
+      "url": "https://nembli.com/mcp"
+    }
+  }
+}

@@ -52,7 +52,7 @@ export async function installSkill(client,{uninstall=false,directory}={}){
   if(uninstall){if(existing)await rm(target,{recursive:true});return {uninstalled:!!existing,target,profilesPreserved:true};}
   const source=fileURLToPath(new URL('../skills/tor-event-calendar/',import.meta.url));
   await mkdir(target,{recursive:true});await cp(source,target,{recursive:true});
-  if(['claude','cursor','copilot'].includes(client)){const skill=await readFile(path.join(target,'SKILL.md'),'utf8');await writeFile(path.join(target,'SKILL.md'),skill.replace('description:','disable-model-invocation: true\ndescription:'));}
+  if(['claude','cursor','copilot'].includes(client)){const skill=await readFile(path.join(target,'SKILL.md'),'utf8');if(!/^disable-model-invocation: true$/m.test(skill))await writeFile(path.join(target,'SKILL.md'),skill.replace('description:','disable-model-invocation: true\ndescription:'));}
   await writeFile(marker,JSON.stringify({owner:'tor-event-calendar-ai',version:VERSION,client}));return {installed:true,target,version:VERSION,profilesPreserved:true,restartClient:true};
 }
 export async function main(args=process.argv.slice(2)){
