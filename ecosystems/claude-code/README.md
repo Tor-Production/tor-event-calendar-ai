@@ -16,7 +16,7 @@ First inspect `claude mcp list`, `claude plugin list` and `/mcp`. Preserve unrel
 
 ### Native plugin from this source
 
-The root `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.mcp.json` and shared `skills/tor-event-calendar` are the native entry points. IDs remain `tor-event-calendar-ai`, `tor-event-calendar`, and `nambli`.
+The root `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.mcp.json` and shared `skills/nambli` are the native entry points. The plugin package ID remains `tor-event-calendar-ai`; both the explicit skill and MCP connection are named `nambli`.
 
 For review, run from this checked-out branch:
 
@@ -25,7 +25,7 @@ claude plugin validate . --strict
 claude --plugin-dir .
 ```
 
-`--plugin-dir` loads this source for that session without changing your installed plugin or marketplace. In Claude Code, open `/mcp`, select the plugin's nambli server, and authenticate in the browser. Invoke `/tor-event-calendar-ai:tor-event-calendar` explicitly when you want the skill. Its frontmatter disables model invocation.
+`--plugin-dir` loads this source for that session without changing your installed plugin or marketplace. In Claude Code, open `/mcp`, select the plugin's nambli server, and authenticate in the browser. Invoke `/tor-event-calendar-ai:nambli` explicitly when you want the skill. Its frontmatter disables model invocation.
 
 For a persistent **development** installation from this branch (keep the quotes around the source):
 
@@ -67,7 +67,7 @@ Claude Code refreshes OAuth through the host. If it requests authentication, sel
 
 ## Files and capabilities
 
-The [Claude Code workflow](../../skills/tor-event-calendar/references/claude-code.md) contains the runtime instructions loaded by the explicit skill.
+The [Claude Code workflow](../../skills/nambli/references/claude-code.md) contains the runtime instructions loaded by the explicit skill.
 
 | Operation | Implemented route | What still needs native proof |
 | --- | --- | --- |

@@ -21,19 +21,21 @@ codex plugin marketplace add Tor-Production/tor-event-calendar-ai --ref main
 codex plugin add tor-event-calendar-ai@nambli
 ```
 
-The combined plugin includes the remote calendar tools, approved light/dark artwork, and explicitly invoked `tor-event-calendar` skill. Ask to use nambli or invoke `$tor-event-calendar`; implicit invocation stays disabled.
+The combined plugin includes the remote calendar tools, approved light/dark artwork, and explicitly invoked `nambli` skill. Ask to use nambli or invoke `$nambli`; implicit invocation stays disabled.
 
 ## Updating an existing installation
 
 The 0.3.0 nambli source is being prepared. No v0.3.0 release is published yet. Existing [v0.2.4 release assets](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.4) retain their original Nembli identity. Once the new source is released, refresh your marketplace and reconnect at nambli.com.
 
-The 0.3.0 candidate changes the displayed MCP connection name from **Nembli** to **nambli** and the new-connection origin to nambli.com. The package and skill IDs stay stable. Codex may request a fresh connection under the new MCP name: sign in, approve the intended account, and check its profile before using it. Existing calendar records and website grants are not deleted or transferred.
+The 0.3.0 candidate uses **nambli** for the MCP connection and skill name, with new connections at nambli.com. Invoke `$nambli` in Codex or `/nambli` for a standalone slash skill. The package ID stays stable so existing marketplace installations can update. Codex may request a fresh connection under the new MCP name: sign in, approve the intended account, and check its profile before using it. Existing calendar records and website grants are not deleted or transferred.
+
+The local CLI's `install-skill CLIENT` installs `skills/nambli`. On upgrade it moves an older CLI-managed `tor-event-calendar` skill into `skill-backups` outside skill discovery, preserving all its files for rollback. Owner-managed junctions and unowned skills are preserved and reported for deliberate migration. The new standalone archive is `nambli-skill-0.3.0.zip`, with one top-level `nambli/` folder. Restart or reload the client after updating; old published packages retain their original skill name.
 
 ## Your calendar connection
 
 The MCP endpoint is `https://nambli.com/mcp`. Browser consent binds one grant to one calendar account. `get_profile` confirms its stable ID and verified email. Read access uses `calendar.read`; edits use `calendar.manage`; refresh may request `offline_access`. Review or revoke grants in [Connections & tokens](https://nambli.com/?settings=connections). Changing the website login does not change an existing Codex connection.
 
-Use an exact date, time and IANA timezone for changes. Custom values stay in `customFields`; types stay in `customFieldTypes`. Named File fields accept chat attachments through `upload_file` in hosts that support file inputs, including supported Codex and ChatGPT flows, with a 25 MiB file limit. Attach a file and ask nambli to add it to a specific event and File field. Other hosts retain an authenticated browser upload fallback. Calendar actions never publish or schedule social posts. [API reference](skills/tor-event-calendar/references/api.md) · [Publication rules](skills/tor-event-calendar/references/publication.md)
+Use an exact date, time and IANA timezone for changes. Custom values stay in `customFields`; types stay in `customFieldTypes`. Named File fields accept chat attachments through `upload_file` in hosts that support file inputs, including supported Codex and ChatGPT flows, with a 25 MiB file limit. Attach a file and ask nambli to add it to a specific event and File field. Other hosts retain an authenticated browser upload fallback. Calendar actions never publish or schedule social posts. [API reference](skills/nambli/references/api.md) · [Publication rules](skills/nambli/references/publication.md)
 
 ## Other AI clients
 
@@ -136,7 +138,7 @@ For another client, add a remote Streamable HTTP server named **nambli** at `htt
 
 ## Optional local CLI
 
-The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/tor-event-calendar/references/connections.md#optional-local-cli) only when you choose this route.
+The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/nambli/references/connections.md#optional-local-cli) only when you choose this route.
 
 To install the helper and skill for your client, use a locally built development tarball and replace `codex` with `claude`, `cursor`, `copilot`, `gemini`, or `hermes`:
 
@@ -155,4 +157,4 @@ From a clean checkout run `npm ci --ignore-scripts`, `npm test`, create `dist/`,
 
 ## Plugin development workspace
 
-All ecosystem plugins live in this repository; the private calendar repository owns the server. See [ecosystem ownership and task map](ecosystems/README.md). Shared upload/download recovery is documented in [file workflow](skills/tor-event-calendar/references/files.md), including setup when no connector is installed. Server download support is deployed on nambli.com; the public 0.3.0 package is a prepared candidate awaiting recorded host acceptance, final videos and owner publication decisions. The existing 0.2.3 review and released 0.2.4 artifacts are preserved.
+All ecosystem plugins live in this repository; the private calendar repository owns the server. See [ecosystem ownership and task map](ecosystems/README.md). Shared upload/download recovery is documented in [file workflow](skills/nambli/references/files.md), including setup when no connector is installed. Server download support is deployed on nambli.com; the public 0.3.0 package is a prepared candidate awaiting recorded host acceptance, final videos and owner publication decisions. The existing 0.2.3 review and released 0.2.4 artifacts are preserved.

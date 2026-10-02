@@ -3,7 +3,7 @@ interface:
   icon_small: "./assets/icon.png"
   icon_large: "./assets/logo.png"
   short_description: "Manage your connected calendar on explicit request"
-  default_prompt: "Use $tor-event-calendar to show today's events in my connected account."
+  default_prompt: "Use $nambli to show today's events in my connected account."
 dependencies:
   tools:
     - type: "mcp"

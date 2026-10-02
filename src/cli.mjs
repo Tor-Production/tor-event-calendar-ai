@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import {readFile,writeFile,mkdir,rm,cp,lstat} from 'node:fs/promises';
+import {readFile,writeFile,mkdir,rm,cp,lstat,rename} from 'node:fs/promises';
 import {homedir} from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -46,14 +46,30 @@ export async function installSkill(client,{uninstall=false,directory}={}){
   const homes={codex:'.agents',claude:'.claude',hermes:'.hermes',gemini:'.gemini',cursor:'.cursor',copilot:'.copilot'};
   if(!homes[client])throw new CalendarError('CLIENT_REQUIRED','Choose codex, claude, hermes, gemini, cursor or copilot.');
   const dataRoot=directory??(client==='hermes'?(process.env.HERMES_HOME||(process.platform==='win32'?path.join(process.env.LOCALAPPDATA||homedir(),'hermes'):path.join(homedir(),'.hermes'))):path.join(homedir(),homes[client]));
-  const target=path.join(dataRoot,'skills','tor-event-calendar'),marker=path.join(target,'.tor-calendar-install.json');let existing;
+  const target=path.resolve(dataRoot,'skills','nambli'),marker=path.join(target,'.tor-calendar-install.json');let existing;
   try{existing=await lstat(target);}catch(e){if(e.code!=='ENOENT')throw e;}
   if(existing){if(existing.isSymbolicLink())throw new CalendarError('EXISTING_JUNCTION','Existing skill is a link/junction. Preserve it and upgrade its owner-managed source separately.');try{const receipt=JSON.parse(await readFile(marker,'utf8'));if(receipt.owner!=='tor-event-calendar-ai')throw 0;}catch{throw new CalendarError('UNOWNED_SKILL','Existing skill is not managed by this installer. Preserve it before choosing another installation.');}}
   if(uninstall){if(existing)await rm(target,{recursive:true});return {uninstalled:!!existing,target,profilesPreserved:true};}
-  const source=fileURLToPath(new URL('../skills/tor-event-calendar/',import.meta.url));
+  const legacy=path.resolve(dataRoot,'skills','tor-event-calendar');let legacyInfo,legacyOwned=false;
+  try{legacyInfo=await lstat(legacy);}catch(e){if(e.code!=='ENOENT')throw e;}
+  if(legacyInfo&&!legacyInfo.isSymbolicLink()){
+    try{const receipt=JSON.parse(await readFile(path.join(legacy,'.tor-calendar-install.json'),'utf8'));legacyOwned=receipt.owner==='tor-event-calendar-ai'&&receipt.client===client;}catch{}
+  }
+  const source=fileURLToPath(new URL('../skills/nambli/',import.meta.url));
   await mkdir(target,{recursive:true});await cp(source,target,{recursive:true});
   if(['claude','cursor','copilot'].includes(client)){const skill=await readFile(path.join(target,'SKILL.md'),'utf8');if(!/^disable-model-invocation: true$/m.test(skill))await writeFile(path.join(target,'SKILL.md'),skill.replace('description:','disable-model-invocation: true\ndescription:'));}
-  await writeFile(marker,JSON.stringify({owner:'tor-event-calendar-ai',version:VERSION,client}));return {installed:true,target,version:VERSION,profilesPreserved:true,restartClient:true};
+  await writeFile(marker,JSON.stringify({owner:'tor-event-calendar-ai',version:VERSION,client}));
+  let legacyBackupPath;
+  if(legacyOwned){
+    const backupRoot=path.resolve(dataRoot,'skill-backups');await mkdir(backupRoot,{recursive:true});
+    legacyBackupPath=path.join(backupRoot,`tor-event-calendar-${randomUUID()}`);
+    // Retire only this installer's legacy directory after the replacement is
+    // complete. Preserve all its bytes outside skill discovery for rollback.
+    await rename(legacy,legacyBackupPath);
+  }
+  return {installed:true,target,version:VERSION,profilesPreserved:true,restartClient:true,
+    ...(legacyBackupPath?{migratedFrom:'tor-event-calendar',legacyBackupPath}:{}),
+    ...(legacyInfo&&!legacyOwned?{legacySkillPreserved:legacyInfo.isSymbolicLink()?'junction':'unowned'}:{})};
 }
 export async function main(args=process.argv.slice(2)){
   const {positional:[command,...rest],options}=argumentsOf(args),profiles=new Profiles();
