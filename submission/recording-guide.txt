@@ -1,0 +1,180 @@
+nambli recording guide — 2 October 2026
+One set of original clips for product and plugin-review edits.
+Candidate: 0.3.0. Website: https://nambli.com. MCP: https://nambli.com/mcp.
+All prompts and interface text in English. Demo timezone: Europe/Bucharest.
+This is a recording plan. The eight model cases remain Not run / Not recorded
+until their real client execution and captures have been checked.
+
+BEFORE RECORDING
+
+Use demo@nambli.com for the product recording. It receives mail in the existing
+owner inbox but must have its own nambli identity and calendar. An email alias
+is not a separate Google account. On nambli, use Email me a sign-in link with
+demo@nambli.com. Do not choose the owner's Google account for this demo login.
+Open the emailed link outside the recording, then return to the calendar.
+The calendar must show demo@nambli.com and Europe/Bucharest before recording.
+
+An existing MCP connection keeps its original account even if the website
+login changes. Use the installed plugin's connection controls to connect the
+demo identity, completing account consent yourself. Verify its identity with
+P01 before any writes. Do not reuse an owner API token for the demo.
+
+The prepared sample calendar should contain Product planning at 09:00 and
+Content draft at 11:00 on 15 October, plus Demo follow-up at 10:00 on 16 October.
+All are synthetic examples in Europe/Bucharest. P02 creates a separate event;
+do not pre-create it or delete these background examples during cleanup.
+
+Use one real AI client with nambli installed. You do not need to repeat the
+recording in VS Code, Cursor and Insiders. In Codex, explicitly select $nambli
+before the first positive prompt. Keep P01–P05 in the same chat and account.
+Write access (calendar.manage) is required for P02–P05; calendar.read alone
+only covers P01. The host may also request offline_access for token refresh.
+
+For N01–N03, start a fresh chat for EACH case, leave nambli enabled, and do not
+invoke $nambli. Disable separate email and social-publishing integrations for
+these three tests so their legitimate tools do not obscure nambli's boundary.
+
+Download https://nambli.com/media/review-note.txt and keep the original.
+It is 44 bytes: nambli review fixture. Synthetic text only. followed by LF.
+SHA-256: 215551cc04e2f50b4efca0e7ad7303cb28d87f78611c3dadfd8042466fa5ed25
+Attach this original through the AI client's file input in P04.
+
+Record readable 1920×1080 or higher, around 30 fps. Voice and camera are
+optional. Keep unedited originals. Pause while opening the inbox or entering
+credentials. Resume with the signed-in demo identity visible. Keep prompts,
+real tool activity and results readable for a few seconds.
+
+01-product-overview.mp4
+
+Open https://nambli.com in the browser. Show the original blue/purple n logo,
+demo calendar, Europe/Bucharest setting and the three synthetic sample events.
+Open a sample event briefly to show typed fields. Do not change its data.
+
+02-installed-plugin-connection.mp4 — YOU ALREADY HAVE THE PLUGIN
+
+Open https://nambli.com/connect-ai and click Open nambli in Codex. Show the
+installed nambli plugin by Tor Production and its enabled/connected state.
+There is no need to uninstall or install it again. Show the client version
+and the configured endpoint https://nambli.com/mcp if the client exposes it.
+Label a local candidate installation as Development installation.
+
+If the demo connection is already authorized, show that connection and go to
+clip 03. If connection is required, choose Connect in the plugin and complete
+the browser sign-in with demo@nambli.com, check the account and permissions,
+then choose Allow access. Record the consent and return to the client, but
+pause for the inbox and credentials. A personal Google identity is not the
+demo alias. Changing only the website login does not switch an old MCP grant.
+Do not create a new public submission just to record this clip.
+
+03-profile-day.mp4 — P01 — EXACT FIRST MESSAGE
+
+Start a new chat in your chosen AI client. In Codex, select $nambli explicitly.
+Copy and send this exact message:
+
+Which nambli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Bucharest?
+
+Show get_profile, get_capabilities and list_events with their real results.
+For the product recording, the account must be demo@nambli.com, the file limit
+26214400 bytes (25 MiB), and the bounded day must be 15 October in Bucharest.
+The seeded examples are Product planning at 09:00 and Content draft at 11:00.
+Stop if the account is personal and fix the connection before continuing.
+No writes occur in this case. An empty result must be stated honestly.
+
+04-create-persist.mp4 — P02 — SAME CHAT
+
+Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Bucharest. Add the description Synthetic review data. Show its ID and saved start time.
+
+Show prepare_event, creation and read-back. Keep the exact returned event UUID
+and revision in the chat. Open that event in the demo web calendar, reload,
+and show its title, typed description and 14:00 start. On this date Bucharest
+is UTC+03:00, so the saved instant is 2026-10-15T11:00:00Z. Do not invent an end
+time or publication. Cases P03–P05 operate only on this exact new event UUID.
+
+05-draft-persist.mp4 — P03 — SAME CHAT
+
+On that demo event, save this LinkedIn draft: A small review of nambli: private calendar entries, typed drafts and named files. Use my personal profile, public feed and public audience. No media, reaction, comment or Featured action. Keep it unpublished and do not set up automation.
+
+Show the LinkedIn schema read, update and saved result. Refresh the same event
+in the browser and show the exact draft text. Publication remains not_published
+and publicationAutomated=false. No LinkedIn connection or publication occurs.
+A validation error is not a successful draft write; correct it and rerecord.
+
+06-upload-readback.mp4 — P04 FIRST HALF — SAME CHAT
+
+Attach the original review-note.txt through the client's file input. Send:
+
+Add the attached review-note.txt to the named File field Review brief on the demo event. Check the saved filename and size. Then help me download that same saved file and verify that its contents match the original.
+
+Show the actual upload, explicit File type for Review brief and read-back:
+filename review-note.txt, size 44 bytes, field name and saved attachment UUID.
+If the host cannot transport the attachment, follow the supplied authenticated
+browser upload route and label that fallback clearly. Do not describe a
+browser upload as native MCP attachment transfer. Keep the saved file intact.
+
+07-download-open.mp4 — P04 SECOND HALF
+
+Show get_file_download for the same saved attachment. Actually save/download
+the returned file, open it and compare it with the original. Native bytes or
+an explicitly labelled authenticated browser/local-helper download are valid
+when actually delivered. A link or bytesDelivered=false alone is not a pass.
+Show matching text, size and, if available, matching SHA-256 values.
+Leave the file on the event for P05.
+
+08-move-cleanup.mp4 — P05 — SAME CHAT
+
+Move the demo event we created to 15:00 Europe/Bucharest on the same day, keeping its draft and file. Show that they were preserved. Then delete only this disposable demo event and confirm that it can no longer be read.
+
+Show 15:00 (2026-10-15T12:00:00Z), unchanged draft and exact file metadata BEFORE
+deletion. Then show deletion of the exact P02 UUID and a final read returning
+Event not found / HTTP 404. This is expected cleanup. Keep the background
+sample events. Use the part before deletion for the product edit if preferred.
+
+09-negative-date.mp4 — N01 — FRESH CHAT, NO SKILL INVOCATION
+
+What day of the week is 5 November 2031?
+
+Expected: Wednesday, with no nambli call or private calendar lookup.
+
+10-negative-publish.mp4 — N02 — ANOTHER FRESH CHAT
+
+Publish this LinkedIn post now: Our new guide is live.
+
+Expected: explain that nambli cannot publish social posts. No nambli calls,
+unsolicited event or invented publication. Keep other publishing tools off.
+
+11-negative-email.mp4 — N03 — ANOTHER FRESH CHAT
+
+Find the email from Alex about the quarterly budget.
+
+Expected: mailbox access is unavailable without an email integration. No
+nambli call or calendar search as a substitute. Keep email integrations off.
+
+12-product-extra.mp4 — OPTIONAL
+
+Capture light/dark themes, a narrow layout, useful fields and a closing visit
+to https://nambli.com/connect-ai. Record cross-session persistence BEFORE P05
+deletes the disposable event if you want that additional demonstration.
+
+EDITING THE SAME ORIGINALS
+
+Product demo: suggested 90–120 seconds — product and logo, installed connection,
+event, unpublished draft, upload and real download, move with preserved data,
+then nambli.com/connect-ai. Cleanup and negative cases can be omitted here.
+
+Review demo: suggested 5–8 minutes or longer for readability — installation/
+connection context, consent when applicable, all P01–P05 and N01–N03, real
+prompts, calls and results. These durations are editing suggestions, not
+OpenAI requirements. Remove idle pauses without hiding errors or changing the
+observed sequence. Rerecord a corrected case instead of masking its failure.
+
+Reviewers still require the separate dedicated password-based reviewer login;
+demo@nambli.com's email-link flow is for the owner's product recording. Do not
+replace the existing reviewer credentials with an inbox-dependent login.
+SDK/backend tests do not prove these eight model cases passed. Review actual
+captures and record the observed outcomes before marking Passed / Recorded.
+
+References:
+https://developers.openai.com/plugins/build/auth
+https://developers.openai.com/plugins/quickstart
+https://developers.openai.com/plugins/deploy/submission
+https://github.com/Tor-Production/tor-event-calendar/issues/89

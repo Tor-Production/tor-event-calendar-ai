@@ -37,7 +37,7 @@
     "termsOfServiceURL": "https://nambli.com/terms",
     "defaultPrompt": [
       "Use nambli to show today's events in my connected account.",
-      "Use nambli to create a project meeting tomorrow at 09:30 in Europe/Kyiv.",
+      "Use nambli to create a project meeting tomorrow at 09:30 in Europe/Bucharest.",
       "Use nambli to prepare a Reddit draft and ask for missing content."
     ],
     "brandColor": "#6B7CFF",

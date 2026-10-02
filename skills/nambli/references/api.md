@@ -17,7 +17,7 @@ See [complete OpenAPI](openapi.json) for routes and schemas; load it only for di
 Create example for a generic appointment (no platform questions):
 
 ```json
-{"id":"28bba1c3-0300-4c15-b40a-c3dcc1bd0df4","title":"Project meeting","scheduledAt":"2026-10-12T14:00:00+03:00","timeZone":"Europe/Kyiv","customFields":{"approved":true},"customFieldTypes":{"approved":"Boolean"}}
+{"id":"28bba1c3-0300-4c15-b40a-c3dcc1bd0df4","title":"Project meeting","scheduledAt":"2026-10-12T14:00:00+03:00","timeZone":"Europe/Bucharest","customFields":{"approved":true},"customFieldTypes":{"approved":"Boolean"}}
 ```
 
 Run `plan event.json`, then `create event.json` for a complete ready plan. Planner input can instead have `localDate` (exact date/today/tomorrow/next weekday), `localTime` (24-hour time), `timeZone` and `utcOffset` for an overlap. The API accepts exact ISO instants only; the CLI serializes local inputs. The API preserves legacy unknown timezone values; interactive client creation requires explicit or saved zone/time. All-day events are not supported. On timeout keep the generated/supplied exact UUID, inspect it and reuse it; never create a new ID to retry uncertain creation. Same UUID/data is idempotent; different data is 409.
