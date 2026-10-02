@@ -155,4 +155,4 @@ From a clean checkout run `npm ci --ignore-scripts`, `npm test`, create `dist/`,
 
 ## Plugin development workspace
 
-All ecosystem plugins live in this repository; the private calendar repository owns the server. See [ecosystem ownership and task map](ecosystems/README.md). Shared upload/download recovery is documented in [file workflow](skills/tor-event-calendar/references/files.md), including setup when no connector is installed. Source download support is pending release/deployment; existing 0.2.3 review and released 0.2.4 artifacts are preserved.
+All ecosystem plugins live in this repository; the private calendar repository owns the server. See [ecosystem ownership and task map](ecosystems/README.md). Shared upload/download recovery is documented in [file workflow](skills/tor-event-calendar/references/files.md), including setup when no connector is installed. Server download support is deployed on nambli.com; the public 0.3.0 package is a prepared candidate awaiting recorded host acceptance, final videos and owner publication decisions. The existing 0.2.3 review and released 0.2.4 artifacts are preserved.

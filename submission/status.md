@@ -1,6 +1,16 @@
 # nambli 0.3.0 preparation — 2 October 2026
 
-New source/package identity for https://nambli.com/mcp. Technical package preparation only: not submitted or published in the OpenAI catalog. Old Nembli 0.2.3 review cancellation is still unverified; no deletion workaround. Existing released v0.2.4 assets and earlier evidence below remain unchanged. Exactly five positive and three negative cases are prepared; live target execution and new videos remain pending. New origin requires a separately registered app and new consent; it does not inherit old review/ownership proofs. Legal attestations and final catalog submission require the owner.
+New source/package identity for https://nambli.com/mcp. Technical package preparation only: not submitted or published in the OpenAI catalog. Old Nembli 0.2.3 review cancellation is blocked by the portal; no deletion workaround. Existing released v0.2.4 assets and earlier evidence below remain unchanged. Exactly five positive and three negative cases are prepared; recorded model execution and new videos remain pending. New origin requires a separately registered app and new consent; it does not inherit old review/ownership proofs. Legal attestations and final catalog submission require the owner.
+
+## Current technical evidence — 2 October 2026
+
+- Production server 1.4.0 at `https://nambli.com/mcp` is deployed from calendar main `c65f3025dab2e4d4b57054346fe202787a4aca23`, Worker version `083c3308-8819-4d3c-ab53-6109e7031582`. The original gradient n logo is retained; only the lowercase wordmark uses Nambli Bold 0.7.3.
+- Google Branding is verified and is being shown to users. The actual Google account chooser now displays **Nambli** and the canonical privacy/terms links. Search Console reports the new sitemap as **Success**, with six discovered pages; both properties and the Change of Address are confirmed. Discovered pages are not an indexing receipt. The requested next-day retry timer was removed after verification completed.
+- A reserved synthetic reviewer passed fresh browser PKCE/consent and the official MCP SDK's protocol `2026-07-28` flow: account read, typed unpublished draft, authenticated upload, resource-byte and fallback download, saved/opened text with matching SHA-256, move retaining the exact file, and exact fixture cleanup. The test grant was revoked. This is backend/SDK evidence, separate from the eight model review cases.
+- VS Code 1.120.0 opened the native install URL and installed the HTTP server named **nambli** into a separate test user-data profile. After the earlier registration rate-limit window elapsed, a fresh start advanced to the normal nambli.com authentication prompt without a manually supplied client ID. Browser consent, native tool execution and refresh are still pending. Cursor and VS Code Insiders links are prepared; their native execution has not been recorded.
+- The public guide provides direct Cursor, VS Code and Insiders install links alongside manual setup. Account selection and consent remain explicit. No public OpenAI/Claude directory install URL is claimed.
+
+Remaining gates: native-host/model review evidence, final owner videos, new-origin portal registration/scans, publisher/legal attestations and authorized catalog submission. The old review remains **In review / Not published**; its cancellation dialog says **“Review is no longer available to cancel”** and disables confirmation.
 
 ## Historical record (original text retained)
 
