@@ -38,3 +38,5 @@ try{
   await assert.rejects(installSkill('codex',{directory:path.join(directory,'occupied')}),{code:'UNOWNED_SKILL'});
   console.log(JSON.stringify({result:'PASS',directoryAdapters:6,isolatedProfiles:4,credentialExposure:false,nativeClientExecution:false,productionRequests:0}));
 }finally{await rm(directory,{recursive:true,force:true});}
+
+await import('./test-download.mjs');

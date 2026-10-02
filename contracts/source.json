@@ -1,0 +1,16 @@
+{
+  "sourceRepository": "Tor-Production/tor-event-calendar",
+  "sourceCommit": "2ab768fd0b0904ddd3360001991338a57ce85e29",
+  "sourceDirty": false,
+  "schemaVersion": "2026-09-28.1",
+  "files": {
+    "src/time.mjs": "fdc2be7104a52ab55a36d09575c959c92c9c4418910c03d75466b5f3c3cf854e",
+    "src/time.d.mts": "6f5264bf526b69ef9436d8e1280db7b53dd86c7097f50c1ff6651473b410c4dd",
+    "src/plan.mjs": "b92a6f4805ba61a77d309e5e96114e0c440e218f1a6540c15b3c92cb25f826e0",
+    "src/plan.d.mts": "f35e42c753abafcde3947f2fd9f520bccbac4ee0601a8ca8ac605cd589eca136",
+    "src/platforms.mjs": "da20dda0b85a7e74e6bda4278e8daa806ff3987499d114045165254360420c4c",
+    "src/platforms.d.mts": "9da380f74bd037904110821576ffc875c65bdc2764e19c91d5ce7184feb529d9",
+    "src/api-contract.mjs": "afc6c8e51937da044f5fca6a4b323d21626954cc020b044fdb0ba88544a147bb",
+    "skills/tor-event-calendar/references/openapi.json": "3e58b11227f127264cafdc8932837932148134bbd55a20debba24e16723f88ff"
+  }
+}
