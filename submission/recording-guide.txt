@@ -1,9 +1,14 @@
-nambli recording guide — 2 October 2026
+nambli recording script — 3 October 2026
 One set of original clips for product and plugin-review edits.
 Candidate: 0.3.0. Website: https://nambli.com. MCP: https://nambli.com/mcp.
 All prompts and interface text in English. Demo timezone: Europe/Bucharest.
-This is a recording plan. The eight model cases remain Not run / Not recorded
-until their real client execution and captures have been checked.
+The current edited videos are already live. Three parts need new footage:
+P03 (successful saved draft, with the preserved draft visible again in P05),
+P04 (real saved-file download/open/compare), and N02 (no calendar call).
+For the clearest review evidence, record the full sequence below in one sitting.
+If only replacing parts, recreate ONE disposable event with P02, then record
+P03, P04 and P05 on that exact event; record N02 in its own fresh chat.
+The earlier failures remain honest historical evidence until replaced.
 
 BEFORE RECORDING
 
@@ -33,6 +38,8 @@ only covers P01. The host may also request offline_access for token refresh.
 For N01–N03, start a fresh chat for EACH case, leave nambli enabled, and do not
 invoke $nambli. Disable separate email and social-publishing integrations for
 these three tests so their legitimate tools do not obscure nambli's boundary.
+Also disable the old Tor Event Calendar / Nembli test integration for these
+tests. Keep the current nambli plugin enabled. Do not select $nambli for them.
 
 Download https://nambli.com/media/review-note.txt and keep the original.
 It is 44 bytes: nambli review fixture. Synthetic text only. followed by LF.
@@ -119,6 +126,17 @@ an explicitly labelled authenticated browser/local-helper download are valid
 when actually delivered. A link or bytesDelivered=false alone is not a pass.
 Show matching text, size and, if available, matching SHA-256 values.
 Leave the file on the event for P05.
+
+If the client returns a browser fallback, open its authenticated nambli link,
+select the Review brief attachment, and click Download file. Save a second copy
+as review-note-downloaded.txt. Open that downloaded copy in a text editor;
+its one line must read: nambli review fixture. Synthetic text only.
+Do not substitute the source file or stop after showing the download link.
+For visible byte verification, run these commands in your own PowerShell,
+using the actual two saved paths if Downloads has a different location:
+Get-Item -LiteralPath "$env:USERPROFILE\Downloads\review-note.txt", "$env:USERPROFILE\Downloads\review-note-downloaded.txt" | Select-Object Name, Length
+Get-FileHash -Algorithm SHA256 -LiteralPath "$env:USERPROFILE\Downloads\review-note.txt", "$env:USERPROFILE\Downloads\review-note-downloaded.txt" | Select-Object Path, Hash
+Both must be 44 bytes and have the SHA-256 shown above. Record that result.
 
 08-move-cleanup.mp4 — P05 — SAME CHAT
 
