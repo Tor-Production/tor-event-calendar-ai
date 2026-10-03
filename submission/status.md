@@ -1,4 +1,14 @@
-# nambli 0.3.0 preparation — 2 October 2026
+# nambli 0.3.0 package and catalog readiness — 3 October 2026
+
+## Current update — 3 October 2026
+
+GitHub package release 0.3.0 is separate from the unpublished OpenAI listing. The updated recording guide gives exact English steps, Bucharest times and file hash verification. The original logo is preserved. The private calendar deployed permanent public HTTP navigation redirects and corrected its current README through PR #110; 48 live GET/HEAD checks passed, canonical pages returned 200, and both retained HTTPS OAuth issuers and no-redirect API aliases passed. The old domain's existing edge HTTPS upgrade adds one permanent hop before its canonical public redirect. Physical mobile browser execution is not established by these HTTP checks.
+
+The new review edit (3:44) and product edit (1:37) are live through calendar PR #108. Recorded P01, P02, N01 and N03 passed in the supplied footage. P03 failed draft validation; P04 did not finish the later saved-file download/open/compare; P05 preserved the file but could not prove a draft that was not saved; N02 invoked the old test integration. Retake P03/P04/P05 on one disposable UUID and N02 in a fresh chat with the legacy integration disabled. The current skill reference now explains the nested LinkedIn settings returned by the live schema. These corrected model cases are not marked passed merely because backend tests passed.
+
+The old Nembli 0.2.3 portal entry is still In review / Not published. Its cancellation dialog again says “Review is no longer available to cancel”; it was left intact. New nambli-origin submission remains a separate identity and requires corrected footage and the human developer's legal/policy attestations. An incomplete upload is not represented as submission-ready.
+
+The entries below are dated evidence from 2 October. Their then-pending video and release status is superseded only by the specific updates above; native refresh, other native hosts and catalog approval are not inferred from source checks.
 
 New source/package identity for https://nambli.com/mcp. Technical package preparation only: not submitted or published in the OpenAI catalog. Old Nembli 0.2.3 review cancellation is blocked by the portal; no deletion workaround. Existing released v0.2.4 assets and earlier evidence below remain unchanged. Exactly five positive and three negative cases are prepared; recorded execution of these eight cases and new videos remain pending. New origin requires a separately registered app and new consent; it does not inherit old review/ownership proofs. Legal attestations and final catalog submission require the owner.
 
