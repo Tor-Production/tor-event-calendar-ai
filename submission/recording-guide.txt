@@ -4,9 +4,10 @@ Candidate: 0.3.2. Website: https://nambli.com. MCP: https://nambli.com/mcp.
 All prompts and interface text in English. Demo timezone: Europe/Bucharest.
 All eight workflows are already in the current English review video; no retake
 is currently requested. Use this script for future verification or recording.
-The final public package requires a fresh N02 refusal with no nambli call;
-the existing filmed refusal includes read-only checks. Record test outcomes
-separately from video coverage, and identify the exact installed version.
+All eight native review cases now pass against the exact public package,
+including a fresh N02 refusal with no nambli call. The existing filmed refusal
+includes read-only checks. Keep native test outcomes separate from video
+coverage, and identify the exact installed version in future runs.
 
 BEFORE RECORDING
 

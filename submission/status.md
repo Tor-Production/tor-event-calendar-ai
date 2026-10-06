@@ -1,4 +1,4 @@
-# nambli 0.3.2 package and catalog readiness — 6 October 2026
+# nambli 0.3.2 package and catalog readiness — 7 October 2026
 
 GitHub package distribution and OpenAI catalog submission are separate. The release source synchronizes root, Codex, Claude and optional CLI versions to 0.3.2, preserves the original artwork, and includes selected-account guidance without owner-private app bindings. Earlier tags/assets remain unchanged. The historical 3 October record is preserved in the [v0.3.0 source](https://github.com/Tor-Production/tor-event-calendar-ai/blob/v0.3.0/submission/status.md).
 
@@ -16,9 +16,13 @@ All eight workflows appear in the updated English [review video](https://nambli.
 
 The filmed P04 fixture was 108 bytes; the reusable public fixture is 44 bytes. A new run must compare its own actual input/output, not a copied historical size/hash. N02 records a refusal to share anonymously after read-only checks. It therefore does not prove the final package's stricter zero-nambli-invocation expectation. Videos also do not establish the exact installed public package version. Record real exact-package test outcomes separately instead of inferring them from backend checks or the walkthrough.
 
-Codex CLI 0.155.1 discovers the exact unmodified public package's nambli MCP tools through deferred tool metadata. The portable root `mcp.json` works; no speculative manifest pointer change is needed. Discovery alone does not verify the selected account, OAuth completion, calendar operations or token refresh.
+Codex CLI 0.155.1 discovers the exact unmodified public package's nambli MCP tools through deferred tool metadata. The portable root `mcp.json` works; no speculative manifest pointer change was needed. The isolated native run now verifies all eight cases: P01–P05 and N01–N03. N01–N03 each completed with zero nambli calls, independently establishing the stricter N02 boundary that the video alone did not prove. P04 downloaded the real 44-byte attachment through the native flow and verified its SHA-256 against the input.
 
-Outstanding acceptance at this dated snapshot: exact-version host review tests, post-restart VS Code 1.140 tool use, native Cursor/Insiders checks, and refresh only if `offline_access` is actually requested and granted. A VS Code 1.120 connection previously discovered 16 tools and Copilot successfully called `get_profile`; that does not establish the later client results. The developer completes the six final legal declarations; review submission and publication follow separately.
+A fresh connection with the necessary grant also passed natural access-token expiry and OAuth refresh after more than 15 minutes. This is observed native refresh evidence, not an inference from advertised metadata. After the server-only guidance fix in calendar [PR #121](https://github.com/Tor-Production/tor-event-calendar/pull/121), strict P02 and P03 read-back passed. P03 verifies the exact canonical `post_text`, String `social_network: LinkedIn`, and JSON `publication_draft_settings` with the requested personal/public-feed/public audience choices and no reaction, comment or Featured action. The stable event ID and 11:00Z / 14:00 Europe/Bucharest start are preserved; `publicationStatus: not_published`, `publicationAutomated: false` and active `publishingSettings: null` are correct. The exact public package and frozen Portal ZIP remain unchanged, and the final Portal scan still reports no issues across all 16 tools.
+
+The separate native IDE matrix is still open: post-restart VS Code 1.140 tool use and Cursor/Insiders execution remain unverified. A VS Code 1.120 connection previously discovered 16 tools and Copilot successfully called `get_profile`; that does not establish the later client results. These IDE checks do not block GitHub package distribution. The developer's six legal declarations, final review submission and store publication remain separate steps.
+
+Search Console confirms that all six public sitemap pages are indexed. Indexing does not guarantee ranking; HTTP-only checks do not establish physical-mobile browser acceptance.
 
 ## Release validation
 
