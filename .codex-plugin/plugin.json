@@ -1,6 +1,6 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "Manage a connected private calendar through a remote MCP server and explicitly invoked skill.",
   "author": {
     "name": "Tor Production",
@@ -24,7 +24,7 @@
   "interface": {
     "displayName": "nambli",
     "shortDescription": "Manage your private calendar",
-    "longDescription": "Connect a verified calendar account through browser sign-in, then use the remote MCP server and an explicitly invoked skill to find events, create meetings, prepare platform-specific drafts, move appointments and manage file links. Account access is scoped to the selected calendar account. Calendar writes never publish or schedule social posts. The local CLI remains an optional advanced route.",
+    "longDescription": "Connect your private nambli calendar through browser sign-in, choose the intended account, and invoke the skill to find events, create meetings, prepare platform-specific drafts, move appointments and manage named File fields. Account access stays scoped to the selected calendar connection. Host account controls let you add another account without replacing existing connections. Saved drafts remain unpublished; calendar writes never publish or schedule social posts. The hosted MCP connection needs no local runtime. An optional local CLI is included for advanced users who explicitly choose it.",
     "developerName": "Tor Production",
     "category": "Productivity",
     "capabilities": [

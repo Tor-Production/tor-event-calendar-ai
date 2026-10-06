@@ -59,6 +59,41 @@ def main():
                 raise AssertionError(f'Combined plugin does not contain the standalone skill: {name}')
 
         manifest = json.loads(archive.read('plugin.json'))
+        codex_manifest = json.loads(archive.read('.codex-plugin/plugin.json'))
+        claude_manifest = json.loads(archive.read('.claude-plugin/plugin.json'))
+        package_lock = json.loads(archive.read('package-lock.json'))
+        for companion in (codex_manifest, claude_manifest):
+            if companion['version'] != VERSION or companion['name'] != manifest['name']:
+                raise AssertionError('Host plugin identity/version differs from package.json')
+        if package_lock['version'] != VERSION or package_lock['packages']['']['version'] != VERSION:
+            raise AssertionError('Lockfile version differs from package.json')
+        for public_manifest in (manifest, codex_manifest, claude_manifest):
+            if ('apps' in public_manifest
+                    or 'apps' in public_manifest.get('extensions', {}).get('com.openai', {})):
+                raise AssertionError('Public release must not contain owner-private app bindings')
+        if any(name.endswith('.app.json') or 'PRIVATE-ACCOUNT-SETUP' in name for name in names):
+            raise AssertionError('Public release contains a private account setup file')
+        skill_text = archive.read('skills/nambli/SKILL.md').decode('utf-8')
+        if 'disable-model-invocation: true' not in skill_text:
+            raise AssertionError('Skill must remain explicitly invoked')
+        if 'allow_implicit_invocation: false' not in archive.read('skills/nambli/agents/openai.yaml').decode('utf-8'):
+            raise AssertionError('Codex implicit skill invocation must remain disabled')
+        submission = json.loads(archive.read('submission/chatgpt-app-submission.json'))
+        review = manifest['extensions']['com.openai']['review']['test_cases']
+        if len(review['positive']) != 5 or len(review['negative']) != 3:
+            raise AssertionError('Review must contain exactly five positive and three negative cases')
+        for cases, key in ((review['positive'], 'test_cases'),
+                           (review['negative'], 'negative_test_cases')):
+            field_map = {'prompt': 'user_prompt', 'expected_behavior': 'expected_output'}
+            adapted = [{field_map.get(field, field): value
+                        for field, value in case.items()} for case in cases]
+            if key == 'negative_test_cases':
+                for case in adapted:
+                    case['expected_output'] = case['description']
+            if submission[key] != adapted:
+                raise AssertionError('Submission case metadata differs from the root plugin')
+        if submission['tools']['move_event']['annotations']['destructiveHint'] is not True:
+            raise AssertionError('Moving an event overwrites its previous schedule')
         mcp = json.loads(archive.read('mcp.json'))['mcpServers']['nambli']
         legacy_mcp = json.loads(archive.read('.mcp.json'))['mcpServers']['nambli']
         site = json.loads(archive.read('docs/install-config.json'))

@@ -2,7 +2,7 @@
 
 Connect Claude Code to your calendar at `https://nambli.com/mcp`, approve the intended account in your browser, then verify it with `get_profile`. A skill alone cannot connect an account. Calendar writes save drafts; they never publish LinkedIn posts or send email.
 
-Implementation: [#69](https://github.com/Tor-Production/tor-event-calendar/issues/69). Native verification and subsequent fixes: [#79](https://github.com/Tor-Production/tor-event-calendar/issues/79). Shared file guidance/download: [#65](https://github.com/Tor-Production/tor-event-calendar/issues/65) / [#66](https://github.com/Tor-Production/tor-event-calendar/issues/66). This source is an unreleased development change; existing v0.3.0 assets and the OpenAI submission are unchanged.
+Implementation: [#69](https://github.com/Tor-Production/tor-event-calendar/issues/69). Native verification and subsequent fixes: [#79](https://github.com/Tor-Production/tor-event-calendar/issues/79). Shared file guidance/download: [#65](https://github.com/Tor-Production/tor-event-calendar/issues/65) / [#66](https://github.com/Tor-Production/tor-event-calendar/issues/66). Version 0.3.2 includes this source integration. Source/package validation does not establish the separate native acceptance result; existing v0.3.0 assets and the OpenAI submission are unchanged.
 
 ## Supported host
 
@@ -34,7 +34,7 @@ claude plugin marketplace add "Tor-Production/tor-event-calendar-ai#codex/featur
 claude plugin install tor-event-calendar-ai@nambli --scope local
 ```
 
-Run the install from the project where you want it enabled. If a Claude marketplace named `nambli` already exists, inspect its registered source in `/plugin` first; update the intended source deliberately instead of removing it or other installed plugins. After merge, a maintainer can use `#develop` for development. Use a later reviewed release ref for stable installation when it exists; v0.3.0 does not contain this new Claude marketplace file. The existing Codex marketplace is separate and unchanged.
+Run the install from the project where you want it enabled. If a Claude marketplace named `nambli` already exists, inspect its registered source in `/plugin` first; update the intended source deliberately instead of removing it or other installed plugins. After merge, a maintainer can use `#develop` for development. Use the reviewed `v0.3.2` release ref for this source distribution. The existing Codex marketplace is separate and unchanged.
 
 Refresh an intentionally selected development marketplace with `claude plugin marketplace update nambli`, then `claude plugin update tor-event-calendar-ai@nambli`. Start a fresh session. Local `--plugin-dir` testing reads the source directly; hosted plugin updates remain subject to version pinning, so use `--plugin-dir` when checking unversioned development edits. Refreshing a package does not transfer OAuth grants or choose an account.
 
@@ -80,7 +80,7 @@ The [Claude Code workflow](../../skills/nambli/references/claude-code.md) contai
 
 Do not equate attachment metadata, an authenticated action link, or server file capability flags with bytes in Claude's context. Use synthetic files for checks. The browser fallback performs its own account and event verification and enforces 25 MiB per file; it does not consume a local path from the chat.
 
-The [shared download contract](download-contract.json) records #66's exact inputs and delivery choices. Discover `get_file_download` in your current session and pass `eventId`, `eventRevision`, `attachmentId`, and the exact `fieldName`. The response has `bytesDelivered: false`, an authenticated `browserUrl`, and a resource link only for files at most 512 KiB. Use connected `resources/read` only when Claude Code actually makes it available; otherwise open `browserUrl` and choose **Download file**. A missing tool means the current server/host has not exposed it: refresh and use the authenticated event editor's filename download meanwhile. The new helper `download` command also requires a version/source containing #66; v0.3.0 does not provide it. Native resource delivery remains unverified until #79.
+The [shared download contract](download-contract.json) records #66's exact inputs and delivery choices. Discover `get_file_download` in your current session and pass `eventId`, `eventRevision`, `attachmentId`, and the exact `fieldName`. The response has `bytesDelivered: false`, an authenticated `browserUrl`, and a resource link only for files at most 512 KiB. Use connected `resources/read` only when Claude Code actually makes it available; otherwise open `browserUrl` and choose **Download file**. A missing tool means the current server/host has not exposed it: refresh and use the authenticated event editor's filename download meanwhile. The helper `download` command is included in the 0.3.2 source/tarball; check its installed version before use. Native resource delivery remains unverified until #79.
 
 ## Validation and disposable draft
 

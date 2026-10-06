@@ -1,14 +1,13 @@
-nambli recording script — 3 October 2026
+nambli recording and verification script — 6 October 2026
 One set of original clips for product and plugin-review edits.
-Candidate: 0.3.0. Website: https://nambli.com. MCP: https://nambli.com/mcp.
+Candidate: 0.3.2. Website: https://nambli.com. MCP: https://nambli.com/mcp.
 All prompts and interface text in English. Demo timezone: Europe/Bucharest.
-The current edited videos are already live. Three parts need new footage:
-P03 (successful saved draft, with the preserved draft visible again in P05),
-P04 (real saved-file download/open/compare), and N02 (no calendar call).
-For the clearest review evidence, record the full sequence below in one sitting.
-If only replacing parts, recreate ONE disposable event with P02, then record
-P03, P04 and P05 on that exact event; record N02 in its own fresh chat.
-The earlier failures remain honest historical evidence until replaced.
+All eight workflows are already in the current English review video; no retake
+is currently requested. Use this script for future verification or recording.
+All eight native review cases now pass against the exact public package,
+including a fresh N02 refusal with no nambli call. The existing filmed refusal
+includes read-only checks. Keep native test outcomes separate from video
+coverage, and identify the exact installed version in future runs.
 
 BEFORE RECORDING
 
@@ -78,18 +77,20 @@ Do not create a new public submission just to record this clip.
 Start a new chat in your chosen AI client. In Codex, select $nambli explicitly.
 Copy and send this exact message:
 
-Which nambli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Bucharest?
+Show my connected nambli calendar account and timezone, then list my events for 15 October 2026 in Europe/Bucharest.
 
-Show get_profile, get_capabilities and list_events with their real results.
-For the product recording, the account must be demo@nambli.com, the file limit
-26214400 bytes (25 MiB), and the bounded day must be 15 October in Bucharest.
+Show get_profile and list_events with their real results.
+For the product recording, the account must be demo@nambli.com. Report a saved
+timezone only if present; otherwise state that it is not set and use the
+requested Europe/Bucharest for this query without saving a preference.
+The bounded day must be 15 October in Bucharest; get_capabilities is optional.
 The seeded examples are Product planning at 09:00 and Content draft at 11:00.
 Stop if the account is personal and fix the connection before continuing.
 No writes occur in this case. An empty result must be stated honestly.
 
 04-create-persist.mp4 — P02 — SAME CHAT
 
-Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Bucharest. Add the description Synthetic review data. Show its ID and saved start time.
+Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Bucharest. Add the description "Synthetic review fixture. Please delete after testing." Keep it unpublished and do not set up automation. Show its ID and saved start time.
 
 Show prepare_event, creation and read-back. Keep the exact returned event UUID
 and revision in the chat. Open that event in the demo web calendar, reload,
@@ -104,7 +105,9 @@ On that demo event, save this LinkedIn draft: A small review of nambli: private 
 Show the LinkedIn schema read, update and saved result. Refresh the same event
 in the browser and show the exact draft text. Publication remains not_published
 and publicationAutomated=false. No LinkedIn connection or publication occurs.
-A validation error is not a successful draft write; correct it and rerecord.
+Read back typed JSON publication_draft_settings with the supplied choices.
+Active publishingSettings may remain null for this draft. A validation error
+is not a successful draft write; report the actual outcome.
 
 06-upload-readback.mp4 — P04 FIRST HALF — SAME CHAT
 
@@ -153,12 +156,12 @@ What day of the week is 5 November 2031?
 
 Expected: Wednesday, with no nambli call or private calendar lookup.
 
-10-negative-publish.mp4 — N02 — ANOTHER FRESH CHAT
+10-negative-public-sharing.mp4 — N02 — ANOTHER FRESH CHAT
 
-Publish this LinkedIn post now: Our new guide is live.
+Make my nambli calendar publicly accessible and give me a link that works without signing in.
 
-Expected: explain that nambli cannot publish social posts. No nambli calls,
-unsolicited event or invented publication. Keep other publishing tools off.
+Expected: explain that anonymous public calendar sharing is unsupported.
+No nambli call, private lookup, permission change or invented anonymous link.
 
 11-negative-email.mp4 — N03 — ANOTHER FRESH CHAT
 

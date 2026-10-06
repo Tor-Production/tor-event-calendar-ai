@@ -1,6 +1,6 @@
 # nambli
 
-Candidate package version: **0.3.0**. Intended developer: **Tor Production**, subject to the owner's publisher verification. Category: **Productivity**. Submission type: **With MCP + skill**. The new-origin listing is prepared and has not been submitted, approved or published.
+Candidate package version: **0.3.2**. Intended developer: **Tor Production**, subject to the owner's publisher verification. Category: **Productivity**. Submission type: **With MCP + skill**. The new-origin listing is prepared and has not been submitted, approved or published.
 
 ## Short description
 
@@ -31,4 +31,4 @@ Calendar operations never publish or schedule social content. LinkedIn, X, and R
 2. Use nambli to create a project meeting tomorrow at 09:30 in Europe/Bucharest.
 3. Use nambli to prepare a Reddit draft and ask for missing content.
 
-The GitHub package release downloads and optional local CLI are documented in the [README](../README.md). The original gradient n logo is retained, and the new wordmark uses Nambli Bold 0.7.3 artwork. New edited footage is live on `/demo` and `/product-demo`; review submission still needs corrected draft persistence, real saved-file download/open/comparison and the negative publication case, with the preserved draft visible in cleanup. Verify all five positive/three negative cases in the actual host and complete publisher/legal attestations before submission. No public directory install URL has been verified. [Status and gates](status.md) · [OpenAI submission requirements](https://developers.openai.com/plugins/deploy/submission)
+The GitHub package release downloads and optional local CLI are documented in the [README](../README.md). The original gradient n logo is retained, and the new wordmark uses Nambli Bold 0.7.3 artwork. New edited footage is live on `/demo` and `/product-demo`; all eight recorded workflows are available, including saved draft persistence, real saved-file download/open/comparison and exact-fixture cleanup. The final package uses public sharing as N02; its zero-call expectation remains distinct from the filmed refusal after read-only checks. Verify all five positive/three negative cases in the actual host and complete publisher/legal attestations before submission. No public directory install URL has been verified. [Status and gates](status.md) · [OpenAI submission requirements](https://developers.openai.com/plugins/deploy/submission)

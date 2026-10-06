@@ -1,67 +1,71 @@
-# nambli 0.3.0 candidate test cases
+# nambli 0.3.2 review test cases
 
-Prepared source; new live target outcomes are Not run until recorded. Exactly five positive and three negative cases. #89 owns matching silent captures.
+Exactly five positive and three negative cases, matching `plugin.json`. The current walkthrough covers all eight workflows at https://nambli.com/demo. Recorded workflows, exact-package native tests, and server checks are distinct evidence; see [status](status.md).
 
 ## P01
 
-Read the connected demo account and a bounded day. Setup: authorize the dedicated reviewer account; no seeded events are required. Return only events owned by that account.
+P01 — Read the selected connected account, its saved timezone if present, and a bounded day. Setup: authorize a dedicated reviewer account. No seeded event is required. No writes.
 
-> Which nambli account is connected, what file size can it accept, and what is on its calendar on 15 October 2026 in Europe/Bucharest?
+> Show my connected nambli calendar account and timezone, then list my events for 15 October 2026 in Europe/Bucharest.
 
-Expected: get_profile identifies the grant-bound account. get_capabilities reports fileBytes=26214400. list_events uses localDate=2026-10-15 and timeZone=Europe/Bucharest, or the equivalent half-open ISO range. Every listed item falls in that day; an empty result is stated honestly. No writes.
+Tools: get_profile, list_events
+
+Expected: get_profile identifies the selected grant-bound account and reports its saved timezone if present. If no timezone is saved, say so and use the explicitly requested Europe/Bucharest for this query without changing preferences. list_events uses localDate=2026-10-15 and timeZone=Europe/Bucharest, or the equivalent half-open ISO range. Return only that account’s events within the requested day; state an empty result honestly. No get_capabilities call is required and no private writes occur.
 
 ## P02
 
-Create one disposable event at an exact local time. Setup: reviewer account with calendar.manage. Keep the returned UUID and revision for cases 3–5 in the same conversation. Repeated runs may have the same title; never infer identity from title alone.
+P02 — Create one disposable event at an exact local time. Setup: reviewer account with calendar.manage. Retain the returned stable UUID and latest revision for P03–P05 in the same conversation. Repeated titles do not establish identity.
 
-> Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Bucharest. Add the description Synthetic review data. Show its ID and saved start time.
+> Create a nambli event titled nambli reviewer demo on 15 October 2026 at 14:00 Europe/Bucharest. Add the description "Synthetic review fixture. Please delete after testing." Keep it unpublished and do not set up automation. Show its ID and saved start time.
 
-Expected: Prepare the explicit title, instant and IANA timezone; reuse the prepared UUID for creation/retry. Exactly one new owned event is created. Description is a typed String. Return its UUID, revision, saved instant and local start time. No end-time, social publication or automation is invented.
+Tools: get_profile if needed, prepare_event, create_event, get_event
+
+Expected: Prepare the title nambli reviewer demo, 2026-10-15 at 14:00 Europe/Bucharest, and description "Synthetic review fixture. Please delete after testing." with explicit String type. Reuse the prepared stable UUID and identical payload for creation or retry. Exactly one owned event is created. Read back its UUID, revision, saved instant 2026-10-15T11:00:00Z (or equivalent offset) and local start. Keep publicationStatus=not_published and publicationAutomated=false. Do not invent an end time, social publication or automation.
 
 ## P03
 
-Store a complete LinkedIn draft on the event UUID from case 2. All platform choices are supplied. This is a draft-only workflow; it does not require or create a LinkedIn connection.
+P03 — Store a complete unpublished LinkedIn draft on the exact event UUID from P02. All platform choices are supplied. This draft-only workflow does not require or create a LinkedIn connection.
 
 > On that demo event, save this LinkedIn draft: A small review of nambli: private calendar entries, typed drafts and named files. Use my personal profile, public feed and public audience. No media, reaction, comment or Featured action. Keep it unpublished and do not set up automation.
 
-Expected: Read the LinkedIn schema and latest event revision. Preserve the event identity and start; store social_network and post text with explicit String types. Valid publishing settings use actor.kind=personal, destination.kind=public_feed, audience=public, reaction=none, firstComment=null and featured=false. The event remains not_published with publicationAutomated=false; no social calls or scheduler claims. A validation error must be explained, not reported as a successful settings write.
+Tools: get_platform_schema, get_event, update_event, get_event or get_publishing_task
+
+Expected: Read the LinkedIn schema and the latest event revision. Preserve the event identity and start. Save social_network and the supplied post text with explicit String types, and save the supplied choices in publication_draft_settings with explicit JSON type: actor.kind=personal, destination.kind=public_feed, audience=public, no media, reaction=none, firstComment=null and featured=false. Read back the complete draft. Active publishingSettings may remain null; persisted typed publication_draft_settings constitutes draft success and does not prove active publishing setup. Keep publicationStatus=not_published and publicationAutomated=false. No social calls, connection creation or scheduler claims. Explain any failed write honestly.
 
 ## P04
 
-Upload and actually download the harmless fixture on the same disposable event. Setup: attach https://nambli.com/media/review-note.txt through the host file input; retain the original bytes, exact UUID, latest revision and attachment ID. Browser fallback is explicitly labelled if native transport is unavailable.
+P04 — Upload and download a harmless file on the exact P02 event. Setup: attach the public review-note.txt fixture through the host file input and retain its original bytes (the currently hosted fixture is 44 bytes), event UUID, latest revision and attachment ID. Compare against the actual input for this run. Label browser fallback if native transport is unavailable.
 
 > Add the attached review-note.txt to the named File field Review brief on the demo event. Check the saved filename and size. Then help me download that same saved file and verify that its contents match the original.
 
-Expected: Declare Review brief explicitly as File, use the current revision and stable upload UUID, then read back exact field/filename/size/attachment ID. Call get_file_download with the current revision and exact attachment. Receive bounded native resource bytes or explicitly download from the authenticated browser/local helper; open the result and compare its bytes/content to the original. A resource link or bytesDelivered=false alone does not prove delivery. Never store file bytes in JSON, expose another account, or claim unsupported native transfer.
+Tools: get_event, update_event if the File field is absent, upload_file or get_file_upload_link, get_event, get_file_download, resources/read or authenticated browser download
+
+Expected: Declare Review brief explicitly as File. Use the current revision and a stable upload UUID. Read back the exact field, filename, actual input size and attachment ID. Request the same saved file using get_file_download with the current revision and exact attachment. Receive bounded authenticated resource bytes or complete the authenticated browser/local-helper download. Compare downloaded bytes or full SHA-256 to the original input and report the observed result. A resource link or bytesDelivered=false alone does not prove delivery. Never store bytes in JSON, expose another account or claim unsupported native transfer.
 
 ## P05
 
-Reschedule and clean up only the disposable UUID created in case 2, with case 3–4 content present. This multi-step prompt explicitly authorizes deletion of that one review fixture; never delete events merely sharing its title.
+P05 — Reschedule and clean up only the exact disposable UUID created in P02, after P03–P04. This prompt authorizes deletion of that one fixture. Never delete events merely sharing its title.
 
 > Move the demo event we created to 15:00 Europe/Bucharest on the same day, keeping its draft and file. Show that they were preserved. Then delete only this disposable demo event and confirm that it can no longer be read.
+
+Tools: get_event, move_event, get_event, delete_event, get_event
 
 Expected: Use the exact UUID and latest revision for each mutation. Show the saved 15:00 start and unchanged draft/File metadata before deleting. Delete only that UUID. The final read returns HTTP_404/Event not found, which is reported as expected cleanup. Do not claim social cancellation/publication or modify other records.
 
 ## N01
 
-Pure date arithmetic needs no calendar access. No nambli tool or private-account lookup should occur.
+N01 — Pure date arithmetic requires no calendar access. Answer Wednesday using date arithmetic, without any nambli tool call or private-account lookup.
 
 > What day of the week is 5 November 2031?
 
-Expected: Answer using date arithmetic, without invoking nambli.
-
 ## N02
 
-Direct social publication is outside this calendar plugin. Do not call nambli tools to simulate publication or create an unsolicited calendar entry.
+N02 — Anonymous public calendar sharing is unsupported. Explain the limitation without invoking any nambli tool, reading private account or event data, changing permissions or records, or inventing a working anonymous link.
 
-> Publish this LinkedIn post now: Our new guide is live.
-
-Expected: Explain that nambli cannot publish social posts. Use a separate authorized publishing integration only if available; do not claim publication.
+> Make my nambli calendar publicly accessible and give me a link that works without signing in.
 
 ## N03
 
-Email search is outside nambli. Do not inspect the private calendar as a substitute for mailbox access.
+N03 — Email search is outside nambli. Do not invoke any nambli tool or inspect the private calendar as a substitute for mailbox access. Use a separately authorized email integration if available, otherwise state that mailbox access is unavailable.
 
 > Find the email from Alex about the quarterly budget.
-
-Expected: Use a separately authorized email integration if available, otherwise state that mailbox access is unavailable. No nambli tool calls.
