@@ -1,6 +1,6 @@
 # nambli update — 2 October 2026
 
-The 0.3.0 candidate uses nambli.com, the retained gradient n logo and Nambli Bold wordmark. The owner-requested skill name is now **nambli** (`$nambli`, `skills/nambli`, standalone `nambli-skill-0.3.0.zip`). The package ID remains stable for updates; the earlier skill IDs and archive names below are historical. Follow README.md and submission/status.md for current readiness.
+The 0.3.2 candidate uses nambli.com, the retained gradient n logo and Nambli Bold wordmark. The owner-requested skill name is now **nambli** (`$nambli`, `skills/nambli`, standalone `nambli-skill-0.3.2.zip`). The package ID remains stable for updates; the earlier skill IDs and archive names below are historical. Follow README.md and submission/status.md for current readiness.
 
 ---
 

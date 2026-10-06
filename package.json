@@ -1,6 +1,6 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "nambli account-scoped calendar MCP plugin and optional local CLI",
   "type": "module",
   "license": "MIT",
