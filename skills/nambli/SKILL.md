@@ -10,9 +10,15 @@ Use only when the user explicitly invokes `$nambli` or asks to use this integrat
 
 ## Establish scope
 
+For a pure date-arithmetic question, answer without nambli tools. Anonymous public calendar sharing and email search are unsupported: explain the limitation without nambli calls or private account/event lookups. Do not change permissions, expose calendar content, invent an anonymous link, or substitute calendar data for mailbox access. Use a separately authorized email integration only if available.
+
 In Claude Code, first read [the Claude Code workflow](references/claude-code.md) for its connection, explicit invocation and file transport limits.
 
 Use the host's selected calendar connection. If several connected accounts could match and the user has not selected one, ask which verified account before private lookup; do not infer ownership from a display name. Call `get_profile` to confirm its stable `id` and optional verified `email`, and keep that connection fixed for the operation. Browser sign-in, account choice, and OAuth consent happen in the host/calendar UI; never request, print, or place bearer tokens in prompts or files. `calendar.read` supports reads; `calendar.manage` is needed for writes and File uploads. If the host requests reauthorization, let the user grant the needed scope in the browser. See [connections](references/connections.md) for account changes and revocation.
+
+For an account-status question, call the selected connection's exposed `get_profile` now. Chat history, a previously remembered email and the website's current login are not evidence of the active plugin account. When the host exposes both App-backed tools and a separate direct MCP connection, prefer the App-backed route for account management and host account selection; do not silently switch to the other grant.
+
+Adding an account uses the plugin's **Apps / Connected accounts / Connect another account** action and preserves existing connections. A gear in **MCP servers** configures the direct server; it is not the App account manager. Do not suggest logout, uninstall or replacement of the current account as the way to add another. If App tools or their account manager are unavailable, explain the specific host limitation and provide the account-management route from [connections](references/connections.md).
 
 For a simple find/list/create request, use only the matching tools and event data. Do not preload the complete API schema, project history, every platform schema, or every event body. The [MCP tool guide](references/mcp.md) gives the intent-to-tool map and limits; consult its relevant part when a tool's schema or result is unclear.
 
