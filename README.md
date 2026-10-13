@@ -25,6 +25,20 @@ codex plugin add tor-event-calendar-ai@nambli
 
 The combined plugin includes the remote calendar tools, approved light/dark artwork, and explicitly invoked `nambli` skill. Ask to use nambli or invoke `$nambli`; implicit invocation stays disabled.
 
+## Claude Code
+
+The local development candidate uses the Claude plugin ID **nambli**, with skill `/nambli:nambli` and server `plugin:nambli:nambli`. The published v0.3.2 release and hosted `#develop` may still use the former ID until this change is published. For the candidate, extract its reviewed ZIP and follow the [local update and retest steps](ecosystems/claude-code/README.md#update-an-existing-claude-test).
+
+After the renamed source is published to `#develop`, use this in an interactive Claude Code session:
+
+```text
+/plugin install nambli --marketplace Tor-Production/tor-event-calendar-ai#develop
+```
+
+The command installs hosted source, so it does not load an unpublished local candidate. Review the marketplace/plugin and choose the installation scope, then open `/mcp` and authenticate if requested. Verify the intended calendar account before using its data. The package targets Claude Code 2.1.283+; the interactive one-command route requires 2.1.275+. Invoke `/nambli:nambli` explicitly when you want the renamed packaged skill. Codex and npm keep their existing `tor-event-calendar-ai` identity.
+
+Claude Free does not include Claude Code. A plan with Code access, such as Pro, or separately billed API access is required. See [Claude Code setup, updates and the manual MCP fallback](ecosystems/claude-code/README.md) and the [native tester checklist](ecosystems/claude-code/NATIVE-VERIFICATION.md). Development checks and package validation do not establish native OAuth/draft/file acceptance. The [12 October tester report](ecosystems/claude-code/NATIVE-VERIFICATION.md#reported-native-results--2026-10-12) records OAuth, calendar and file round trips for the exact renamed local ZIP on Claude Code 2.1.296; remaining installation and authorization checks stay open in #79.
+
 ## Updating an existing installation
 
 The [v0.3.2 nambli package release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.3.2) uses nambli.com and the renamed skill. Refresh a Git-backed marketplace with `codex plugin marketplace upgrade nambli`, then update its installation with `codex plugin add tor-event-calendar-ai@nambli` and reload the client. For a Personal marketplace pinned to an older commit, update that entry's source ref to `v0.3.2` before refreshing `tor-event-calendar-ai@personal`. Existing [v0.2.4 release assets](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.4) retain their original Nembli identity. A source update does not transfer an OAuth grant between domains; reconnect at nambli.com and confirm the account.
@@ -160,3 +174,7 @@ From a clean checkout run `npm ci --ignore-scripts`, `npm test`, create `dist/`,
 ## Plugin development workspace
 
 All ecosystem plugins live in this repository; the private calendar repository owns the server. See [ecosystem ownership and task map](ecosystems/README.md). Shared upload/download recovery is documented in [file workflow](skills/nambli/references/files.md), including setup when no connector is installed. Server download support is deployed on nambli.com. The GitHub 0.3.2 package release is separate from the OpenAI listing. The 0.3.2 Portal draft has passed metadata, skill, domain and MCP checks. All eight native Codex review cases and natural OAuth refresh have passed. Owner legal attestations, store submission and the separate IDE compatibility matrix remain independently tracked. All eight workflows are present in the current English review video. The old 0.2.3 review was cancelled and its retained entry now shows Changes required / Not published. Earlier GitHub release tags and assets remain unchanged.
+
+## Claude Code automatic-file candidate — 2026-10-13
+
+Review candidate `0.3.3-dev.2` bundles the existing tor-calendar helper for agent-run uploads from accessible local Claude Code attachments. It uses separate browser pairing/OS keychain and checks MCP account, origin, scope and revision before sending file bytes. See [setup and focused native testing](ecosystems/claude-code/AUTO-UPLOAD.md). The supplied 13 October Mac report establishes the new app-attachment upload/download and credential-reuse paths for the preserved `0.3.3-dev.1` ZIP; this candidate adds two diagnostics corrections. Native negative cases and published installation remain open. The public GitHub marketplace still serves the older ID until this source is integrated; no Anthropic directory listing is claimed.

@@ -36,6 +36,14 @@ def main():
         cwd=ROOT, check=True, capture_output=True,
     ).stdout
     paths=[]
+    # Explicit new runtime files are included in uncommitted development builds too.
+    required = ['src/claude-files.mjs', 'ecosystems/claude-code/local-files.mjs',
+                'ecosystems/claude-code/AUTO-UPLOAD.md', 'scripts/test-claude-files.mjs',
+                'scripts/test-claude-bootstrap.mjs']
+    tracked_names = {raw.decode('utf-8') for raw in tracked.split(b'\0') if raw}
+    for name in required:
+        if name not in tracked_names:
+            tracked += name.encode('utf-8') + b'\0'
     for raw in tracked.split(b'\0'):
         if not raw: continue
         p=ROOT/Path(raw.decode('utf-8'))
