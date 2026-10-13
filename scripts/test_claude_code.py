@@ -22,10 +22,12 @@ class ClaudeCodeTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory(prefix='claude-tests-', dir=work)
         self.root = Path(self.temporary.name) / 'source'
         self.root.mkdir()
-        for relative in ['.claude-plugin', 'skills', 'ecosystems/claude-code']:
+        for relative in ['.claude-plugin', '.codex-plugin', 'skills', 'ecosystems/claude-code', 'src']:
             shutil.copytree(host.ROOT / relative, self.root / relative)
-        for relative in ['package.json', '.mcp.json', 'LICENSE']:
+        for relative in ['package.json', 'package-lock.json', 'plugin.json', '.mcp.json', 'LICENSE', '.gitignore']:
             shutil.copyfile(host.ROOT / relative, self.root / relative)
+        (self.root / 'docs').mkdir()
+        shutil.copyfile(host.ROOT / 'docs/index.html', self.root / 'docs/index.html')
         self.git('init', '--quiet')
         self.git('add', '.')
 
@@ -43,17 +45,42 @@ class ClaudeCodeTests(unittest.TestCase):
         first = host.build(self.root)
         second = host.build(self.root)
         self.assertEqual(first, second)
+        self.assertEqual(first['pluginId'], 'nambli')
+        self.assertEqual(first['archive'], f'nambli-claude-code-{first["version"]}{"" if "-" in first["version"] else "-dev"}.zip')
         archive = self.root / 'dist/claude-code' / first['archive']
         self.assertEqual(hashlib.sha256(archive.read_bytes()).hexdigest(), first['sha256'])
         with zipfile.ZipFile(archive) as result:
             self.assertIsNone(result.testzip())
+            self.assertEqual(json.loads(result.read('.claude-plugin/plugin.json'))['name'], 'nambli')
             self.assertEqual(result.namelist(), list(first['files']))
             for name in result.namelist():
                 self.assertEqual(result.read(name), (self.root / name).read_bytes())
             self.assertIn('skills/nambli/references/claude-code.md', result.namelist())
+            for required in ['src/cli.mjs', 'src/claude-files.mjs', 'package.json', 'package-lock.json',
+                             'ecosystems/claude-code/local-files.mjs', 'ecosystems/claude-code/AUTO-UPLOAD.md']:
+                self.assertIn(required, result.namelist())
             self.assertNotIn('.claude-plugin/marketplace.json', result.namelist())
             self.assertNotIn('plugin.json', result.namelist())  # No OpenAI distribution copy.
             self.assertFalse(any('work/' in name or 'node_modules/' in name for name in result.namelist()))
+
+    def test_claude_identity_is_independent_from_shared_package(self):
+        changes = [
+            ('.claude-plugin/plugin.json', 'tor-event-calendar-ai', 'Claude plugin ID must be nambli'),
+            ('package.json', 'nambli', 'Shared package ID must remain unchanged'),
+            ('plugin.json', 'nambli', 'Portable/Codex plugin ID must remain unchanged'),
+            ('.codex-plugin/plugin.json', 'nambli', 'Portable/Codex plugin ID must remain unchanged'),
+        ]
+        for relative, name, message in changes:
+            with self.subTest(path=relative):
+                original = host.read_json(self.root, relative)
+                changed = copy.deepcopy(original)
+                changed['name'] = name
+                self.write_json(relative, changed)
+                try:
+                    with self.assertRaisesRegex(ValueError, message):
+                        host.validate(self.root)
+                finally:
+                    self.write_json(relative, original)
 
     def test_native_transport_and_credentials_drift(self):
         for entry in [{'type': 'stdio', 'url': host.MCP_URL},
@@ -84,10 +111,54 @@ class ClaudeCodeTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'existing root plugin'):
                 host.validate(self.root)
 
+    def test_marketplace_description_required_for_strict_host_validation(self):
+        data = host.read_json(self.root, '.claude-plugin/marketplace.json')
+        data.pop('description', None)
+        self.write_json('.claude-plugin/marketplace.json', data)
+        with self.assertRaisesRegex(ValueError, 'marketplace description missing'):
+            host.validate(self.root)
+
+    def test_install_routes_reject_source_and_scope_drift(self):
+        path = self.root / 'docs/index.html'
+        original = path.read_text(encoding='utf-8')
+        changes = [
+            (host.INSTALL_COMMAND, host.INSTALL_COMMAND.replace('#develop', '#deleted-branch'),
+             'Website plugin install command drift'),
+            (host.MANUAL_COMMAND, host.MANUAL_COMMAND.replace('--scope local', '--scope user'),
+             'must preserve local scope'),
+        ]
+        for old, new, message in changes:
+            with self.subTest(command=new):
+                path.write_text(original.replace(old, new), encoding='utf-8')
+                with self.assertRaisesRegex(ValueError, message):
+                    host.validate(self.root)
+        path.write_text(original, encoding='utf-8')
+        guide = self.root / host.HOST / 'README.md'
+        guide.write_text(guide.read_text(encoding='utf-8').replace(
+            host.INSTALL_COMMAND, host.INSTALL_COMMAND.replace('#develop', '#deleted-branch')),
+            encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'Guide plugin install command drift'):
+            host.validate(self.root)
+
+    def test_fixture_rejects_future_time_and_publication_automation(self):
+        relative = host.HOST / 'fixtures/post-draft.json'
+        original = host.read_json(self.root, relative)
+        data = copy.deepcopy(original)
+        data['scheduledAt'] = '2099-01-15T14:00:00+02:00'
+        self.write_json(relative, data)
+        with self.assertRaisesRegex(ValueError, 'historical instant'):
+            host.validate(self.root)
+        data = copy.deepcopy(original)
+        data['customFields']['publication_automated'] = True
+        self.write_json(relative, data)
+        with self.assertRaisesRegex(ValueError, 'leave publication automation unset'):
+            host.validate(self.root)
+
     def test_export_rejects_unexpected_file(self):
         (self.root / host.HOST / 'credentials.tmp').write_text('test-only', encoding='utf-8')
         self.assertNotIn(host.HOST / 'credentials.tmp', host.export_paths(self.root))
-        self.git('add', '.')
+        # Even an explicitly tracked ignored file must fail the export allowlist.
+        self.git('add', '-f', (host.HOST / 'credentials.tmp').as_posix())
         with self.assertRaisesRegex(ValueError, 'Unexpected exported file'):
             host.build(self.root)
 
@@ -137,7 +208,7 @@ class ClaudeCodeTests(unittest.TestCase):
         const input=JSON.parse(await readFile('ecosystems/claude-code/fixtures/post-draft.json','utf8'));
         const planned=planCreate(input,{});
         assert.equal(planned.ready,true,JSON.stringify(planned.questions));
-        assert.equal(planned.payload.timeZone,'Europe/Kyiv');
+        assert.equal(planned.payload.timeZone,'Europe/Bucharest');
         assert.equal(Date.parse(planned.payload.scheduledAt),Date.parse(input.scheduledAt));
         assert.equal(planned.payload.customFieldTypes.image,'File');
         assert.equal(planned.payload.publishingSettings.platform,'linkedin');

@@ -1,11 +1,18 @@
 {
   "name": "nambli",
-  "owner": { "name": "Tor Production" },
+  "description": "Connect Claude Code to your private nambli calendar with account-scoped tools and an explicitly invoked skill.",
+  "owner": {
+    "name": "Tor Production"
+  },
   "plugins": [
     {
-      "name": "tor-event-calendar-ai",
+      "name": "nambli",
+      "displayName": "nambli",
       "source": "./",
       "description": "nambli account-scoped remote calendar tools and explicitly invoked skill."
     }
-  ]
+  ],
+  "renames": {
+    "tor-event-calendar-ai": "nambli"
+  }
 }

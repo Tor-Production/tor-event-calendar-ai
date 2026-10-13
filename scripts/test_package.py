@@ -62,9 +62,13 @@ def main():
         codex_manifest = json.loads(archive.read('.codex-plugin/plugin.json'))
         claude_manifest = json.loads(archive.read('.claude-plugin/plugin.json'))
         package_lock = json.loads(archive.read('package-lock.json'))
-        for companion in (codex_manifest, claude_manifest):
-            if companion['version'] != VERSION or companion['name'] != manifest['name']:
-                raise AssertionError('Host plugin identity/version differs from package.json')
+        for companion, expected_name in ((codex_manifest, 'tor-event-calendar-ai'),
+                                         (claude_manifest, 'nambli')):
+            if companion['version'] != VERSION or companion['name'] != expected_name:
+                raise AssertionError('Host plugin identity/version differs from its expected distribution')
+        claude_marketplace = json.loads(archive.read('.claude-plugin/marketplace.json'))
+        if claude_marketplace['plugins'][0]['name'] != claude_manifest['name']:
+            raise AssertionError('Claude marketplace identity differs from its manifest')
         if package_lock['version'] != VERSION or package_lock['packages']['']['version'] != VERSION:
             raise AssertionError('Lockfile version differs from package.json')
         for public_manifest in (manifest, codex_manifest, claude_manifest):

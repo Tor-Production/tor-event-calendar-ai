@@ -25,7 +25,26 @@ export class CalendarClient {
   fileFields(files,types){if(files===undefined)return;if(!files||typeof files!=='object'||Array.isArray(files))throw new CalendarError('INVALID_FILES','files must map explicit File fields to paths.');for(const [field,file]of Object.entries(files))if(types?.[field]!=='File'||typeof file!=='string')throw new CalendarError('INVALID_FILES','Declare the File field explicitly before upload.');}
   async precheckFiles(files){for(const file of Object.values(files??{}))await this.precheck(file);}
   async precheck(file){const limit=(await this.limits()).calendarLimits.fileBytes;const info=await stat(file);if(!info.isFile()||info.size>limit)throw new CalendarError('MEDIA_TOO_LARGE','Use smaller media or save an external reference URL.',{limitBytes:limit,sizeBytes:info.size});return info;}
-  async upload(id,field,file){uuid(id);const event=await this.get(id);if(event.customFieldTypes?.[field]!=='File')throw new CalendarError('NOT_FILE_FIELD','Declare the target File field before upload.');const before=await this.precheck(file);const bytes=await readFile(file);if(bytes.length!==before.size||bytes.length>(await this.limits()).calendarLimits.fileBytes)throw new CalendarError('MEDIA_CHANGED','File changed during precheck; retry after it is stable.');const filename=path.basename(file),mime=({'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4','.pdf':'application/pdf'})[path.extname(file).toLowerCase()]||'application/octet-stream';const hash=createHash('sha256').update(id).update('\0').update(field).update('\0').update(filename).update('\0').update(mime).update('\0').update(bytes).digest();hash[6]=(hash[6]&15)|80;hash[8]=(hash[8]&63)|128;const h=hash.subarray(0,16).toString('hex'),uploadId=`${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;const form=new FormData();form.append('file',new Blob([bytes],{type:mime}),filename);form.append('fieldName',field);form.append('uploadId',uploadId);form.append('eventRevision',String(event.revision));await this.request(`/api/calendar-entries/${id}/files`,{method:'POST',body:form});return this.get(id);}
+  async upload(id,field,file,{eventRevision,receiptOnly=false}={}){
+    uuid(id);
+    if(eventRevision!==undefined&&(!Number.isSafeInteger(eventRevision)||eventRevision<1))throw new CalendarError('REVISION_REQUIRED','Supply a positive event revision.');
+    const event=await this.get(id);
+    if(eventRevision!==undefined&&event.revision!==eventRevision)throw new CalendarError('STALE_REVISION','Event changed since the MCP read. Read it again before uploading.');
+    if(event.customFieldTypes?.[field]!=='File')throw new CalendarError('NOT_FILE_FIELD','Declare the target File field before upload.');
+    const before=await this.precheck(file),bytes=await readFile(file);
+    if(bytes.length!==before.size||bytes.length>(await this.limits()).calendarLimits.fileBytes)throw new CalendarError('MEDIA_CHANGED','File changed during precheck; retry after it is stable.');
+    const filename=path.basename(file),storedFilename=filename.slice(0,240),mime=({'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4','.pdf':'application/pdf'})[path.extname(file).toLowerCase()]||'application/octet-stream';
+    const hash=createHash('sha256').update(id).update('\0').update(field).update('\0').update(filename).update('\0').update(mime).update('\0').update(bytes).digest();
+    hash[6]=(hash[6]&15)|80;hash[8]=(hash[8]&63)|128;
+    const h=hash.subarray(0,16).toString('hex'),uploadId=`${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+    const form=new FormData();form.append('file',new Blob([bytes],{type:mime}),filename);form.append('fieldName',field);form.append('uploadId',uploadId);form.append('eventRevision',String(event.revision));
+    const saved=await this.request(`/api/calendar-entries/${id}/files`,{method:'POST',body:form});
+    const latest=await this.get(id),attachment=latest.attachments?.find(item=>item.id===uploadId&&item.fieldName===field);
+    if(saved?.id!==uploadId||!attachment||latest.customFieldTypes?.[field]!=='File'||attachment.filename!==storedFilename||attachment.contentType!==mime||attachment.size!==bytes.length||!Number.isSafeInteger(latest.revision)||latest.revision<event.revision)throw new CalendarError('UPLOAD_UNCONFIRMED','The uploaded attachment was not confirmed at readback. Inspect the event before retrying.');
+    if(!receiptOnly)return latest;
+    return {uploaded:true,accountId:this.profile.accountId,eventId:id,eventRevision:latest.revision,attachmentId:attachment.id,fieldName:field,filename:storedFilename,contentType:mime,size:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};
+  }
+
   task(id){return this.request(`/api/calendar-entries/${uuid(id)}/publishing-task`);}
   async download(id,attachmentId,destination){
     uuid(id);uuid(attachmentId);

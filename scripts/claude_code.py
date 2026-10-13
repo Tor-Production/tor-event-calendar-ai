@@ -15,6 +15,10 @@ HOST = Path('ecosystems/claude-code')
 SKILL = Path('skills/nambli')
 MCP_URL = 'https://nambli.com/mcp'
 ISSUER = 'https://nambli.com/api/v1/auth'
+CLAUDE_PLUGIN_ID = 'nambli'
+SHARED_PACKAGE_ID = 'tor-event-calendar-ai'
+INSTALL_COMMAND = '/plugin install nambli --marketplace Tor-Production/tor-event-calendar-ai#develop'
+MANUAL_COMMAND = 'claude mcp add --transport http --scope local nambli https://nambli.com/mcp'
 
 
 def require(condition, message):
@@ -29,8 +33,14 @@ def read_json(root, name):
 def validate(root=ROOT):
     package = read_json(root, 'package.json')
     manifest = read_json(root, '.claude-plugin/plugin.json')
-    require(manifest['name'] == package['name'] == 'tor-event-calendar-ai', 'Plugin ID changed')
+    require(manifest['name'] == CLAUDE_PLUGIN_ID, 'Claude plugin ID must be nambli')
+    require(package['name'] == SHARED_PACKAGE_ID, 'Shared package ID must remain unchanged')
+    for companion in ('plugin.json', '.codex-plugin/plugin.json'):
+        require(read_json(root, companion)['name'] == SHARED_PACKAGE_ID,
+                'Portable/Codex plugin ID must remain unchanged')
     require(manifest['version'] == package['version'], 'Plugin version drift')
+    require(read_json(root, 'package-lock.json')['packages']['']['version'] == package['version'],
+            'Helper lockfile version drift')
     require(manifest['author']['name'] == 'Tor Production', 'Plugin owner drift')
     require(manifest['homepage'] == 'https://nambli.com', 'Homepage drift')
     # The existing default layout needs no hooks, secrets or component overrides.
@@ -42,6 +52,10 @@ def validate(root=ROOT):
     marketplace = read_json(root, '.claude-plugin/marketplace.json')
     require(marketplace['name'] == 'nambli' and marketplace['owner']['name'] == 'Tor Production',
             'Claude marketplace identity drift')
+    require(isinstance(marketplace.get('description'), str) and marketplace['description'].strip(),
+            'Claude marketplace description missing')
+    require(marketplace.get('renames') == {'tor-event-calendar-ai': 'nambli'},
+            'Claude installed-ID migration missing')
     entries = marketplace['plugins']
     require(len(entries) == 1 and entries[0]['name'] == manifest['name'] and entries[0]['source'] == './',
             'Claude marketplace must install the existing root plugin')
@@ -54,7 +68,19 @@ def validate(root=ROOT):
     require('(references/claude-code.md)' in skill, 'Claude runtime guidance is not wired')
     require((root / SKILL / 'references/claude-code.md').is_file(), 'Claude runtime guidance missing')
     fixture = read_json(root, HOST / 'fixtures/post-draft.json')
-    require(fixture['timeZone'] == 'Europe/Kyiv', 'Fixture timezone drift')
+    guide = (root / HOST / 'README.md').read_text(encoding='utf-8')
+    require(INSTALL_COMMAND in re.findall(r'^(/plugin install [^\r\n]+)$', guide, re.M),
+            'Guide plugin install command drift')
+    site = (root / 'docs/index.html').read_text(encoding='utf-8')
+    require(re.findall(r'<code id="config-claude">([^<]+)</code>', site) == [INSTALL_COMMAND],
+            'Website plugin install command drift')
+    require(re.findall(r'<code id="config-claude-manual">([^<]+)</code>', site) == [MANUAL_COMMAND],
+            'Website manual MCP command must preserve local scope')
+    require(fixture['timeZone'] == 'Europe/Bucharest', 'Fixture timezone drift')
+    require(fixture['scheduledAt'] == '2020-01-15T14:00:00+02:00',
+            'Fixture must retain its historical instant')
+    require('publication_automated' not in fixture['customFields'],
+            'Fixture must leave publication automation unset')
     require(fixture['customFieldTypes']['image'] == fixture['customFieldTypes']['brief_pdf'] == 'File',
             'Fixture must use explicit File fields')
     require(not {'image', 'brief_pdf'} & fixture['customFields'].keys(), 'Fixture embeds a File value')
@@ -67,13 +93,15 @@ def validate(root=ROOT):
             and download['nativeMaxBytes'] == 512 * 1024
             and download['fileMaxBytes'] == 25 * 1024 * 1024
             and download['metadataDeliversBytes'] is False, 'Shared #66 download contract drift')
-    return {'result': 'PASS', 'target': 'claude-code', 'version': package['version'],
+    return {'result': 'PASS', 'target': 'claude-code', 'pluginId': CLAUDE_PLUGIN_ID, 'version': package['version'],
             'nativeAcceptance': 'not established by source checks'}
 
 
 def export_paths(root):
-    fixed = [Path('.claude-plugin/plugin.json'), Path('.mcp.json'), Path('LICENSE')]
-    trees = (SKILL, HOST)
+    fixed = [Path('.claude-plugin/plugin.json'), Path('.mcp.json'), Path('LICENSE'),
+             Path('package.json'), Path('package-lock.json'), Path('src/claude-files.mjs'),
+             HOST / 'local-files.mjs', HOST / 'AUTO-UPLOAD.md']
+    trees = (SKILL, HOST, Path('src'))
     tracked = subprocess.run(['git', '-c', f'safe.directory={root.as_posix()}', 'ls-files', '-z', '--',
                               *(p.as_posix() for p in trees)], cwd=root, check=True, capture_output=True).stdout
     paths = fixed + [Path(p.decode('utf-8')) for p in tracked.split(b'\0') if p]
@@ -87,7 +115,7 @@ def export_paths(root):
         path = root / relative
         require(path.is_file() and not path.is_symlink() and path.resolve().is_relative_to(root.resolve()),
                 f'Unsafe export path: {relative}')
-        require(relative.suffix in {'.md', '.json', '.png', '.py', '.yaml'} or relative == Path('LICENSE'),
+        require(relative.suffix in {'.md', '.json', '.png', '.py', '.yaml', '.mjs', '.mts'} or relative == Path('LICENSE'),
                 f'Unexpected exported file: {relative}')
         require(not any(part.startswith('.') for part in relative.parts[1:]),
                 f'Hidden exported file: {relative}')
@@ -99,7 +127,7 @@ def build(root=ROOT, output_dir=None):
     paths = export_paths(root)
     destination = output_dir or root / 'dist/claude-code'
     destination.mkdir(parents=True, exist_ok=True)
-    output = destination / f'tor-event-calendar-ai-claude-code-{result["version"]}-dev.zip'
+    output = destination / f'nambli-claude-code-{result["version"]}{"" if "-" in result["version"] else "-dev"}.zip'
     with zipfile.ZipFile(output, 'w') as archive:
         for relative in paths:
             entry = zipfile.ZipInfo(relative.as_posix(), (2026, 10, 1, 0, 0, 0))
