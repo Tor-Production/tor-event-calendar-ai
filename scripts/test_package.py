@@ -3,6 +3,7 @@
 import hashlib
 import json
 import subprocess
+import tarfile
 import zipfile
 from pathlib import Path
 
@@ -12,6 +13,7 @@ VERSION = json.loads((ROOT / 'package.json').read_text(encoding='utf-8'))['versi
 ARCHIVE = ROOT / 'dist' / f'nambli-skill-{VERSION}.zip'
 PLUGIN_ARCHIVE = ROOT / 'dist' / f'tor-event-calendar-ai-plugin-{VERSION}.zip'
 MCP_URL = 'https://nambli.com/mcp'
+WORKFLOWS = ('nambli-content', 'nambli-publish')
 
 
 def main():
@@ -24,6 +26,25 @@ def main():
     expected = {f'{SKILL.name}/{path.relative_to(SKILL).as_posix()}': path for path in paths}
     if f'{SKILL.name}/SKILL.md' not in expected:
         raise AssertionError('The tracked skill must contain SKILL.md')
+
+    workflow_sources = {}
+    for skill_name in WORKFLOWS:
+        skill_root = ROOT / 'skills' / skill_name
+        for path in sorted(skill_root.rglob('*')):
+            if path.is_symlink():
+                raise AssertionError(f'Workflow contains a symlink: {path}')
+            if path.is_file():
+                workflow_sources[f'{skill_name}/{path.relative_to(skill_root).as_posix()}'] = path
+        skill_archive = ROOT / 'dist' / f'{skill_name}-skill-{VERSION}.zip'
+        members = {name: path for name, path in workflow_sources.items() if name.startswith(f'{skill_name}/')}
+        with zipfile.ZipFile(skill_archive) as archive:
+            if archive.namelist() != list(members) or archive.testzip():
+                raise AssertionError(f'Workflow ZIP layout/corruption: {skill_name}')
+            if f'{skill_name}/SKILL.md' not in members or f'{skill_name}/agents/openai.yaml' not in members:
+                raise AssertionError(f'Workflow entrypoint/metadata missing: {skill_name}')
+            for name, source in members.items():
+                if archive.read(name) != source.read_bytes():
+                    raise AssertionError(f'Workflow ZIP differs from source: {name}')
 
     with zipfile.ZipFile(ARCHIVE) as archive:
         names = archive.namelist()
@@ -44,6 +65,7 @@ def main():
             'skills/nambli/SKILL.md',
             'skills/nambli/agents/openai.yaml',
         }
+        required.update(f'skills/{name}' for name in workflow_sources)
         if not required.issubset(names):
             raise AssertionError(f'Combined plugin ZIP is missing: {required - set(names)}')
         if archive.testzip():
@@ -57,6 +79,9 @@ def main():
         for name, path in expected.items():
             if archive.read(f'skills/{name}') != path.read_bytes():
                 raise AssertionError(f'Combined plugin does not contain the standalone skill: {name}')
+        for name, path in workflow_sources.items():
+            if archive.read(f'skills/{name}') != path.read_bytes():
+                raise AssertionError(f'Combined plugin does not contain the workflow: {name}')
 
         manifest = json.loads(archive.read('plugin.json'))
         codex_manifest = json.loads(archive.read('.codex-plugin/plugin.json'))
@@ -82,6 +107,11 @@ def main():
             raise AssertionError('Skill must remain explicitly invoked')
         if 'allow_implicit_invocation: false' not in archive.read('skills/nambli/agents/openai.yaml').decode('utf-8'):
             raise AssertionError('Codex implicit skill invocation must remain disabled')
+        for skill_name in WORKFLOWS:
+            metadata = archive.read(f'skills/{skill_name}/agents/openai.yaml').decode('utf-8')
+            frontmatter = archive.read(f'skills/{skill_name}/SKILL.md').decode('utf-8').split('---', 2)[1]
+            if 'disable-model-invocation: true' in frontmatter or 'allow_implicit_invocation: false' in metadata:
+                raise AssertionError(f'Workflow discovery must remain enabled: {skill_name}')
         submission = json.loads(archive.read('submission/chatgpt-app-submission.json'))
         review = manifest['extensions']['com.openai']['review']['test_cases']
         if len(review['positive']) != 5 or len(review['negative']) != 3:
@@ -130,13 +160,20 @@ def main():
     for line in (ROOT / 'dist' / 'SHA256SUMS').read_text(encoding='utf-8').splitlines():
         digest, name = line.split('  ', 1)
         checksums[name] = digest
-    for artifact in (ARCHIVE, PLUGIN_ARCHIVE,
-                     ROOT / 'dist' / f'tor-event-calendar-ai-{VERSION}.tgz'):
+    tarball = ROOT / 'dist' / f'tor-event-calendar-ai-{VERSION}.tgz'
+    with tarfile.open(tarball) as archive:
+        for name, source in {**expected, **workflow_sources}.items():
+            member = archive.getmember(f'package/skills/{name}')
+            if not member.isfile() or archive.extractfile(member).read() != source.read_bytes():
+                raise AssertionError(f'npm tarball differs from skill source: {name}')
+    for artifact in (ARCHIVE, PLUGIN_ARCHIVE, tarball,
+                     *(ROOT / 'dist' / f'{name}-skill-{VERSION}.zip' for name in WORKFLOWS)):
         if checksums.get(artifact.name) != hashlib.sha256(artifact.read_bytes()).hexdigest():
             raise AssertionError(f'Incorrect SHA256SUMS entry: {artifact.name}')
 
     print(json.dumps({'result': 'PASS', 'skill': str(ARCHIVE),
-                      'plugin': str(PLUGIN_ARCHIVE), 'skill_files': len(expected)}))
+                      'plugin': str(PLUGIN_ARCHIVE), 'skill_files': len(expected),
+                      'workflow_files': len(workflow_sources)}))
 
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
 {
   "name": "nambli",
   "displayName": "nambli",
-  "version": "0.3.3-dev.2",
-  "description": "Manage a private nambli calendar and automatically upload local files after optional secure helper pairing.",
+  "version": "0.3.3-dev.3",
+  "description": "Manage a private nambli calendar, prepare social drafts, reconcile publication receipts and upload local files after optional secure helper pairing.",
   "author": {
     "name": "Tor Production",
     "url": "https://github.com/Tor-Production"

@@ -56,6 +56,9 @@ class ClaudeCodeTests(unittest.TestCase):
             for name in result.namelist():
                 self.assertEqual(result.read(name), (self.root / name).read_bytes())
             self.assertIn('skills/nambli/references/claude-code.md', result.namelist())
+            for skill_name in ('nambli-content', 'nambli-publish'):
+                self.assertIn(f'skills/{skill_name}/SKILL.md', result.namelist())
+                self.assertIn(f'skills/{skill_name}/agents/openai.yaml', result.namelist())
             for required in ['src/cli.mjs', 'src/claude-files.mjs', 'package.json', 'package-lock.json',
                              'ecosystems/claude-code/local-files.mjs', 'ecosystems/claude-code/AUTO-UPLOAD.md']:
                 self.assertIn(required, result.namelist())

@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tor-event-calendar-ai",
-  "version": "0.3.3-dev.2",
-  "description": "Manage a connected private calendar through a remote MCP server and explicitly invoked skill.",
+  "version": "0.3.3-dev.3",
+  "description": "Manage a connected private calendar, prepare social drafts and reconcile authorized publication receipts.",
   "author": {
     "name": "Tor Production",
     "url": "https://github.com/Tor-Production"
@@ -25,7 +25,7 @@
       "interface": {
         "displayName": "nambli",
         "shortDescription": "Manage your private calendar",
-        "longDescription": "Connect your private nambli calendar through browser sign-in, choose the intended account, and invoke the skill to find events, create meetings, prepare platform-specific drafts, move appointments and manage named File fields. Account access stays scoped to the selected calendar connection. Host account controls let you add another account without replacing existing connections. Saved drafts remain unpublished; calendar writes never publish or schedule social posts. The hosted MCP connection needs no local runtime. An optional local CLI is included for advanced users who explicitly choose it.",
+        "longDescription": "Connect your private nambli calendar through browser sign-in, choose the intended account, and find events, create meetings, prepare social drafts, move appointments and manage named File fields. The core calendar skill is explicitly invoked; content and publication workflow skills are discoverable for relevant nambli requests. Publication requires a separately available, authorized publisher. Confirmed publication receipts and links are recorded in the calendar; calendar writes never publish or schedule social posts. Account access stays scoped to the selected connection. The hosted MCP connection needs no local runtime. An optional local CLI is included for users who choose it.",
         "developerName": "Tor Production",
         "category": "Productivity",
         "capabilities": [
@@ -104,7 +104,7 @@
         }
       },
       "publication": {
-        "release_notes": "Version 0.3.2 improves selected-account verification and host account-management guidance, including adding another account while preserving existing connections. It retains the original blue/purple nambli artwork, the hosted account-scoped MCP endpoint, explicit skill invocation, typed draft fields and named File upload/download workflows. The public package removes owner-private app bindings and aligns its review cases with the current English walkthrough. Calendar writes never publish or schedule social posts.",
+        "release_notes": "Development candidate 0.3.3-dev.3 adds portable nambli-content and nambli-publish workflows, immediate confirmed publication receipts and permalink recovery without reposting, and separate standalone workflow archives. The core calendar skill stays explicit-only. The package retains the Claude Code local-file helper and requires a compatible deployed calendar server for the new receipt tools. No social publisher or shared credentials are bundled. Native Codex and LinkedIn publication acceptance remains a separate check; this candidate does not claim an OpenAI catalog release.",
         "countries": []
       }
     }

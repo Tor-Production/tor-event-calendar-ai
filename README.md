@@ -2,13 +2,13 @@
 
 Open nambli, connect your calendar, and ask for what you need.
 
-[**Open nambli in Codex**](codex://plugins/install/tor-event-calendar-ai?marketplace=personal) · [Setup guide](https://nambli.com/connect-ai)
+[**Open nambli in Codex**](codex://plugins/install/tor-event-calendar-ai?marketplace=nambli) · [Setup guide](https://nambli.com/connect-ai)
 
 1. Open the installed **nambli** plugin by **Tor Production** and choose **Connect** if requested.
 2. Sign in to your calendar, check the account and requested access, and choose **Allow access**.
 3. Start a new Codex chat and try: **Use nambli to show my connected account and today's events in Europe/Bucharest.**
 
-The button opens an existing Personal marketplace installation. If nambli is missing, use the setup help in the guide. The public OpenAI directory listing remains a draft; the GitHub package and marketplace are separate distribution routes. Installing a skill alone does not connect an account.
+The button opens the plugin from a configured `nambli` marketplace. If nambli is missing, use the setup help in the guide. The public OpenAI directory listing remains a draft; the GitHub package and marketplace are separate distribution routes. Installing a skill alone does not connect an account.
 
 Recording a demo with an existing installation? Follow the [English recording guide](submission/recording-guide.txt), with exact prompts, the isolated demo identity and Europe/Bucharest examples. Show the installed plugin and connection; reinstalling is unnecessary.
 
@@ -23,13 +23,21 @@ codex plugin marketplace add Tor-Production/tor-event-calendar-ai --ref main
 codex plugin add tor-event-calendar-ai@nambli
 ```
 
-The combined plugin includes the remote calendar tools, approved light/dark artwork, and explicitly invoked `nambli` skill. Ask to use nambli or invoke `$nambli`; implicit invocation stays disabled.
+The stable combined plugin includes the remote calendar tools, approved light/dark artwork, and explicitly invoked `nambli` skill. Ask to use nambli or invoke `$nambli`; implicit invocation stays disabled for this core skill.
+
+## Content and publication workflows in 0.3.3-dev.3
+
+The combined development package also contains [nambli-content](skills/nambli-content/SKILL.md), for creating and saving social drafts, and [nambli-publish](skills/nambli-publish/SKILL.md), for an authorized publication workflow and immediate result/link reconciliation. These two skills can be discovered for relevant nambli requests; the original calendar skill remains explicit-only. Each has a separate standalone ZIP from the package script. The local CLI's `install-skill CLIENT` continues to install only the core `nambli` skill.
+
+The package supplies no social publisher or shared LinkedIn credentials. It targets Codex + LinkedIn first and checks the actual available publisher and account. New `claim_publication`, `report_publication_result` and `repair_publication_url` tools require a supporting deployed calendar server; an installed skill cannot add missing server tools. Confirmed posts are recorded before optional followups; callback failure retries calendar sync without reposting, and a missing permalink has an explicit recovery path. See [publication rules](skills/nambli/references/publication.md) and [portable architecture and release gates](ecosystems/PUBLISHING_ARCHITECTURE.md). Package validation does not establish native publication acceptance or an OpenAI catalog release.
+
+The stable `main` route serves v0.3.2. Development candidates are integrated into `develop`; select the reviewed commit or `develop` deliberately when testing 0.3.3-dev.3 after integration. See [Codex source selection and update verification](ecosystems/codex/README.md). A server deployment does not update installed skill files.
 
 ## Claude Code
 
-The local development candidate uses the Claude plugin ID **nambli**, with skill `/nambli:nambli` and server `plugin:nambli:nambli`. The published v0.3.2 release and hosted `#develop` may still use the former ID until this change is published. For the candidate, extract its reviewed ZIP and follow the [local update and retest steps](ecosystems/claude-code/README.md#update-an-existing-claude-test).
+The development package uses the Claude plugin ID **nambli**, with skill `/nambli:nambli` and server `plugin:nambli:nambli`. The published v0.3.2 release and `main` use the former ID; `develop` includes the rename and local-file helper. For the new publication workflows, verify version 0.3.3-dev.3 after their integration or extract its reviewed ZIP and follow the [local update and retest steps](ecosystems/claude-code/README.md#update-an-existing-claude-test).
 
-After the renamed source is published to `#develop`, use this in an interactive Claude Code session:
+To use the development source, run this in an interactive Claude Code session:
 
 ```text
 /plugin install nambli --marketplace Tor-Production/tor-event-calendar-ai#develop
@@ -41,7 +49,7 @@ Claude Free does not include Claude Code. A plan with Code access, such as Pro, 
 
 ## Updating an existing installation
 
-The [v0.3.2 nambli package release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.3.2) uses nambli.com and the renamed skill. Refresh a Git-backed marketplace with `codex plugin marketplace upgrade nambli`, then update its installation with `codex plugin add tor-event-calendar-ai@nambli` and reload the client. For a Personal marketplace pinned to an older commit, update that entry's source ref to `v0.3.2` before refreshing `tor-event-calendar-ai@personal`. Existing [v0.2.4 release assets](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.4) retain their original Nembli identity. A source update does not transfer an OAuth grant between domains; reconnect at nambli.com and confirm the account.
+The [v0.3.2 nambli package release](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.3.2) uses nambli.com and the renamed skill. Inspect `codex plugin marketplace list --json` and `codex plugin list --marketplace nambli --json` first. Refresh a Git-backed marketplace with `codex plugin marketplace upgrade nambli`, then update its installation with `codex plugin add tor-event-calendar-ai@nambli` and start a new session. A local marketplace must first receive the reviewed source in its registered directory; refreshing a Git ref does not update a local source. Never edit the plugin cache. A Personal marketplace pinned to an older commit keeps that version until its source ref is deliberately updated. See the [source-specific update steps](ecosystems/codex/README.md). Existing [v0.2.4 release assets](https://github.com/Tor-Production/tor-event-calendar-ai/releases/tag/v0.2.4) retain their original Nembli identity. A source update does not transfer an OAuth grant between domains; reconnect only when required and confirm the account.
 
 Version 0.3.2 adds selected-account verification, generic host account-management guidance and explicit no-lookup boundaries for unsupported public sharing, email search and date arithmetic. It contains no owner-private app binding. The 0.3.2 package uses **nambli** for the MCP connection and skill name, with new connections at nambli.com. Invoke `$nambli` in Codex or `/nambli` for a standalone slash skill. The package ID stays stable so existing marketplace installations can update. Codex may request a fresh connection under the new MCP name: sign in, approve the intended account, and check its profile before using it. Existing calendar records and website grants are not deleted or transferred.
 
@@ -177,4 +185,4 @@ All ecosystem plugins live in this repository; the private calendar repository o
 
 ## Claude Code automatic-file candidate — 2026-10-13
 
-Review candidate `0.3.3-dev.2` bundles the existing tor-calendar helper for agent-run uploads from accessible local Claude Code attachments. It uses separate browser pairing/OS keychain and checks MCP account, origin, scope and revision before sending file bytes. See [setup and focused native testing](ecosystems/claude-code/AUTO-UPLOAD.md). The supplied 13 October Mac report establishes the new app-attachment upload/download and credential-reuse paths for the preserved `0.3.3-dev.1` ZIP; this candidate adds two diagnostics corrections. Native negative cases and published installation remain open. The public GitHub marketplace still serves the older ID until this source is integrated; no Anthropic directory listing is claimed.
+Candidate `0.3.3-dev.2`, now integrated into `develop`, introduced the tor-calendar helper for agent-run uploads from accessible local Claude Code attachments. Version `0.3.3-dev.3` retains that helper and adds the content/publication workflows above. The helper uses separate browser pairing/OS keychain and checks MCP account, origin, scope and revision before sending file bytes. See [setup and focused native testing](ecosystems/claude-code/AUTO-UPLOAD.md). The supplied 13 October Mac report establishes app-attachment upload/download and credential reuse for the preserved `0.3.3-dev.1` ZIP; dev.2 added two diagnostics corrections. Native negative cases and final advertised installation remain open. The stable `main` marketplace retains the older Claude ID; no Anthropic directory listing is claimed.

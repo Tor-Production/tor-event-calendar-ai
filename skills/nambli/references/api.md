@@ -34,13 +34,13 @@ Declare a field in `customFieldTypes` as File, then `upload UUID FIELD LOCAL_PAT
 
 `task UUID` reads exact copy/alt/files/target, revision/fingerprint, requested independent followups, readiness reasons and runtime capability. `result UUID JSON` only records external evidence; see [publication protocol](publication.md). Same idempotency UUID and exact payload replay is safe. A stale revision, changed replay payload or conflicting external ID is 409. Unknown reports persist `retryable:false` and `reconciliationRequired:true`. Published followups retain the original external ID/revision/method. Claims and receipts never call social platforms.
 
-Result payload:
+Manual result template for a post without an active claim (replace placeholders with observed values):
 
 ```json
-{"eventRevision":1,"idempotencyKey":"45a3ac26-cb37-4e38-9a7c-69263ccff4ad","outcome":"published","executionMethod":"manual","readiness":"not_applicable","occurredAt":"2026-10-12T11:03:00Z","externalId":"verified-platform-id","externalUrl":"https://example.com/verified-post","evidence":{"kind":"verified_publisher","reference":"observed receipt"},"followUps":{}}
+{"eventRevision":1,"idempotencyKey":"<stable-receipt-uuid>","outcome":"published","executionMethod":"manual","readiness":"not_applicable","occurredAt":"<actual-ISO-instant>","externalId":"<confirmed-platform-post-id>","externalUrl":"<verified-HTTPS-platform-post-permalink>","evidence":{"kind":"manual_confirmation","reference":"<observed-post-reference>"},"followUps":{}}
 ```
 
-Manual receipt evidence requires a confirmed external observation, never an invented URL/ID. Independent reaction/comment/Featured outcomes are `not_requested/pending/completed/blocked/failed/unknown`; only requested actions may have active outcomes. `publication_automated` means confirmed non-manual base-post readiness only; it does not imply consent, publication or followup success.
+Manual receipt evidence requires a confirmed external observation, never an invented URL/ID. An active claim instead requires `authorized_publisher` evidence with its `claimId` as `reference` and `details.dedupeKey`; this applies to success, unknown and failure reports. Record the base receipt before optional followups and verify with `get_event(includeContent: true)`. When confirmation and an ID exist but no URL is retrievable, explicitly set `externalUrl: null` and `evidence.details.publicationUrlMissing: true`; recover the URL without reposting. On supporting servers, `POST /api/calendar-entries/:id/publication-url` repairs an already published record using current revision, stable idempotency UUID, verified URL, occurrence time and confirmation evidence. Later followup reports send `externalUrl: null` to preserve a recorded URL and include the required `followUps` object. Independent reaction/comment/Featured outcomes are `not_requested/pending/completed/blocked/failed/unknown`; only requested actions may have active outcomes. `publication_automated` means confirmed non-manual base-post readiness only; it does not imply consent, publication or followup success.
 
 ## Errors and recovery
 

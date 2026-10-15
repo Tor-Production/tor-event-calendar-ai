@@ -3698,6 +3698,155 @@
         }
       }
     },
+    "/api/calendar-entries/{id}/publication-url": {
+      "post": {
+        "summary": "Recover a missing link for an already published post",
+        "description": "Account-scoped current-revision repair, including legacy manual confirmations without an external ID. No status downgrade, republish or external side effect. Exact idempotent replay is 200; conflicting URL or active claim is 409.",
+        "operationId": "post__api_calendar_entries__id__publication_url",
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicationUrl"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict: account, revision, idempotency or publication guard",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "411": {
+            "description": "HTTP 411; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/events": {
       "get": {
         "summary": "Page compact event summaries in half-open UTC range",
@@ -4901,6 +5050,155 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Result"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict: account, revision, idempotency or publication guard",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "411": {
+            "description": "HTTP 411; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP 413; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP 500; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503; inspect stable code/error and do not blindly retry writes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events/{id}/publication-url": {
+      "post": {
+        "summary": "Recover a missing link for an already published post",
+        "description": "No-redirect compatibility alias. Account-scoped current-revision repair, including legacy manual confirmations without an external ID. No status downgrade, republish or external side effect. Exact idempotent replay is 200; conflicting URL or active claim is 409.",
+        "operationId": "post__api_events__id__publication_url",
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicationUrl"
               }
             }
           }
@@ -6830,7 +7128,65 @@
             }
           }
         },
-        "description": "Same key/exact payload replay is idempotent. Published requires a confirmed external ID and recognized evidence reference. Native scheduling requires a confirmed queue ID; automatic runner scheduling requires a runner reference and confirmedEndToEnd evidence for ready. Unknown never authorizes retry. Independent followups cannot downgrade completed states. Receipt reporting never publishes."
+        "description": "Same key/exact payload replay is idempotent. Published requires a confirmed external ID, recognized evidence reference and safe observed platform post permalink. Null externalUrl is accepted only with evidence.details.publicationUrlMissing=true, or to preserve an existing permalink on a same-post followup. Missing links retain published truth, report publicationUrlRecoveryRequired=true and retryable=false; recover without reposting. Published URLs normalize tracking variants; a different post URL conflicts. Native scheduling requires a confirmed queue ID; automatic runner scheduling requires a runner reference and confirmedEndToEnd evidence for ready. Unknown never authorizes retry. Independent followups cannot downgrade completed states. Receipt reporting never publishes."
+      },
+      "PublicationUrl": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "eventRevision",
+          "idempotencyKey",
+          "externalUrl",
+          "occurredAt",
+          "evidence"
+        ],
+        "properties": {
+          "eventRevision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 1000
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "An exact datetime with Z or explicit UTC offset; no date-only values."
+          },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "reference"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "manual_confirmation",
+                  "api_confirmation",
+                  "platform_confirmation"
+                ]
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "description": "Repair only an already published event. Observed LinkedIn, X or Reddit post permalink must match the event platform. Same key/exact payload is idempotent. Preserves externalId including legacy null, publication evidence/time, status, method and followups; a different existing URL conflicts. Never submits or authorizes a social post."
       },
       "Claim": {
         "type": "object",
