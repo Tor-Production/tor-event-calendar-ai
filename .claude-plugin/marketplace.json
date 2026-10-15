@@ -1,6 +1,6 @@
 {
   "name": "nambli",
-  "description": "Connect Claude Code to your private nambli calendar with account-scoped tools and an explicitly invoked skill.",
+  "description": "Connect Claude Code to your private nambli calendar with account-scoped tools and content/publication workflows.",
   "owner": {
     "name": "Tor Production"
   },
@@ -9,7 +9,7 @@
       "name": "nambli",
       "displayName": "nambli",
       "source": "./",
-      "description": "nambli account-scoped remote calendar tools and explicitly invoked skill."
+      "description": "nambli private calendar tools, explicitly invoked core skill and portable content/publication workflows."
     }
   ],
   "renames": {

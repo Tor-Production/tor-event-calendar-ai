@@ -1,4 +1,12 @@
-# nambli 0.3.2 release notes
+# nambli release notes
+
+## 0.3.3-dev.3 development candidate
+
+Adds portable `nambli-content` and `nambli-publish` workflows alongside the explicit-only core calendar skill. Content creation uses the user's available tools and saves drafts only when requested. Authorized publication uses a separately available publisher, records a confirmed receipt and permalink immediately, and retries calendar synchronization without reposting. Confirmed posts with a missing permalink have an explicit recovery path. New coordination/result tools require the matching deployed calendar server.
+
+The combined plugin, npm tarball and Claude Code package include all three skills; each skill also has a standalone ZIP. This candidate retains the Claude Code identity migration and optional local-file helper introduced in dev.2. No social publisher, shared credentials or owner-private app binding is bundled. Native Codex + LinkedIn send acceptance and OpenAI catalog publication remain separate from package validation. Stable v0.3.2 assets and their historical evidence below are unchanged.
+
+## 0.3.2
 
 Version 0.3.2 improves selected-account verification and account-management guidance. Account status now calls the selected connection's `get_profile`; remembered chat identities or website sessions are not treated as the current plugin account. Where the host supports multiple accounts, the skill directs users to its account controls without replacing their existing connection or embedding an owner's private app URL.
 

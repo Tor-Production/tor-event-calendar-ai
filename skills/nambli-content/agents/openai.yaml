@@ -1,0 +1,10 @@
+interface:
+  display_name: "nambli content"
+  short_description: "Create and save social content drafts in nambli"
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "nambli"
+      description: "Account-scoped nambli calendar tools"
+      transport: "streamable_http"
+      url: "https://nambli.com/mcp"

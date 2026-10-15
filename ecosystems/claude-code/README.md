@@ -2,7 +2,7 @@
 
 Connect Claude Code to your calendar at `https://nambli.com/mcp`, approve the intended account in your browser, then verify it with `get_profile`. A skill alone cannot connect an account. Calendar writes save drafts and can make opted-in calendar reminders eligible; they never publish or schedule LinkedIn posts.
 
-Implementation: [#69](https://github.com/Tor-Production/tor-event-calendar/issues/69). Native verification and subsequent fixes: [#79](https://github.com/Tor-Production/tor-event-calendar/issues/79). Shared file guidance/download: [#65](https://github.com/Tor-Production/tor-event-calendar/issues/65) / [#66](https://github.com/Tor-Production/tor-event-calendar/issues/66). Version 0.3.2 introduced this source integration under the former Claude plugin ID `tor-event-calendar-ai`. The `0.3.3-dev.2` review candidate renames the Claude plugin ID to `nambli` and bundles agent-run local file upload with separate OS-keychain pairing; published assets and hosted branches are not changed by a local edit. This candidate includes the setup-status and sanitized HTTP-error diagnostics corrections after the Mac-tested `0.3.3-dev.1` ZIP. The original archive remains unchanged. Source/package validation does not establish native acceptance.
+Implementation: [#69](https://github.com/Tor-Production/tor-event-calendar/issues/69). Native verification and subsequent fixes: [#79](https://github.com/Tor-Production/tor-event-calendar/issues/79). Shared file guidance/download: [#65](https://github.com/Tor-Production/tor-event-calendar/issues/65) / [#66](https://github.com/Tor-Production/tor-event-calendar/issues/66). Version 0.3.2 introduced this source integration under the former Claude plugin ID `tor-event-calendar-ai`. Version `0.3.3-dev.2`, integrated into `develop`, renamed the Claude plugin ID to `nambli` and bundled agent-run local file upload with separate OS-keychain pairing and two diagnostics corrections after the Mac-tested `0.3.3-dev.1` ZIP. Candidate `0.3.3-dev.3` retains those changes and adds portable content/publication workflows. Original archives remain unchanged. Source/package validation does not establish native acceptance.
 
 ## Supported host
 
@@ -20,7 +20,7 @@ First inspect `claude mcp list`, `claude plugin list` and `/mcp`. Preserve unrel
 
 The root `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.mcp.json` and shared `skills/nambli` are the native entry points. The current Claude plugin ID, explicit skill name and MCP key are `nambli`. Claude therefore registers `plugin:nambli:nambli`, exposes `mcp__plugin_nambli_nambli__TOOL`, and invokes the skill as `/nambli:nambli`.
 
-This is a Claude-only identity migration from `tor-event-calendar-ai`, whose previous server was `plugin:tor-event-calendar-ai:nambli` and skill command was `/tor-event-calendar-ai:nambli`. `displayName: "nambli"` alone did not change that technical identity in the tester's 2026-10-12 screenshot. The npm package, Codex plugin, repository URLs, MCP endpoint and calendar data retain their existing identities. The renamed candidate is not yet established as published on `#develop`; use the reviewed local ZIP or source for this test.
+This is a Claude-only identity migration from `tor-event-calendar-ai`, whose previous server was `plugin:tor-event-calendar-ai:nambli` and skill command was `/tor-event-calendar-ai:nambli`. `displayName: "nambli"` alone did not change that technical identity in the tester's 2026-10-12 screenshot. The npm package, Codex plugin, repository URLs, MCP endpoint and calendar data retain their existing identities. `develop` includes the rename; use the reviewed local ZIP or exact source commit when testing a candidate.
 
 Extract the candidate into a new source folder and keep the previous ZIP/source for rollback. Run from a separate scratch directory, outside the plugin source root, with only one absolute candidate path:
 
@@ -41,9 +41,9 @@ Replace the example path with your actual extraction path. `--plugin-dir` loads 
 
 A successful name/profile/read check verifies the migration only. Continue [native verification](NATIVE-VERIFICATION.md) from existing known test UUIDs where appropriate; pending cleanup remains part of the test.
 
-### Install from the marketplace after publication
+### Install from the development marketplace
 
-The published `v0.3.2` source retains the former Claude plugin identity. The following commands apply only after a maintainer publishes the renamed entry to `#develop`; they do not load this uncommitted candidate. Paste the primary command into an **interactive Claude Code conversation**, not the terminal shell:
+The published `v0.3.2` and stable `main` source retain the former Claude plugin identity. The following commands select the renamed development package in `#develop`; they do not load unpublished local changes. Check the installed version for the specific candidate being tested. Paste the primary command into an **interactive Claude Code conversation**, not the terminal shell:
 
 ```text
 /plugin install nambli --marketplace Tor-Production/tor-event-calendar-ai#develop
@@ -51,7 +51,7 @@ The published `v0.3.2` source retains the former Claude plugin identity. The fol
 
 Review the plugin and choose its scope; choose **local** for only the current project. The interactive `--marketplace` option requires v2.1.275+, included in the v2.1.283 target. The equivalent one-command shell option requires v2.1.292+. See the [official installation instructions](https://code.claude.com/docs/en/discover-plugins).
 
-The two-step shell route after publication is:
+The two-step shell route is:
 
 ```sh
 claude plugin marketplace add "Tor-Production/tor-event-calendar-ai#develop"
@@ -87,9 +87,9 @@ An observed `get_profile` result plus a bounded successful read verifies the con
 
 Claude Code refreshes OAuth through the host. If it requests authentication, select **Re-authenticate** on the same server in `/mcp`; on versions that provide it, `claude mcp login nambli` supports the manually configured server. Keep callback URLs in the host's authentication UI. Verify `get_profile` again after reconnecting. Changing the browser login does not change the saved grant. Preserve existing grants during the identity update. For an explicitly requested revocation test, revoke only its disposable test grant after cleanup in [Connections & tokens](https://nambli.com/?settings=connections), then confirm that connection fails; preserve unrelated grants. A grant for an older domain needs new consent for nambli.
 
-## Publication state checked on 2026-10-13
+## Source state checked on 2026-10-15
 
-The public GitHub marketplace exists, but `main` and `develop` at `e299d9e09f77181ba3a065ef4aa4bc8e1e5087f8` still list plugin `tor-event-calendar-ai` version 0.3.2 in marketplace `nambli`. This renamed automatic-files candidate is local and unpublished. Installing the hosted repository today does not install this candidate. The install commands above describe the intended route after this source is integrated; test the supplied ZIP/local marketplace meanwhile.
+The stable `main` branch at `fde98a8a38e965c30d91645f120fe43e8f77cccf` serves plugin `tor-event-calendar-ai` version 0.3.2. The development base `25c4c8ce2df976ab53497645d773942a8a3d4c06` includes renamed plugin `nambli` version 0.3.3-dev.2 and the local-file helper. The content/publication workflow candidate is 0.3.3-dev.3; verify its integration/version before treating a hosted install as that candidate. The reviewed ZIP or exact source remains the reproducible test input.
 
 Local Desktop Code provides **+ → Plugins → Add plugin** and shares user-scoped CLI installations. Claude account plugins under **Customize → Plugins** are a separate surface. A user-added GitHub marketplace is distinct from Anthropic's reviewed directory; no nambli Anthropic listing is verified here. See [Desktop setup](https://code.claude.com/docs/en/desktop#install-plugins), [plugin installation](https://code.claude.com/docs/en/discover-plugins), and [publication routes](https://code.claude.com/docs/en/plugins/publish).
 

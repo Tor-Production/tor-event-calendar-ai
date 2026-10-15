@@ -1,6 +1,6 @@
 {
   "sourceRepository": "Tor-Production/tor-event-calendar",
-  "sourceCommit": "620b804cc6e05d597d1b129216fc5b2df6baebc4",
+  "sourceCommit": "3207bd83e5f736abb6a45b5d4d336caaa6f3be02",
   "sourceDirty": false,
   "schemaVersion": "2026-09-28.1",
   "files": {
@@ -10,7 +10,7 @@
     "src/plan.d.mts": "f35e42c753abafcde3947f2fd9f520bccbac4ee0601a8ca8ac605cd589eca136",
     "src/platforms.mjs": "da20dda0b85a7e74e6bda4278e8daa806ff3987499d114045165254360420c4c",
     "src/platforms.d.mts": "9da380f74bd037904110821576ffc875c65bdc2764e19c91d5ce7184feb529d9",
-    "src/api-contract.mjs": "4c0e51a460d5428d232f915a93c0e164d2e981d239343b9d1cd2c034e554a2d9",
-    "skills/nambli/references/openapi.json": "8a2ed987770972a3f29e1936cb7b2df9bace404b2348def72170087e524ee24f"
+    "src/api-contract.mjs": "ff8ebfea1ce0e881777dc7a84c513a5effe3d79ba4601b672fdd754b79c06982",
+    "skills/nambli/references/openapi.json": "98b59235164d639af059ab1c9cd4a049ac07c457c4c467d073c5d5263c080779"
   }
 }

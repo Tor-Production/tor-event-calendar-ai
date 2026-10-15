@@ -101,7 +101,10 @@ def export_paths(root):
     fixed = [Path('.claude-plugin/plugin.json'), Path('.mcp.json'), Path('LICENSE'),
              Path('package.json'), Path('package-lock.json'), Path('src/claude-files.mjs'),
              HOST / 'local-files.mjs', HOST / 'AUTO-UPLOAD.md']
-    trees = (SKILL, HOST, Path('src'))
+    fixed += [Path('skills') / name / relative
+              for name in ('nambli-content', 'nambli-publish')
+              for relative in ('SKILL.md', 'agents/openai.yaml')]
+    trees = (Path('skills'), HOST, Path('src'))
     tracked = subprocess.run(['git', '-c', f'safe.directory={root.as_posix()}', 'ls-files', '-z', '--',
                               *(p.as_posix() for p in trees)], cwd=root, check=True, capture_output=True).stdout
     paths = fixed + [Path(p.decode('utf-8')) for p in tracked.split(b'\0') if p]
