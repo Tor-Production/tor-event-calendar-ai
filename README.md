@@ -8,7 +8,7 @@ Open nambli, connect your calendar, and ask for what you need.
 2. Sign in to your calendar, check the account and requested access, and choose **Allow access**.
 3. Start a new Codex chat and try: **Use nambli to show my connected account and today's events in Europe/Bucharest.**
 
-The button opens the plugin from a configured `nambli` marketplace. If nambli is missing, use the setup help in the guide. The public OpenAI directory listing remains a draft; the GitHub package and marketplace are separate distribution routes. Installing a skill alone does not connect an account.
+The button opens the plugin from a configured `nambli` marketplace. If nambli is missing, use the setup help in the guide. The OpenAI directory submission is in review and unpublished; the GitHub package and marketplace are separate distribution routes. Installing a skill alone does not connect an account.
 
 Recording a demo with an existing installation? Follow the [English recording guide](submission/recording-guide.txt), with exact prompts, the isolated demo identity and Europe/Bucharest examples. Show the installed plugin and connection; reinstalling is unnecessary.
 
@@ -181,7 +181,7 @@ From a clean checkout run `npm ci --ignore-scripts`, `npm test`, create `dist/`,
 
 ## Plugin development workspace
 
-All ecosystem plugins live in this repository; the private calendar repository owns the server. See [ecosystem ownership and task map](ecosystems/README.md). Shared upload/download recovery is documented in [file workflow](skills/nambli/references/files.md), including setup when no connector is installed. Server download support is deployed on nambli.com. The GitHub 0.3.2 package release is separate from the OpenAI listing. The 0.3.2 Portal draft has passed metadata, skill, domain and MCP checks. All eight native Codex review cases and natural OAuth refresh have passed. Owner legal attestations, store submission and the separate IDE compatibility matrix remain independently tracked. All eight workflows are present in the current English review video. The old 0.2.3 review was cancelled and its retained entry now shows Changes required / Not published. Earlier GitHub release tags and assets remain unchanged.
+All ecosystem plugins live in this repository; the private calendar repository owns the server. See [ecosystem ownership and task map](ecosystems/README.md). Shared upload/download recovery is documented in [file workflow](skills/nambli/references/files.md), including setup when no connector is installed. Server download support is deployed on nambli.com. The GitHub release, local 0.3.3-dev.3 package and OpenAI listing are separate. The owner completed the six legal declarations and submitted nambli 0.3.2 on 6 October; the Portal still shows **In review / Not published** on 15 October. The old 0.2.3 entry remains **Changes required / Not published** after cancellation, with no itemized reviewer criticism visible. See [current scan state and historical acceptance evidence](submission/status.md). All eight native Codex review cases and natural OAuth refresh passed for the exact 0.3.2 package; they do not certify the later publication workflows. The separate IDE matrix remains open. Earlier GitHub release tags and assets remain unchanged.
 
 ## Claude Code automatic-file candidate — 2026-10-13
 
