@@ -1,5 +1,9 @@
 # nambli release notes
 
+## 0.3.3-dev.4 development candidate
+
+Adds Instagram, Facebook, YouTube, TikTok and Snapchat to the shared calendar planning registry, REST/MCP schemas and portable planner. Minimal human-facing account/content choices persist across edits; all five automatic adapters remain unsupported. Matching server changes recognize selected public permalink forms for confirmed manual receipts and recovery without reposting. No social API integration, new platform notification integration or real send is included. Core explicit invocation, plugin IDs, stable v0.3.2 and the submitted catalog archive remain unchanged.
+
 ## 0.3.3-dev.3 development candidate
 
 Adds portable `nambli-content` and `nambli-publish` workflows alongside the explicit-only core calendar skill. Content creation uses the user's available tools and saves drafts only when requested. Authorized publication uses a separately available publisher, records a confirmed receipt and permalink immediately, and retries calendar synchronization without reposting. Confirmed posts with a missing permalink have an explicit recovery path. New coordination/result tools require the matching deployed calendar server.

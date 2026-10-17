@@ -1,6 +1,6 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.3.3-dev.3",
+  "version": "0.3.3-dev.4",
   "description": "Manage a connected private calendar, prepare social drafts and reconcile authorized publication receipts.",
   "author": {
     "name": "Tor Production",

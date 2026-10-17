@@ -89,7 +89,7 @@ Claude Code refreshes OAuth through the host. If it requests authentication, sel
 
 ## Source state checked on 2026-10-15
 
-The stable `main` branch at `fde98a8a38e965c30d91645f120fe43e8f77cccf` serves plugin `tor-event-calendar-ai` version 0.3.2. The development base `25c4c8ce2df976ab53497645d773942a8a3d4c06` includes renamed plugin `nambli` version 0.3.3-dev.2 and the local-file helper. The content/publication workflow candidate is 0.3.3-dev.3; verify its integration/version before treating a hosted install as that candidate. The reviewed ZIP or exact source remains the reproducible test input.
+The stable `main` branch at `fde98a8a38e965c30d91645f120fe43e8f77cccf` serves plugin `tor-event-calendar-ai` version 0.3.2. The development base `25c4c8ce2df976ab53497645d773942a8a3d4c06` includes renamed plugin `nambli` version 0.3.3-dev.2 and the local-file helper. The content/publication workflow candidate with expanded platform planning is 0.3.3-dev.4; verify its integration/version before treating a hosted install as that candidate. The reviewed ZIP or exact source remains the reproducible test input.
 
 Local Desktop Code provides **+ → Plugins → Add plugin** and shares user-scoped CLI installations. Claude account plugins under **Customize → Plugins** are a separate surface. A user-added GitHub marketplace is distinct from Anthropic's reviewed directory; no nambli Anthropic listing is verified here. See [Desktop setup](https://code.claude.com/docs/en/desktop#install-plugins), [plugin installation](https://code.claude.com/docs/en/discover-plugins), and [publication routes](https://code.claude.com/docs/en/plugins/publish).
 
