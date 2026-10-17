@@ -1,6 +1,6 @@
 {
   "name": "tor-event-calendar-ai",
-  "version": "0.3.3-dev.3",
+  "version": "0.3.3-dev.4",
   "description": "nambli account-scoped calendar MCP plugin and optional local CLI",
   "type": "module",
   "license": "MIT",
@@ -31,13 +31,14 @@
     "scripts/test.mjs",
     "scripts/test-download.mjs",
     "scripts/test-claude-files.mjs",
-    "scripts/test-claude-bootstrap.mjs"
+    "scripts/test-claude-bootstrap.mjs",
+    "scripts/test-platforms.mjs"
   ],
   "dependencies": {
     "@napi-rs/keyring": "2.1.0"
   },
   "scripts": {
-    "test": "node scripts/test.mjs",
+    "test": "node scripts/test.mjs && node scripts/test-platforms.mjs",
     "package": "python scripts/package.py",
     "validate:claude-code": "python scripts/claude_code.py validate",
     "test:claude-code": "python scripts/test_claude_code.py",

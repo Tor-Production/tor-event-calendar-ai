@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tor-event-calendar-ai",
-  "version": "0.3.3-dev.3",
+  "version": "0.3.3-dev.4",
   "description": "Manage a connected private calendar, prepare social drafts and reconcile authorized publication receipts.",
   "author": {
     "name": "Tor Production",
@@ -104,7 +104,7 @@
         }
       },
       "publication": {
-        "release_notes": "Development candidate 0.3.3-dev.3 adds portable nambli-content and nambli-publish workflows, immediate confirmed publication receipts and permalink recovery without reposting, and separate standalone workflow archives. The core calendar skill stays explicit-only. The package retains the Claude Code local-file helper and requires a compatible deployed calendar server for the new receipt tools. No social publisher or shared credentials are bundled. Native Codex and LinkedIn publication acceptance remains a separate check; this candidate does not claim an OpenAI catalog release.",
+        "release_notes": "Development candidate 0.3.3-dev.4 adds calendar planning choices for Instagram, Facebook, YouTube, TikTok and Snapchat while preserving LinkedIn, X and Reddit. The shared schemas use human account context and content choices, with all five new automatic adapters explicitly unsupported. Portable content/publication workflows, immediate receipts and missing-link recovery remain available only with compatible server capabilities. No social publisher, shared credentials or private app bindings are bundled. Core nambli invocation remains explicit-only; stable v0.3.2 and the catalog submission are unchanged.",
         "countries": []
       }
     }

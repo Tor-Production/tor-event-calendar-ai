@@ -25,17 +25,21 @@ codex plugin add tor-event-calendar-ai@nambli
 
 The stable combined plugin includes the remote calendar tools, approved light/dark artwork, and explicitly invoked `nambli` skill. Ask to use nambli or invoke `$nambli`; implicit invocation stays disabled for this core skill.
 
+## Social planning choices in 0.3.3-dev.4
+
+Adds Instagram, Facebook, YouTube, TikTok and Snapchat alongside LinkedIn, X and Reddit. Save content types and optional account names/URLs without configuring a publisher. All five new automatic adapters remain unsupported; calendar writes never publish. See [platform fields, official sources and receipt limits](docs/SOCIAL_PLATFORMS.md). The connected server must advertise the matching schema; the package alone cannot upgrade it.
+
 ## Content and publication workflows in 0.3.3-dev.3
 
 The combined development package also contains [nambli-content](skills/nambli-content/SKILL.md), for creating and saving social drafts, and [nambli-publish](skills/nambli-publish/SKILL.md), for an authorized publication workflow and immediate result/link reconciliation. These two skills can be discovered for relevant nambli requests; the original calendar skill remains explicit-only. Each has a separate standalone ZIP from the package script. The local CLI's `install-skill CLIENT` continues to install only the core `nambli` skill.
 
 The package supplies no social publisher or shared LinkedIn credentials. It targets Codex + LinkedIn first and checks the actual available publisher and account. New `claim_publication`, `report_publication_result` and `repair_publication_url` tools require a supporting deployed calendar server; an installed skill cannot add missing server tools. Confirmed posts are recorded before optional followups; callback failure retries calendar sync without reposting, and a missing permalink has an explicit recovery path. See [publication rules](skills/nambli/references/publication.md) and [portable architecture and release gates](ecosystems/PUBLISHING_ARCHITECTURE.md). Package validation does not establish native publication acceptance or an OpenAI catalog release.
 
-The stable `main` route serves v0.3.2. Development candidates are integrated into `develop`; select the reviewed commit or `develop` deliberately when testing 0.3.3-dev.3 after integration. See [Codex source selection and update verification](ecosystems/codex/README.md). A server deployment does not update installed skill files.
+The stable `main` route serves v0.3.2. Development candidates are integrated into `develop`; select the reviewed commit or `develop` deliberately when testing 0.3.3-dev.4 after integration. See [Codex source selection and update verification](ecosystems/codex/README.md). A server deployment does not update installed skill files.
 
 ## Claude Code
 
-The development package uses the Claude plugin ID **nambli**, with skill `/nambli:nambli` and server `plugin:nambli:nambli`. The published v0.3.2 release and `main` use the former ID; `develop` includes the rename and local-file helper. For the new publication workflows, verify version 0.3.3-dev.3 after their integration or extract its reviewed ZIP and follow the [local update and retest steps](ecosystems/claude-code/README.md#update-an-existing-claude-test).
+The development package uses the Claude plugin ID **nambli**, with skill `/nambli:nambli` and server `plugin:nambli:nambli`. The published v0.3.2 release and `main` use the former ID; `develop` includes the rename and local-file helper. For the new publication workflows, verify version 0.3.3-dev.4 after its integration or extract its reviewed ZIP and follow the [local update and retest steps](ecosystems/claude-code/README.md#update-an-existing-claude-test).
 
 To use the development source, run this in an interactive Claude Code session:
 

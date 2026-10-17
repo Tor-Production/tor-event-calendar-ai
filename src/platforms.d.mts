@@ -1,4 +1,5 @@
 export const SCHEMA_VERSION:string;
+export const PLATFORM_IDS:readonly string[];
 export const CALENDAR_LIMITS:{jsonBytes:number;fileBytes:number;listPage:number;maxOffset:number;mime:string;remainingQuota:null};
 export type PlatformField={key:string;label:string;options:string[]|null;required:boolean};
 export const PLATFORMS:Record<string,{id:string;label:string;docs:string;fields:PlatformField[];platformCapabilities:Record<string,unknown>;adapter:Record<string,any>;media:Record<string,unknown>}>;

@@ -136,7 +136,7 @@
     "/api/capabilities": {
       "get": {
         "summary": "Versioned enforced limits and connection metadata",
-        "description": "Schema 2026-09-28.1; no private data, no invented Cloudflare remaining quota.",
+        "description": "Schema 2026-10-17.1; no private data, no invented Cloudflare remaining quota.",
         "operationId": "get__api_capabilities",
         "security": [],
         "parameters": [],
@@ -1892,6 +1892,46 @@
               "maximum": 100000,
               "default": 0
             }
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "linkedin",
+                "x",
+                "reddit",
+                "instagram",
+                "facebook",
+                "youtube",
+                "tiktok",
+                "snapchat"
+              ]
+            }
+          },
+          {
+            "name": "publicationStatus",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "not_published",
+                "scheduled",
+                "published",
+                "cancelled",
+                "unknown"
+              ]
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 120
+            }
           }
         ],
         "responses": {
@@ -3141,7 +3181,12 @@
               "enum": [
                 "linkedin",
                 "x",
-                "reddit"
+                "reddit",
+                "instagram",
+                "facebook",
+                "youtube",
+                "tiktok",
+                "snapchat"
               ]
             }
           }
@@ -3901,6 +3946,46 @@
               "minimum": 0,
               "maximum": 100000,
               "default": 0
+            }
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "linkedin",
+                "x",
+                "reddit",
+                "instagram",
+                "facebook",
+                "youtube",
+                "tiktok",
+                "snapchat"
+              ]
+            }
+          },
+          {
+            "name": "publicationStatus",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "not_published",
+                "scheduled",
+                "published",
+                "cancelled",
+                "unknown"
+              ]
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 120
             }
           }
         ],
@@ -6368,6 +6453,140 @@
       }
     },
     "schemas": {
+      "InstagramSettings": {
+        "type": "object",
+        "required": [
+          "platform",
+          "postType"
+        ],
+        "properties": {
+          "platform": {
+            "const": "instagram"
+          },
+          "account": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "postType": {
+            "enum": [
+              "image",
+              "carousel",
+              "reel",
+              "story"
+            ]
+          }
+        },
+        "description": "Planning only. API publishing requires an eligible professional account; post-type permissions and media limits must be verified by the publisher. Account names/URLs are optional planning context, not verified authorization or API identifiers."
+      },
+      "FacebookSettings": {
+        "type": "object",
+        "required": [
+          "platform",
+          "actorKind",
+          "postType"
+        ],
+        "properties": {
+          "platform": {
+            "const": "facebook"
+          },
+          "account": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "actorKind": {
+            "enum": [
+              "profile",
+              "page"
+            ]
+          },
+          "postType": {
+            "enum": [
+              "post",
+              "reel",
+              "story"
+            ]
+          }
+        },
+        "description": "Planning only. Profile and Page workflows differ; Page API access does not authorize profile publishing. Verify destination, audience and media requirements with the publisher. Account names/URLs are optional planning context, not verified authorization or API identifiers."
+      },
+      "YoutubeSettings": {
+        "type": "object",
+        "required": [
+          "platform",
+          "postType",
+          "visibility"
+        ],
+        "properties": {
+          "platform": {
+            "const": "youtube"
+          },
+          "account": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "postType": {
+            "enum": [
+              "video",
+              "short"
+            ]
+          },
+          "visibility": {
+            "enum": [
+              "public",
+              "unlisted",
+              "private"
+            ]
+          }
+        },
+        "description": "Planning only. Shorts eligibility, audience/children settings, rights, upload limits and requested visibility must be verified by the publisher. Account names/URLs are optional planning context, not verified authorization or API identifiers."
+      },
+      "TiktokSettings": {
+        "type": "object",
+        "required": [
+          "platform",
+          "postType"
+        ],
+        "properties": {
+          "platform": {
+            "const": "tiktok"
+          },
+          "account": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "postType": {
+            "enum": [
+              "video",
+              "photo"
+            ]
+          }
+        },
+        "description": "Planning only. The publisher must obtain current creator capabilities, an explicit permitted audience and content disclosures. API approval and user authorization are separate. Account names/URLs are optional planning context, not verified authorization or API identifiers."
+      },
+      "SnapchatSettings": {
+        "type": "object",
+        "required": [
+          "platform",
+          "postType"
+        ],
+        "properties": {
+          "platform": {
+            "const": "snapchat"
+          },
+          "account": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "postType": {
+            "enum": [
+              "spotlight",
+              "public_story",
+              "saved_story"
+            ]
+          }
+        },
+        "description": "Public content planning only, not private messages. Verify profile eligibility, destination, media requirements and live publication status; submission alone may await moderation. Account names/URLs are optional planning context, not verified authorization or API identifiers."
+      },
       "Error": {
         "type": "object",
         "properties": {
@@ -6466,6 +6685,21 @@
                 "$ref": "#/components/schemas/RedditSettings"
               },
               {
+                "$ref": "#/components/schemas/InstagramSettings"
+              },
+              {
+                "$ref": "#/components/schemas/FacebookSettings"
+              },
+              {
+                "$ref": "#/components/schemas/YoutubeSettings"
+              },
+              {
+                "$ref": "#/components/schemas/TiktokSettings"
+              },
+              {
+                "$ref": "#/components/schemas/SnapchatSettings"
+              },
+              {
                 "type": "null"
               }
             ]
@@ -6517,6 +6751,21 @@
               },
               {
                 "$ref": "#/components/schemas/RedditSettings"
+              },
+              {
+                "$ref": "#/components/schemas/InstagramSettings"
+              },
+              {
+                "$ref": "#/components/schemas/FacebookSettings"
+              },
+              {
+                "$ref": "#/components/schemas/YoutubeSettings"
+              },
+              {
+                "$ref": "#/components/schemas/TiktokSettings"
+              },
+              {
+                "$ref": "#/components/schemas/SnapchatSettings"
               },
               {
                 "type": "null"
@@ -6602,6 +6851,21 @@
               },
               {
                 "$ref": "#/components/schemas/RedditSettings"
+              },
+              {
+                "$ref": "#/components/schemas/InstagramSettings"
+              },
+              {
+                "$ref": "#/components/schemas/FacebookSettings"
+              },
+              {
+                "$ref": "#/components/schemas/YoutubeSettings"
+              },
+              {
+                "$ref": "#/components/schemas/TiktokSettings"
+              },
+              {
+                "$ref": "#/components/schemas/SnapchatSettings"
               },
               {
                 "type": "null"
@@ -7186,7 +7450,7 @@
             }
           }
         },
-        "description": "Repair only an already published event. Observed LinkedIn, X or Reddit post permalink must match the event platform. Same key/exact payload is idempotent. Preserves externalId including legacy null, publication evidence/time, status, method and followups; a different existing URL conflicts. Never submits or authorizes a social post."
+        "description": "Repair only an already published event. An observed supported public post permalink must match the event platform; profile URLs, short redirect links and unrecognized/ephemeral links are not accepted. Same key/exact payload is idempotent. Preserves externalId including legacy null, publication evidence/time, status, method and followups; a different existing URL conflicts. Never submits or authorizes a social post."
       },
       "Claim": {
         "type": "object",
@@ -7309,5 +7573,5 @@
     "mime": "any; served as authenticated attachment",
     "remainingQuota": null
   },
-  "x-schema-version": "2026-09-28.1"
+  "x-schema-version": "2026-10-17.1"
 }

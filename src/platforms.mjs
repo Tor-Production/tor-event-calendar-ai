@@ -1,7 +1,10 @@
 // One registry for the browser, Worker, CLI and on-demand skill questions.
-export const SCHEMA_VERSION = '2026-09-28.1';
+export const SCHEMA_VERSION = '2026-10-17.1';
 export const CALENDAR_LIMITS = Object.freeze({jsonBytes:262144,fileBytes:26214400,listPage:500,maxOffset:100000,mime:'any; served as authenticated attachment',remainingQuota:null});
 const field = (key,label,options=null,required=false) => ({key,label,options,required});
+const planningPlatform=(id,label,docs,fields,types,limits)=>({id,label,docs,fields,
+  platformCapabilities:{publicContentPlanning:true,publisher:'requires a separately authorized publisher; not installed'},
+  adapter:{id:null,actions:[],runtime:'unsupported',socialAuthorization:'unknown'},media:{types,limits}});
 export const PLATFORMS = Object.freeze({
   linkedin:{id:'linkedin',label:'LinkedIn',docs:'https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api',
     fields:[field('actorKind','Actor',['personal','organization'],true),field('actorId','Actor ID'),field('destinationKind','Destination',['public_feed','group'],true),field('destinationId','Destination ID'),field('audience','Audience',['public','connections','group'],true),field('reaction','Reaction',['none','like','celebrate','support','love','insightful','funny'],true),field('firstComment','First comment (empty means none)'),field('featured','Add to Featured',['false','true'],true)],
@@ -13,10 +16,26 @@ export const PLATFORMS = Object.freeze({
     platformCapabilities:{posts:true,threads:true,replies:true,communities:true},adapter:{id:null,actions:[],runtime:'unsupported',socialAuthorization:'unknown'},media:{types:['text','image','video','gif'],limits:'Account/tier dependent; unknown until verified.'}},
   reddit:{id:'reddit',label:'Reddit',docs:'https://www.reddit.com/dev/api/#POST_api_submit',
     fields:[field('actorId','Reddit username',null,true),field('subreddit','Subreddit',null,true),field('postType','Post type',['self','link','image','video'],true),field('postTitle','Reddit post title',null,true),field('flairId','Post flair template ID'),field('nsfw','NSFW',['false','true'],true),field('spoiler','Spoiler',['false','true'],true),field('firstComment','First comment (empty means none)')],
-    platformCapabilities:{posts:true,flair:true,communityRules:'must be checked'},adapter:{id:null,actions:[],runtime:'unsupported',socialAuthorization:'unknown'},media:{types:['self','link','image','video'],limits:'Subreddit and API permissions dependent; unknown until verified.'}}
+    platformCapabilities:{posts:true,flair:true,communityRules:'must be checked'},adapter:{id:null,actions:[],runtime:'unsupported',socialAuthorization:'unknown'},media:{types:['self','link','image','video'],limits:'Subreddit and API permissions dependent; unknown until verified.'}},
+  instagram:planningPlatform('instagram','Instagram','https://developers.facebook.com/docs/instagram-platform/content-publishing/',
+    [field('account','Instagram account (name or URL)'),field('postType','Content type',['image','carousel','reel','story'],true)],
+    ['image','video','carousel'],'Planning only. API publishing requires an eligible professional account; post-type permissions and media limits must be verified by the publisher.'),
+  facebook:planningPlatform('facebook','Facebook','https://developers.facebook.com/docs/pages-api/posts/',
+    [field('account','Facebook profile or Page (name or URL)'),field('actorKind','Publish as',['profile','page'],true),field('postType','Content type',['post','reel','story'],true)],
+    ['text','image','video','link'],'Planning only. Profile and Page workflows differ; Page API access does not authorize profile publishing. Verify destination, audience and media requirements with the publisher.'),
+  youtube:planningPlatform('youtube','YouTube','https://developers.google.com/youtube/v3/docs/videos/insert',
+    [field('account','YouTube channel (name or URL)'),field('postType','Content type',['video','short'],true),field('visibility','Visibility',['public','unlisted','private'],true)],
+    ['video'],'Planning only. Shorts eligibility, audience/children settings, rights, upload limits and requested visibility must be verified by the publisher.'),
+  tiktok:planningPlatform('tiktok','TikTok','https://developers.tiktok.com/doc/content-posting-api-get-started/',
+    [field('account','TikTok account (name or URL)'),field('postType','Content type',['video','photo'],true)],
+    ['video','image'],'Planning only. The publisher must obtain current creator capabilities, an explicit permitted audience and content disclosures. API approval and user authorization are separate.'),
+  snapchat:planningPlatform('snapchat','Snapchat','https://developers.snap.com/marketing-api/Public-Profile-API/Introduction',
+    [field('account','Snapchat Public Profile (name or URL)'),field('postType','Content type',['spotlight','public_story','saved_story'],true)],
+    ['image','video'],'Public content planning only, not private messages. Verify profile eligibility, destination, media requirements and live publication status; submission alone may await moderation.')
 });
+export const PLATFORM_IDS = Object.freeze(Object.keys(PLATFORMS));
 export function platformSchema(id) {
-  const p=PLATFORMS[String(id).toLowerCase()];if(!p)return null;
+  const key=String(id).toLowerCase();if(!Object.hasOwn(PLATFORMS,key))return null;const p=PLATFORMS[key];
   return {contractVersion:2,schemaVersion:SCHEMA_VERSION,...p,calendarLimits:CALENDAR_LIMITS,
     // Compatibility consumers still receive their existing capability shape.
     ...(p.id==='linkedin'?{fields:{actorKinds:['personal','organization'],destinationKinds:['public_feed','group'],reactionValues:['none','like','celebrate','support','love','insightful','funny'],supportedReactionValues:['none','insightful']},formFields:p.fields,
@@ -38,12 +57,13 @@ export function formToSettings(platform,form) {
   return {platform,...form,...(platform==='reddit'?{nsfw:boolean(form.nsfw),spoiler:boolean(form.spoiler)}:{})};
 }
 export function settingsIssues(settings,{legacy=false}={}) {
-  const p=PLATFORMS[settings?.platform];if(!p)return ['platform'];
+  if(!Object.hasOwn(PLATFORMS,settings?.platform))return ['platform'];const p=PLATFORMS[settings.platform];
   const form=settingsToForm(settings),missing=[];
   const raw=p.id==='linkedin'?{...form,featured:settings.requestedFollowUps?.featured,firstComment:settings.requestedFollowUps?.firstComment}:settings;
   for(const f of p.fields){const v=raw[f.key],boolean=['featured','nsfw','spoiler'].includes(f.key),nullable=['actorId','destinationId','flairId','firstComment','firstReply'].includes(f.key);if(v!==undefined&&!(v===null&&nullable)&&typeof v!==(boolean?'boolean':'string'))missing.push(f.key);}
   for(const key of ['firstComment','firstReply'])if(typeof raw[key]==='string'&&raw[key].length>5000)missing.push(key);
   for(const f of p.fields){const v=form[f.key];if(f.required&&(v===undefined||v===null||v==='')&&!(legacy&&settings.platform==='linkedin'&&f.key==='audience'))missing.push(f.key);else if(v!==undefined&&v!==null&&v!==''&&f.options&&!f.options.includes(String(v)))missing.push(f.key);}
+  if(['instagram','facebook','youtube','tiktok','snapchat'].includes(p.id))for(const f of p.fields){const v=raw[f.key];if(typeof v==='string'&&(v.length>2000||/[\u0000-\u001f\u007f]/.test(v)||(f.required&&!v.trim())))missing.push(f.key);}
   if(p.id==='linkedin'){
     if(!legacy)for(const key of ['reaction','firstComment','featured'])if(!Object.hasOwn(settings.requestedFollowUps??{},key))missing.push(key);
     if(form.actorKind==='organization'&&!form.actorId)missing.push('actorId');
