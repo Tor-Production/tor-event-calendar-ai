@@ -9,7 +9,7 @@ Turn the user's idea and evidence into a usable draft. Preserve their voice, lan
 
 ## Develop the draft
 
-Use supplied sources and ask only for missing decisions that change the content. Distinguish supported facts from proposed phrasing; do not invent results, quotes, product capabilities or personal experiences. Use available research or media tools when the brief calls for them. A media brief or reference URL is not a generated or uploaded asset. Show the text and actual assets for review when review is requested; creating a draft does not authorize publication.
+Use supplied sources and ask only for missing decisions that change the content. Distinguish supported facts from proposed phrasing; do not invent results, quotes, product capabilities or personal experiences. Use available research or media tools when the brief calls for them. A media brief or reference URL is not a generated or uploaded asset. Show the text and actual assets for review when review is requested; creating a draft does not authorize publication. Preserve approved paragraph breaks, blank lines and Unicode characters in the canonical saved text. If a text attachment and `post_text` disagree, resolve which is authoritative instead of silently normalizing or merging them; the publisher must verify the actual composer layout before sending.
 
 If the user only asks for text or an image, return it without calendar access. When they ask to save or revise a nambli draft, that request authorizes the scoped calendar operation. Do not select unrelated records or create an extra event for an ordinary revision.
 
