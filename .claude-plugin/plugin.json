@@ -1,7 +1,7 @@
 {
   "name": "nambli",
   "displayName": "nambli",
-  "version": "0.3.3-dev.4",
+  "version": "0.3.3-dev.5",
   "description": "Manage a private nambli calendar, prepare social drafts, reconcile publication receipts and upload local files after optional secure helper pairing.",
   "author": {
     "name": "Tor Production",
