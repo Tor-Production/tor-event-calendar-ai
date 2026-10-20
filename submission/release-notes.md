@@ -1,5 +1,13 @@
 # nambli release notes
 
+## 0.3.3-dev.5 development candidate
+
+Reuses the selected existing connection and separates stale App tool discovery from missing authorization. Publication now preflights the complete authorized post/followup plan, preserves meaningful paragraph spacing, saves the base receipt durably and performs approved social followups immediately before any serial calendar callback. Each result is recorded independently; ambiguous actions are reconciled on the same post without repeating successful sends.
+
+The 19 October real run verified one base post and its saved nambli permalink, then required same-post formatting/followup recovery. Recovery completed all three followups but did not pass the initial uninterrupted-workflow requirement. A fresh full run is deferred by the owner to a future post. No unattended publisher, scheduler or support for untested AI hosts is claimed.
+
+The original dev.5 archives remain pinned to source `259c89c184d0c7ca0786a5f08f1c3b7ede9d2239`; this later documentation change does not replace their bytes. Stable v0.3.2 and its pending OpenAI submission are frozen. The next OpenAI update must wait for current approval and the separate [post-approval preparation gates](post-approval-update.md); this is neither a new catalog submission nor a public release.
+
 ## 0.3.3-dev.4 development candidate
 
 Adds Instagram, Facebook, YouTube, TikTok and Snapchat to the shared calendar planning registry, REST/MCP schemas and portable planner. Minimal human-facing account/content choices persist across edits; all five automatic adapters remain unsupported. Matching server changes recognize selected public permalink forms for confirmed manual receipts and recovery without reposting. No social API integration, new platform notification integration or real send is included. Core explicit invocation, plugin IDs, stable v0.3.2 and the submitted catalog archive remain unchanged.

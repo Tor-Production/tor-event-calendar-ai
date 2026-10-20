@@ -1,6 +1,6 @@
 # nambli
 
-Submitted package version: **0.3.2**. Verified developer: **Tor Production**. Category: **Productivity**. Submission type: **With MCP + skill**. Submitted on 6 October 2026; live Portal state on 15 October is **In review / Not published**. The separate local development package is 0.3.3-dev.3 and has not replaced this submission.
+Submitted package version: **0.3.2**. Verified developer: **Tor Production**. Category: **Productivity**. Submission type: **With MCP + skill**. Submitted on 6 October 2026; the last direct Portal inspection on 15 October showed **In review / Not published**. The owner confirmed the current review is still pending on 20 October; no fresh Portal inspection is claimed. The separate local development package is 0.3.3-dev.5 and has not replaced this submission. This page preserves the submitted listing copy; future changes follow the [post-approval checklist](post-approval-update.md).
 
 ## Short description
 

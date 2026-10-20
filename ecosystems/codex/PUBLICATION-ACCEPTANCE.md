@@ -1,6 +1,6 @@
 # Codex + LinkedIn publication acceptance
 
-Review date: 19 October 2026. This records the base-publication checkpoint of one owner-authorized live run using the installed dev.4 instructions, followed by proposed dev.5 instruction fixes. It is not a certification of unattended scheduling, every followup, another account or another host. Private account, App, event and journal identifiers are intentionally omitted.
+Review date: 19 October 2026; recovery and owner-directed deferral recorded on 20 October. This preserves the initial base-publication checkpoint using the installed dev.4 instructions, followed by same-post recovery and dev.5 instruction fixes. It does not certify an uninterrupted fresh run, unattended scheduling, another account or another host. Private account, App, event and journal identifiers are intentionally omitted.
 
 ## Goal compared with the observed run
 
@@ -14,6 +14,14 @@ Review date: 19 October 2026. This records the base-publication checkpoint of on
 | Distinguish assisted publication from scheduled automation | This was an assisted immediate browser send. `publication_automated` remained false. | Truthful classification verified; scheduler untested. |
 
 The original complete user experience therefore did not pass, even though the base publication and nambli synchronization succeeded. No additional post should be created to repair this run. Use the same confirmed post for any explicitly requested correction or remaining followup.
+
+## Same-post recovery and deployment
+
+Recovery was verified on 19 October at 14:06:38 UTC after the owner explicitly requested repair and all three followups. The same post retained its words, image, complete alt text, author and public audience. Reload verified ten restored paragraph separators, exactly one saved previous-post comment and the selected Insightful reaction; LinkedIn confirmed Featured placement. Fresh nambli readback confirmed firstComment, reaction and featured as completed while retaining the original external ID/permalink and manual execution. No second base post was created.
+
+The initial complete-run verdict remains failed: delayed recovery does not prove immediate execution. The hardened packages were installed afterward. Public [PR #36](https://github.com/Tor-Production/tor-event-calendar-ai/pull/36) integrated dev.5; calendar [PR #136](https://github.com/Tor-Production/tor-event-calendar/pull/136) deployed matching server instructions after full checks, exact staging MCP verification and production read-only checks. Refreshing the exact existing App without reauthorization exposed 19 tools and the revised no-serial-calendar-delay description in a fresh context. An already-running host context can retain its older catalog.
+
+On 20 October the owner deferred the next full publication test to a future real post. No extra send, schedule or test publication is authorized now. This planned deferral does not block documentation or pinned-artifact preparation, but it must remain visible as unverified acceptance in the [post-approval update checklist](../../submission/post-approval-update.md).
 
 ## Changes in the dev.5 candidate
 
@@ -44,6 +52,6 @@ Offline review on 19 October produced explicit action traces for B1–B8: all ei
 
 ## Remaining acceptance gates
 
-The next user-authorized live run must verify visible paragraph spacing before Post, every agreed followup on the exact post without intervening diagnostics, durable evidence at each step, prompt final calendar sync and reloaded UI state. Do not publish a synthetic test post without authorization. Same-post recovery of the 19 October run cannot prove that a new run now follows the correct uninterrupted order.
+Deferred by the owner on 20 October: the next user-authorized live run must verify visible paragraph spacing before Post, every agreed followup on the exact post without intervening diagnostics, durable evidence at each step, prompt final calendar sync and reloaded UI state. Do not publish a synthetic test post without authorization. Same-post recovery of the 19 October run cannot prove that a new run now follows the correct uninterrupted order.
 
 Scheduling still needs an independently verified runner or native platform queue, timing, cancellation/change, unavailable connection, failure and missed-time recovery. Other ecosystems need their own account/transport/publisher/durable-store verification against this shared contract; MCP/OAuth compatibility alone is not acceptance. A server-side publisher could make execution independent of the AI host, but this package supplies no such scheduler or social API adapter. Legacy missing-link audit/backfill is also outside this one-post test.
