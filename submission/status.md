@@ -1,6 +1,15 @@
-# nambli package and catalog status — 15 October 2026
+# nambli package and catalog status — 20 October 2026
 
-GitHub package distribution, installed development packages and OpenAI catalog review are separate. The stable GitHub release and submitted Portal package are 0.3.2. The `develop` source and owner's local Codex installation now use 0.3.3-dev.3, with content/publication workflows; that update did not replace the Portal submission. Earlier tags/assets remain unchanged. The historical 3 October record is preserved in the [v0.3.0 source](https://github.com/Tor-Production/tor-event-calendar-ai/blob/v0.3.0/submission/status.md).
+GitHub distribution, installed development packages and OpenAI catalog review are separate. Stable GitHub v0.3.2 and the frozen Portal package remain unchanged. The owner confirmed on 20 October that the current package is still under OpenAI review; the last direct Portal inspection recorded here is 15 October. No fresh Portal status, approval or completed scan is claimed today.
+
+## Owner-directed release hold
+
+- Keep the current 0.3.2 review intact. Do not upload a replacement, cancel/restart review, resubmit, publish, or change its saved metadata, account connection or attestations while approval is pending.
+- Prepare source documentation and a pinned reference candidate now. The next OpenAI update is deferred until approval of the current submission is actually verified. Approval is a prerequisite, not evidence that a later update has been submitted or published.
+- Public development candidate **0.3.3-dev.5** was integrated through [PR #36](https://github.com/Tor-Production/tor-event-calendar-ai/pull/36), source commit `259c89c184d0c7ca0786a5f08f1c3b7ede9d2239`, develop merge `4ffa1ac49bca4cd9ae75d545f520cae64a44ea70`. Its existing validated archives and the owner's installed development package are preserved. This documentation update does not rebuild them or change the package version.
+- The fresh complete Codex + LinkedIn publication test is deliberately deferred by the owner to a future real post. That does not block this documentation/artifact preparation, but the complete uninterrupted workflow remains unverified. No extra test post is authorized.
+
+The [post-approval update checklist](post-approval-update.md) pins the unchanged artifacts and separates completed preparation from final release assembly, deferred live acceptance and Portal-only steps. The existing dev.5 ZIP is a development reference, not a newly assembled submission ZIP containing these newer documents.
 
 ## Portal state verified on 15 October
 
@@ -16,7 +25,7 @@ At the 6 October submission checkpoint, metadata, domain and MCP checks passed f
 
 The frozen Portal archive is `nambli-store-0.3.2.zip`, SHA-256 `8243348b2d54720078e92ccd7ff72f1d093e22990a5003d23043b77121b0f9b2`, 3,611,768 bytes and 35 files. Its minimal public tree excludes internal reports/build scripts. The broader GitHub source distribution retains those public development and setup materials; its checksum is intentionally different. A source or installed-package update does not change that submitted archive.
 
-Neither entry is published. No public directory URL is claimed; `docs/install-config.json` retains `listingStatus: draft` and `listingURL: null` to keep the unpublished install route disabled. This configuration label does not mean the 0.3.2 review was never submitted.
+Neither entry was published at the 15 October inspection. The owner reported the current review still pending on 20 October; no new Portal inspection was performed. No public directory URL is claimed; `docs/install-config.json` retains `listingStatus: draft` and `listingURL: null` to keep the unpublished install route disabled. This configuration label does not mean the 0.3.2 review was never submitted.
 
 ## Recorded workflows and remaining acceptance
 
@@ -26,12 +35,24 @@ The filmed P04 fixture was 108 bytes; the reusable public fixture is 44 bytes. A
 
 Codex CLI 0.155.1 discovers the exact unmodified public package's nambli MCP tools through deferred tool metadata. The portable root `mcp.json` works; no speculative manifest pointer change was needed. The isolated native run now verifies all eight cases: P01–P05 and N01–N03. N01–N03 each completed with zero nambli calls, independently establishing the stricter N02 boundary that the video alone did not prove. P04 downloaded the real 44-byte attachment through the native flow and verified its SHA-256 against the input.
 
-A fresh connection with the necessary grant also passed natural access-token expiry and OAuth refresh after more than 15 minutes. This is observed native refresh evidence, not an inference from advertised metadata. After the server-only guidance fix in calendar [PR #121](https://github.com/Tor-Production/tor-event-calendar/pull/121), strict P02 and P03 read-back passed. P03 verifies the exact canonical `post_text`, String `social_network: LinkedIn`, and JSON `publication_draft_settings` with the requested personal/public-feed/public audience choices and no reaction, comment or Featured action. The stable event ID and 11:00Z / 14:00 Europe/Bucharest start are preserved; `publicationStatus: not_published`, `publicationAutomated: false` and active `publishingSettings: null` are correct. The exact public package and frozen Portal ZIP were unchanged during those tests, and the final scan at that checkpoint reported no issues across all 16 tools. These results do not establish acceptance of the later 0.3.3-dev.3 publishing workflows.
+A fresh connection with the necessary grant also passed natural access-token expiry and OAuth refresh after more than 15 minutes. This is observed native refresh evidence, not an inference from advertised metadata. After the server-only guidance fix in calendar [PR #121](https://github.com/Tor-Production/tor-event-calendar/pull/121), strict P02 and P03 read-back passed. P03 verifies the exact canonical `post_text`, String `social_network: LinkedIn`, and JSON `publication_draft_settings` with the requested personal/public-feed/public audience choices and no reaction, comment or Featured action. The stable event ID and 11:00Z / 14:00 Europe/Bucharest start are preserved; `publicationStatus: not_published`, `publicationAutomated: false` and active `publishingSettings: null` are correct. The exact public package and frozen Portal ZIP were unchanged during those tests, and the final scan at that checkpoint reported no issues across all 16 tools. These results do not establish acceptance of the later 0.3.3-dev.5 publishing workflows.
 
 The separate native IDE matrix is still open: post-restart VS Code 1.140 tool use and Cursor/Insiders execution remain unverified. A VS Code 1.120 connection previously discovered 16 tools and Copilot successfully called `get_profile`; that does not establish the later client results. These IDE checks do not block GitHub package distribution. Remaining catalog work is resolving or obtaining an explanation for the incomplete Server instructions check and aggregate MCP status, the review outcome, any actual reviewer requests, and authorized publication after approval. The six declarations and original submission are already complete.
 
 Search Console confirms that all six public sitemap pages are indexed. Indexing does not guarantee ranking; HTTP-only checks do not establish physical-mobile browser acceptance.
 
+## 19 October publication and recovery evidence
+
+The real run tested draft retrieval, intended account/author/audience, exact copy/media/alt text, one LinkedIn submission, immediate configured followups and saved nambli status/permalink. The base post and calendar synchronization succeeded, but the initial full run **failed**: metadata diagnosis caused an unnecessary pairing attempt, paragraph spacing was lost, and followups were delayed/omitted.
+
+Recovery used the same confirmed post, without another base submission. Reload verified restored paragraph spacing, one saved previous-post comment and Insightful; LinkedIn confirmed Featured placement. Fresh nambli readback confirmed all three followup outcomes completed, with the original post ID/permalink retained and execution still manual. This recovery does not turn the initial run into an immediate-followup pass. See the [acceptance review](../ecosystems/codex/PUBLICATION-ACCEPTANCE.md).
+
+Calendar [PR #136](https://github.com/Tor-Production/tor-event-calendar/pull/136) deployed the revised connection-reuse and publication-order guidance after full checks and staging acceptance. Read-only production source checks matched the changed instructions. Refreshing the exact existing installed App exposed all **19 tools** and the revised result description in a fresh context without new authorization or another connection. This verifies deployed metadata delivery; it is not a new OpenAI review scan or approval.
+
+The core explicit-only invocation policy, public package identities, existing OAuth bindings and stable release remain preserved. Other AI-host execution, unattended scheduling and a fresh uninterrupted real publication remain separate acceptance work.
+
 ## Release validation
 
-Use Node 22.18+ and Python 3.12+. Run `npm ci --ignore-scripts`, `npm test`, `python scripts/claude_code.py validate`, and `python scripts/test_claude_code.py`. Create `dist/`, run `npm pack --pack-destination dist`, `python scripts/package.py`, and `python scripts/test_package.py`. Package checks verify source bytes, versions, no private app bindings, review-case agreement, explicit invocation, wrapped skill layout and checksums. Synthetic tests make no production calendar or social writes. Source/build tests do not establish native OAuth or model acceptance.
+The existing dev.5 artifacts were rechecked on 20 October against their pinned source commit, including complete ZIP/source parity and SHA-256 checks. The frozen 0.3.2 Portal ZIP also retained its recorded hash, size and 35-file inventory. These checks did not rebuild either artifact or validate newer documentation as archived content.
+
+For a future distinct release version, use Node 22.18+ and Python 3.12+. Run `npm ci --ignore-scripts`, `npm test`, `python scripts/claude_code.py validate`, and `python scripts/test_claude_code.py`. Create `dist/`, run `npm pack --pack-destination dist`, `python scripts/package.py`, and `python scripts/test_package.py`. Package checks verify source bytes, versions, no private app bindings, review-case agreement, explicit invocation, wrapped skill layout and checksums. Synthetic tests make no production calendar or social writes. Source/build tests do not establish native OAuth or model acceptance.
