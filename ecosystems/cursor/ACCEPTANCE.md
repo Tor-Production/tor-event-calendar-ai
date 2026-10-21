@@ -6,7 +6,7 @@ Record the exact Cursor version, operating system, plugin source commit/version,
 
 | Case | Action | Required evidence |
 | --- | --- | --- |
-| C01 installation | Copy the full plugin to a real local-plugin directory and reload. | Customize shows the intended manifest, four skills, contextual rule and one intended nambli server. |
+| C01 installation | Copy the full plugin to a real local-plugin directory and reload. | Customize shows the intended manifest, four skills, a scoped runtime rule parsed with `alwaysApply: true`, and one intended nambli server. The rule is loaded without automatically invoking the explicit-only core calendar skill. |
 | C02 first authorization | Use the current host's supported OAuth flow if no grant exists. | Correct account, callback/PKCE success and actual read/manage/refresh scope evidence. If bare URL DCR fails, record it; do not count a different helper as success. |
 | C03 connection reuse | Restart Cursor and repeat a bounded account/calendar read. | Same intended account/grant; no new calendar connection, token transfer or pairing. |
 | C04 stale tool discovery | Compare advertised claim/result tools against the known existing scope; use supported refresh. | Existing connection preserved; missing schema not treated as missing authorization. |

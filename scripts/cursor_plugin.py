@@ -63,6 +63,30 @@ def export_paths(root=ROOT):
     return sorted(paths)
 
 
+def rule_metadata(source):
+    """Read the simple MDC frontmatter scalars used by our native Cursor rule."""
+    require(source.startswith('---\n'), 'Cursor rule YAML frontmatter missing')
+    parts = source.split('---', 2)
+    require(len(parts) == 3, 'Cursor rule YAML frontmatter is not closed')
+    result = {}
+    for line in parts[1].splitlines():
+        if not line.strip():
+            continue
+        key, separator, value = line.partition(':')
+        require(separator and key in ('description', 'alwaysApply') and key not in result,
+                'Unexpected/duplicate Cursor rule frontmatter key')
+        value = value.strip()
+        if key == 'alwaysApply':
+            try:
+                result[key] = json.loads(value)
+            except json.JSONDecodeError as error:
+                raise ValueError('Cursor alwaysApply must be a YAML Boolean') from error
+            require(type(result[key]) is bool, 'Cursor alwaysApply must be a YAML Boolean')
+        else:
+            result[key] = value
+    return result
+
+
 def validate(root=ROOT):
     root = Path(root).resolve()
     manifest = json.loads((root / MANIFEST).read_text(encoding='utf-8'))
@@ -93,6 +117,9 @@ def validate(root=ROOT):
                 'Skill identity drift')
     core = (root / 'skills/nambli/SKILL.md').read_text(encoding='utf-8')
     require('disable-model-invocation: true' in core.split('---', 2)[1], 'Core calendar invocation must remain explicit')
+    rule = rule_metadata((root / 'ecosystems/cursor/rules/nambli-runtime.mdc').read_text(encoding='utf-8'))
+    require(rule.get('alwaysApply') is True and bool(rule.get('description')),
+            'Scoped Cursor runtime rule must always load; core skill invocation remains explicit')
     paths = export_paths(root)
     # Check every package-local Markdown link, including the adapter -> canonical skill route.
     path_set = set(paths)

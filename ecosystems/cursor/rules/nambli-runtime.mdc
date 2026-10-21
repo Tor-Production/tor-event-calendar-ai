@@ -1,6 +1,6 @@
 ---
 description: Cursor runtime guidance for nambli calendar drafts and authorized LinkedIn publication.
-alwaysApply: false
+alwaysApply: true
 ---
 
 For a nambli task in Cursor, use the installed remote MCP connection and the relevant packaged skill. Confirm the selected account with `get_profile`. A missing tool needs diagnosis of the existing connection and a supported tool refresh before proposing OAuth; do not create one connection per task. Cursor authorization is separate from another AI client's grant. Do not read or transfer tokens.

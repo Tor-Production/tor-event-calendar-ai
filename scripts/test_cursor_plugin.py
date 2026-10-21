@@ -68,6 +68,20 @@ class CursorPackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'private bindings'):
             cursor.validate(self.root)
 
+    def test_runtime_rule_declares_a_real_always_apply_boolean_without_enabling_core_skill(self):
+        path = self.root / 'ecosystems/cursor/rules/nambli-runtime.mdc'
+        source = path.read_text(encoding='utf-8')
+        self.assertIs(cursor.rule_metadata(source)['alwaysApply'], True)
+        core = (self.root / 'skills/nambli/SKILL.md').read_text(encoding='utf-8')
+        self.assertIn('disable-model-invocation: true', core.split('---', 2)[1])
+        path.write_text(source.replace('alwaysApply: true', 'alwaysApply: false'), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'must always load'):
+            cursor.validate(self.root)
+        with self.assertRaisesRegex(ValueError, 'YAML Boolean'):
+            cursor.rule_metadata(source.replace('alwaysApply: true', 'alwaysApply: "true"'))
+        with self.assertRaisesRegex(ValueError, 'duplicate'):
+            cursor.rule_metadata(source.replace('alwaysApply: true', 'alwaysApply: true\nalwaysApply: false'))
+
 
 if __name__ == '__main__':
     unittest.main()
