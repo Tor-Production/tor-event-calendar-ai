@@ -1,0 +1,34 @@
+---
+name: nambli-cursor-publish
+description: Execute or recover an authorized nambli LinkedIn personal-profile publication using Cursor's browser, with durable receipts and immediate requested followups. Use only in Cursor; content drafting and other social platforms use separate workflows.
+---
+
+# nambli publication in Cursor
+
+Use the canonical [nambli publication workflow](../../../../skills/nambli-publish/SKILL.md) for account, claim, authorization and result semantics. This adapter adds Cursor browser execution and a local journal; it supplies no shared LinkedIn account, background scheduler or guarantee of platform support. Respect an explicitly limited request such as preview only or post only.
+
+## Establish the actual runtime
+
+Use the existing named nambli MCP connection at `https://nambli.com/mcp`. Call `get_profile` through that connection. If tools are missing, inspect/refresh this exact connection in Cursor Customize/MCP settings before proposing new consent. A valid existing connection is reused. A genuinely missing/revoked grant, insufficient scope or intentionally different account can require browser authorization; a connection in Codex is not a Cursor grant. Do not use a helper or copy tokens to work around a stale tool list.
+
+Use Cursor's advertised browser tools and inspect their live schemas. Do not assume Codex APIs such as `cua`, browser tab IDs, file arguments or login carry over. Keep a stable publication workspace: Cursor browser cookies/storage are workspace-specific. Let the user sign in through the actual browser if needed. Confirm the intended personal profile, public-feed destination and audience. This candidate covers immediate personal-profile publication only; organization/group publication and unattended scheduling are outside its adapter.
+
+Before claiming or submitting, prove the current browser can handle the complete requested package: text with meaningful blank lines, each actual local image, supplied alt text, exact first-comment text/target, requested reaction and Featured placement. Use only the browser's actual supported file-upload path. A saved calendar attachment or download link is not a local image; obtain and verify actual bytes with the shared file workflow first. Do not downgrade a required step or claim support from login alone. If any required operation is unavailable, stop before the base post and explain that precise limitation.
+
+## Prepare one complete sequence
+
+Read the exact event/revision and `get_publishing_task`. Use its `requestedFollowUps` nested object; no private owner-specific series defaults are bundled. Configuration describes what to do only within the user's authorized full workflow. Resolve missing copy, actor, audience or required capability before submission. Preserve canonical paragraphs and Unicode; inspect both actual composer text and rendered spacing. Do not strip blank lines or silently rewrite the text to fit the input API.
+
+Use an available local Node 22.18+ shell for [the journal](../../JOURNAL.md). Remote calendar use alone needs no Node. If durable journaling cannot run, stop automated browser submission. The helper has no network or authentication and never clicks LinkedIn. Its files contain private draft/outcome data, so use its per-user default state directory outside shared repositories; do not commit or upload them.
+
+Create a plan from the actual agreed package, obtain `claim_publication` with the exact account/event/revision/run UUID, and copy the returned claim binding into that plan. Then run `prepare`. Save the emitted journal path. Run `begin` only after the composer, attachments, alt text and requested followup targets have been verified. Its success permits one planned click; it is not independent social consent. A failed/repeated `begin`, prior attempt, unknown response or browser interruption requires reconciliation of the same post, never another click.
+
+## Publish, then immediately follow through
+
+Submit once using the authorized browser. On observed success, run `confirm` immediately with the actual external ID, observed permalink (or explicit null when unavailable), timestamp and platform evidence. This saves the exact pending base receipt locally without a calendar call. Continue directly with the planned comment/reaction/Featured steps on that same post. Do not insert calendar calls, diagnostics, audits or final reporting between them. Use `followup` after each observed action to durably save its independent result. Continue independent steps after a confirmed failed/blocked step when their prerequisites hold. An ambiguous action is `unknown`; inspect that same post/action before retrying. Never duplicate a comment.
+
+If the base response is uncertain, use `uncertain`, report/reconcile its `unknown` receipt and stop dependent followups until fresh evidence identifies the post. `confirm` can reconcile that attempt from actual platform evidence; it never permits a new submit. Completed actions are not rolled back to repair another action.
+
+Once every requested social step has an observed attempted outcome, use `receipt` to obtain the oldest exact pending body. Send it through the same account's advertised `report_publication_result`, retaining its key/body exactly on timeout. After confirmed success, use `ack` for that key and repeat for the next pending receipt. The helper withholds callbacks while requested followups remain unattempted; a base unknown receipt is available for reconciliation. Discovery/readback and URL recovery follow the shared workflow. When done, read the event back and report base publication, each requested followup and calendar sync separately. Keep any pending data for retry; never republish to repair sync.
+
+This sequence is an execution contract with durable recovery, not an all-or-nothing network transaction. Native Cursor acceptance, especially image upload/alt text/Featured and Free-plan availability, must be observed in the current host; source tests alone do not establish them.

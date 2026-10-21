@@ -1,0 +1,19 @@
+{
+  "name": "nambli",
+  "version": "0.3.3-dev.5",
+  "description": "Manage your private nambli calendar, prepare social drafts and coordinate authorized LinkedIn browser publication.",
+  "author": { "name": "Tor Production" },
+  "homepage": "https://nambli.com",
+  "repository": "https://github.com/Tor-Production/tor-event-calendar-ai",
+  "license": "MIT",
+  "logo": "assets/logo.png",
+  "keywords": ["calendar", "nambli", "content", "linkedin", "mcp"],
+  "skills": [
+    "./skills/nambli",
+    "./skills/nambli-content",
+    "./skills/nambli-publish",
+    "./ecosystems/cursor/skills/nambli-cursor-publish"
+  ],
+  "rules": "./ecosystems/cursor/rules",
+  "mcpServers": "./ecosystems/cursor/mcp.json"
+}

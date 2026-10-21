@@ -103,6 +103,8 @@ https://nambli.com/mcp
 
 #### Cursor
 
+The [Cursor-native plugin candidate](ecosystems/cursor/README.md) bundles the shared skills, remote MCP and Cursor browser-publication adapter. Its build and native acceptance gates are separate from the MCP-only setup below and from the frozen OpenAI review.
+
 Merge this entry into your global ~/.cursor/mcp.json or project .cursor/mcp.json. Open the MCP settings and connect nambli to finish browser sign-in.
 
 ```json
