@@ -36,7 +36,9 @@ export async function validatePlan(plan) {
     'Acquired server claim response must match account/event/revision/claim/dedupe binding');
   requireValue(plan.executionMethod === 'manual', 'Cursor browser adapter requires manual executionMethod; no automatic runner is established');
   requireValue(plan.actor?.kind === 'personal' && /^https:\/\/www\.linkedin\.com\/in\/[^/?#]+\/?$/.test(plan.actor.url), 'Exact personal LinkedIn actor URL required');
-  requireValue(['public', 'connections'].includes(plan.audience), 'Explicit public-feed audience required');
+  requireValue(plan.audience === 'public', 'Current claim adapter supports explicit public audience only');
+  requireValue(plan.claimId.length <= 2000 && plan.dedupeKey.length <= 2000, 'Claim evidence exceeds server limits');
+  boundedEvidence(plan, '', false);
   const follow = plan.requestedFollowUps;
   requireValue(follow && ['none', 'like', 'celebrate', 'support', 'love', 'insightful', 'funny'].includes(follow.reaction)
     && (follow.firstComment === null || text(follow.firstComment)) && typeof follow.featured === 'boolean', 'Complete requestedFollowUps required');
@@ -111,12 +113,32 @@ export async function prepare(plan, directory = defaultStateDirectory()) {
   });
 }
 
+function boundedEvidence(plan, observation, missingUrl) {
+  const evidence = {kind: 'authorized_publisher', reference: plan.claimId, details: {dedupeKey: plan.dedupeKey, observation,
+    ...(missingUrl ? {publicationUrlMissing: true} : {})}};
+  const bytes = () => Buffer.byteLength(JSON.stringify(evidence), 'utf8');
+  if (bytes() <= 16 * 1024) return evidence;
+  // Keep complete observations in the journal; send a bounded truthful summary.
+  const points = Array.from(observation);
+  evidence.details.observationTruncated = true;
+  evidence.details.observation = '';
+  requireValue(bytes() <= 16 * 1024, 'Claim evidence alone exceeds server limits');
+  let low = 0, high = points.length;
+  while (low < high) {
+    const middle = Math.ceil((low + high) / 2);
+    evidence.details.observation = points.slice(0, middle).join('');
+    if (bytes() <= 16 * 1024) low = middle; else high = middle - 1;
+  }
+  evidence.details.observation = points.slice(0, low).join('');
+  return evidence;
+}
+
 function receipt(state, {outcome, occurredAt, externalId = null, externalUrl = null, observation, followUps = {}}) {
   const plan = state.plan;
   return {eventId: plan.eventId, eventRevision: plan.eventRevision, idempotencyKey: outcome === 'published' && !state.baseReceipt ? state.baseKey : randomUUID(),
-    outcome, executionMethod: plan.executionMethod, occurredAt, externalId, externalUrl,
-    evidence: {kind: 'authorized_publisher', reference: plan.claimId, details: {dedupeKey: plan.dedupeKey, observation,
-      ...(outcome === 'published' && externalUrl === null && (!state.baseReceipt || state.baseReceipt.externalUrl === null) ? {publicationUrlMissing: true} : {})}}, followUps};
+    outcome, executionMethod: plan.executionMethod, readiness: 'not_applicable', occurredAt, externalId, externalUrl,
+    evidence: boundedEvidence(plan, observation,
+      outcome === 'published' && externalUrl === null && (!state.baseReceipt || state.baseReceipt.externalUrl === null)), followUps};
 }
 
 function verifyObservation(input) {
@@ -140,8 +162,9 @@ export async function transition(path, action, input = {}) {
     } else if (action === 'confirm') {
       onlyKeys(input, ['externalId', 'externalUrl', 'occurredAt', 'observation']);
       verifyObservation(input);
-      requireValue(text(input.externalId), 'Confirmed externalId required');
+      requireValue(text(input.externalId) && input.externalId.length <= 500, 'Confirmed externalId of at most 500 characters required');
       requireValue(input.externalUrl === null || (typeof input.externalUrl === 'string'
+        && input.externalUrl.length <= 1000
         && /^https:\/\/www\.linkedin\.com\/(?:feed\/update\/urn:li:(?:share|activity|ugcPost):\d+\/?|posts\/[^?#]+)(?:\?[^#]*)?$/.test(input.externalUrl)), 'Observed HTTPS LinkedIn post permalink or explicit null required');
       const permalinkId = input.externalUrl?.match(/\/feed\/update\/urn:li:(?:share|activity|ugcPost):(\d+)/)?.[1];
       const externalNumber = input.externalId.match(/^(?:urn:li:(?:share|activity|ugcPost):)?(\d+)$/)?.[1];
@@ -162,6 +185,7 @@ export async function transition(path, action, input = {}) {
       verifyObservation(input);
       requireValue(state.phase === 'submitting', 'Only an unresolved begun attempt may become unknown');
       state.phase = 'unknown';
+      state.uncertainty = structuredClone(input);
       state.receipts.push({body: receipt(state, {outcome: 'unknown', occurredAt: input.occurredAt, observation: input.observation}), acknowledged: false});
       result = {phase: state.phase, next: 'reconcile this attempt from platform evidence; do not submit or run dependent followups'};
     } else if (action === 'followup') {

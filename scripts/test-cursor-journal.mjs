@@ -117,12 +117,26 @@ test('invalid/omitted steps, wrong URL, wrong receipt acknowledgement and concur
 test('claim mismatch, unexpected outcome injection and a mismatched post URL are rejected', () => fixture(async directory => {
   const source = plan();
   await assert.rejects(prepare({...source, claimResponse: {...source.claimResponse, accountId: 'another-account'}}, directory), /claim response/);
+  await assert.rejects(prepare({...source, audience: 'connections'}, directory), /public audience only/);
   const {journal} = await prepare(source, directory);
   await transition(journal, 'begin');
   await assert.rejects(transition(journal, 'confirm', {...confirmation(), outcome: 'failed'}), /Unexpected action/);
   await assert.rejects(transition(journal, 'uncertain', {...confirmation(), outcome: 'published'}), /Unexpected action/);
   await assert.rejects(transition(journal, 'confirm', {...confirmation(), externalId: 'urn:li:share:999'}), /different posts/);
   assert.equal((await transition(journal, 'status')).phase, 'submitting');
+}));
+
+test('full Unicode observation stays local while callback evidence fits the real server byte cap', () => fixture(async directory => {
+  const source = {...plan(), requestedFollowUps: {reaction: 'none', firstComment: null, featured: false}, followUpOrder: []};
+  const {journal} = await prepare(source, directory);
+  await transition(journal, 'begin');
+  const observation = '🙂\u0001'.repeat(10000);
+  await transition(journal, 'confirm', {...confirmation(), observation});
+  const {body} = await transition(journal, 'receipt');
+  assert.ok(Buffer.byteLength(JSON.stringify(body.evidence), 'utf8') <= 16 * 1024);
+  assert.equal(body.evidence.details.observationTruncated, true);
+  assert.equal(JSON.parse(await readFile(journal, 'utf8')).confirmation.observation, observation);
+  assert.equal(body.readiness, 'not_applicable');
 }));
 
 test('post-only needs no followup and missing permalink stays explicit without inventing a URL', () => fixture(async directory => {

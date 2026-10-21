@@ -35,6 +35,8 @@ python scripts/cursor_plugin.py build
 
 These commands make no authenticated calendar calls or social sends. On restricted Windows runners where the OS temp directory disallows atomic rename, set `TEMP` and `TMP` to a writable isolated test directory before the tests. Build receipts pin every included file and state that native acceptance is not established. Keep release/install evidence separately from private draft and journal data.
 
+Maintainers with an explicit checkout of the private provider and its dependencies can additionally run `node --experimental-transform-types scripts/test-cursor-provider.mjs --provider-root /actual/provider/checkout`. It sends generated journal bodies through the actual local MCP schema and Worker handlers using synthetic grants and an in-memory migrated database, with no production requests or social sends. It verifies completed followup guards, unknown recovery, evidence-size limits and exact receipt replay after a later content revision. It does not test Cursor UI or a real OAuth login.
+
 ## Marketplace and website button
 
 Cursor distributes full plugins from reviewed repository content. After native acceptance, follow [the marketplace checklist](MARKETPLACE.md), submit the exact reviewed public source and wait for the actual listing. Use that listing's supported **Add to Cursor** action for a full-plugin website button. The older `cursor://anysphere.cursor-deeplink/mcp/install` URL installs only MCP configuration; label it as MCP-only and do not present it as the complete skill package. Do not invent a marketplace URL or mark submission as publication.
