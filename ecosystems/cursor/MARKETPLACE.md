@@ -10,7 +10,7 @@ The owner authorized Cursor implementation/testing and submission/publication **
 - Support: `https://github.com/Tor-Production/tor-event-calendar-ai/issues`.
 - Logo: existing approved `assets/logo.png`, preserved byte-for-byte.
 - Short description: “Manage your private calendar and prepare social drafts with nambli.”
-- Listing scope: account-scoped calendar reads/writes, explicit named File fields, content drafts and publication coordination. Describe any LinkedIn browser action only to the extent verified on this Cursor version; no shared social credentials, organization/group adapter or unattended scheduler is supplied.
+- Listing scope: account-scoped calendar reads/writes, explicit named File fields, content drafts and publication coordination. Describe any LinkedIn browser action only to the extent verified on this Cursor version; no shared social credentials, organization/group adapter or unattended scheduler is supplied. Browser publication requires local Node 22.18+, npx and installed Google Chrome for the pinned official Playwright MCP and durable journal; the calendar MCP itself has no local runtime dependency.
 
 ## Gates before submission
 

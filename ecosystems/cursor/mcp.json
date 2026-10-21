@@ -6,6 +6,10 @@
         "CLIENT_ID": "zkXDIukpTsBiLRtsUZHabCwtWHBweCLm",
         "scopes": ["calendar.read", "calendar.manage", "offline_access"]
       }
+    },
+    "nambli-browser": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.83", "--browser", "chrome"]
     }
   }
 }

@@ -45,7 +45,22 @@ class CursorPackageTests(unittest.TestCase):
 
     def test_changed_endpoint_or_embedded_header_fails_validation(self):
         self.edit_json('ecosystems/cursor/mcp.json', lambda data: data['mcpServers']['nambli'].update(headers={'Authorization': 'synthetic forbidden credential'}))
-        with self.assertRaisesRegex(ValueError, 'canonical remote'):
+        with self.assertRaisesRegex(ValueError, 'canonical OAuth'):
+            cursor.validate(self.root)
+
+    def test_browser_pin_and_file_sandbox_are_not_relaxed(self):
+        original = (self.root / 'ecosystems/cursor/mcp.json').read_text(encoding='utf-8')
+        for unsafe in (['-y', '@playwright/mcp@latest', '--browser', 'chrome'],
+                       ['-y', '@playwright/mcp@0.0.83', '--browser', 'chrome', '--allow-unrestricted-file-access'],
+                       ['-y', '@playwright/mcp@0.0.83', '--browser', 'chrome', '--no-sandbox'],
+                       ['-y', '@playwright/mcp@0.0.83', '--cdp-endpoint', 'http://localhost:9222']):
+            (self.root / 'ecosystems/cursor/mcp.json').write_text(original, encoding='utf-8')
+            self.edit_json('ecosystems/cursor/mcp.json', lambda data: data['mcpServers']['nambli-browser'].update(args=unsafe))
+            with self.assertRaisesRegex(ValueError, 'pinned supported browser'):
+                cursor.validate(self.root)
+        (self.root / 'ecosystems/cursor/mcp.json').write_text(original, encoding='utf-8')
+        self.edit_json('ecosystems/cursor/mcp.json', lambda data: data['mcpServers']['nambli-browser'].update(cwd='C:/owner/private'))
+        with self.assertRaisesRegex(ValueError, 'owner paths'):
             cursor.validate(self.root)
 
     def test_path_escape_and_missing_shared_skill_fail_validation(self):

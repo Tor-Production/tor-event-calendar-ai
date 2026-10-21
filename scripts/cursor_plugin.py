@@ -108,8 +108,10 @@ def validate(root=ROOT):
     mcp = json.loads((root / 'ecosystems/cursor/mcp.json').read_text(encoding='utf-8'))
     require(mcp == {'mcpServers': {'nambli': {'url': 'https://nambli.com/mcp',
                     'auth': {'CLIENT_ID': 'zkXDIukpTsBiLRtsUZHabCwtWHBweCLm',
-                             'scopes': ['calendar.read', 'calendar.manage', 'offline_access']}}}},
-            'Cursor must use the canonical remote OAuth MCP and public native client, with no secret/header/local helper')
+                             'scopes': ['calendar.read', 'calendar.manage', 'offline_access']}},
+                    'nambli-browser': {'command': 'npx',
+                                      'args': ['-y', '@playwright/mcp@0.0.83', '--browser', 'chrome']}}},
+            'Cursor must use the canonical OAuth MCP/public client and pinned supported browser without secrets, unsafe flags or owner paths')
     for directory in SKILLS:
         source = (root / directory / 'SKILL.md').read_text(encoding='utf-8')
         require(source.startswith('---\n') and len(source.split('---', 2)) == 3, 'Skill frontmatter missing')
