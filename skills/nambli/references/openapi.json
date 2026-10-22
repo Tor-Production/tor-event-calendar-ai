@@ -136,7 +136,7 @@
     "/api/capabilities": {
       "get": {
         "summary": "Versioned enforced limits and connection metadata",
-        "description": "Schema 2026-10-17.1; no private data, no invented Cloudflare remaining quota.",
+        "description": "Schema 2026-10-22.1; no private data, no invented Cloudflare remaining quota.",
         "operationId": "get__api_capabilities",
         "security": [],
         "parameters": [],
@@ -7134,7 +7134,7 @@
             }
           }
         },
-        "description": "Organization/group require exact ID. audience is required for new interactive plans and claims; omitted legacy audience is preserved as unknown. Featured cannot execute for organization/group. Personal/public adapter supports base post and Insightful; runtime/social authorization remain unknown."
+        "description": "Organization/group require exact ID. audience is required for new interactive plans and claims; omitted legacy audience is preserved as unknown. Featured cannot execute for organization/group. Personal/public settings support all six LinkedIn reactions; none skips the reaction. Preserve the exact selected value. Publisher runtime and social authorization remain unknown and require separate verification."
       },
       "XSettings": {
         "type": "object",
@@ -7573,5 +7573,5 @@
     "mime": "any; served as authenticated attachment",
     "remainingQuota": null
   },
-  "x-schema-version": "2026-10-17.1"
+  "x-schema-version": "2026-10-22.1"
 }
