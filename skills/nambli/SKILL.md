@@ -10,6 +10,8 @@ Use only when the user explicitly invokes `$nambli` or asks to use this integrat
 
 ## Establish scope
 
+For installation, missing App/account controls, or a request to move between ChatGPT and Codex, first [identify the current host](references/connections.md#identify-the-current-host). A local Codex installation is not evidence that a cloud ChatGPT App was installed. Use the existing connection in this host before proposing another setup flow.
+
 For a pure date-arithmetic question, answer without nambli tools. Anonymous public calendar sharing and email search are unsupported: explain the limitation without nambli calls or private account/event lookups. Do not change permissions, expose calendar content, invent an anonymous link, or substitute calendar data for mailbox access. Use a separately authorized email integration only if available.
 
 In Claude Code, first read [the Claude Code workflow](references/claude-code.md) for its connection, explicit invocation and file transport limits.
