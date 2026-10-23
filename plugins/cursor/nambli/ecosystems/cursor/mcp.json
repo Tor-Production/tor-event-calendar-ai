@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "nambli": {
+      "url": "https://nambli.com/mcp",
+      "auth": {
+        "CLIENT_ID": "zkXDIukpTsBiLRtsUZHabCwtWHBweCLm",
+        "scopes": ["calendar.read", "calendar.manage", "offline_access"]
+      }
+    },
+    "nambli-browser": {
+      "command": "node",
+      "args": ["${CURSOR_PLUGIN_ROOT}/ecosystems/cursor/browser-launcher.cjs"]
+    }
+  }
+}
