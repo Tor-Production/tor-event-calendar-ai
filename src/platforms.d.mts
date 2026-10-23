@@ -1,4 +1,7 @@
 export const SCHEMA_VERSION:string;
+export const LINKEDIN_REACTION_OPTIONS:readonly Readonly<{value:string;label:string}>[];
+export const LINKEDIN_REACTIONS:readonly string[];
+export const LINKEDIN_REACTION_LABELS:Readonly<Record<string,string>>;
 export const PLATFORM_IDS:readonly string[];
 export const CALENDAR_LIMITS:{jsonBytes:number;fileBytes:number;listPage:number;maxOffset:number;mime:string;remainingQuota:null};
 export type PlatformField={key:string;label:string;options:string[]|null;required:boolean};

@@ -1,5 +1,15 @@
 # Connections
 
+## Identify the current host
+
+For setup or a missing account manager, establish which runtime is handling this request: ChatGPT Chat/Work, local Codex, or another AI client. Inspect its installed plugin/App, selected connection and live tools. Do not infer the runtime from the ZIP filename, model response, a website login or another installed client.
+
+In ChatGPT Chat/Work, use the host's remote MCP/App connection. Attaching a ZIP as a chat file only supplies data; it is not an installation receipt. A local Codex marketplace installation does not create a ChatGPT account App or copy its connected accounts. Use an available Plugin Creator/account-import capability or the host's supported plugin installer for a ChatGPT package; if unavailable, state that exact limitation rather than running Codex CLI commands or claiming success. Reuse an existing matching ChatGPT App before offering a custom MCP connection. The public directory route becomes available only after the actual listing is published; an unpublished development ZIP does not establish publication.
+
+Never copy another user's private App ID into a public package or invent an account-manager URL. A private development App and a portable MCP plugin can have different identities and independent connections despite sharing a display name. Check what this host actually exposes; missing Apps controls on a direct MCP install do not mean calendar access is broken.
+
+ChatGPT cloud cannot access the local keychain, shell or helper profiles on the user's computer. The portable ChatGPT candidate includes remote MCP and the three workflow skills; it deliberately excludes the local CLI and Claude Code helper. Local helper instructions below and in the Claude Code reference apply only in a supported local runtime with the separately installed complete package and an explicitly chosen route. Do not start device pairing merely because a cloud chat cannot execute those commands. A missing publisher/claim/receipt tool remains a specific capability limit; a package install cannot create it.
+
 ## Remote plugin connection
 
 The ordinary route is one calendar plugin installation, then browser sign-in, account choice, and consent when the host requests it. The plugin supplies the remote MCP connection and skill together; no user-provided MCP URL, Node installation, local helper, or API token is required. The MCP resource is `https://nambli.com/mcp`; OAuth issuer is `https://nambli.com/api/v1/auth`. Ask for `calendar.read` to read and `calendar.manage` for writes or File upload links; `offline_access` permits refresh across access-token expiry. Consent is specific to the selected calendar account and exact server origin. Choose the intended connected account in the host and verify it with `get_profile`; a website login change does not move an existing grant. To disconnect/revoke when the user asks, use the host's plugin connection settings or the calendar's account connection controls; never ask the user to share a token.

@@ -1,5 +1,16 @@
 // One registry for the browser, Worker, CLI and on-demand skill questions.
-export const SCHEMA_VERSION = '2026-10-17.1';
+export const SCHEMA_VERSION = '2026-10-22.1';
+export const LINKEDIN_REACTION_OPTIONS = Object.freeze([
+  {value:'none',label:'No reaction'},
+  {value:'like',label:'Like'},
+  {value:'celebrate',label:'Celebrate'},
+  {value:'support',label:'Support'},
+  {value:'love',label:'Love'},
+  {value:'insightful',label:'Insightful'},
+  {value:'funny',label:'Funny'},
+].map(Object.freeze));
+export const LINKEDIN_REACTIONS = Object.freeze(LINKEDIN_REACTION_OPTIONS.map(option=>option.value));
+export const LINKEDIN_REACTION_LABELS = Object.freeze(Object.fromEntries(LINKEDIN_REACTION_OPTIONS.map(option=>[option.value,option.label])));
 export const CALENDAR_LIMITS = Object.freeze({jsonBytes:262144,fileBytes:26214400,listPage:500,maxOffset:100000,mime:'any; served as authenticated attachment',remainingQuota:null});
 const field = (key,label,options=null,required=false) => ({key,label,options,required});
 const planningPlatform=(id,label,docs,fields,types,limits)=>({id,label,docs,fields,
@@ -7,9 +18,9 @@ const planningPlatform=(id,label,docs,fields,types,limits)=>({id,label,docs,fiel
   adapter:{id:null,actions:[],runtime:'unsupported',socialAuthorization:'unknown'},media:{types,limits}});
 export const PLATFORMS = Object.freeze({
   linkedin:{id:'linkedin',label:'LinkedIn',docs:'https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api',
-    fields:[field('actorKind','Actor',['personal','organization'],true),field('actorId','Actor ID'),field('destinationKind','Destination',['public_feed','group'],true),field('destinationId','Destination ID'),field('audience','Audience',['public','connections','group'],true),field('reaction','Reaction',['none','like','celebrate','support','love','insightful','funny'],true),field('firstComment','First comment (empty means none)'),field('featured','Add to Featured',['false','true'],true)],
+    fields:[field('actorKind','Actor',['personal','organization'],true),field('actorId','Actor ID'),field('destinationKind','Destination',['public_feed','group'],true),field('destinationId','Destination ID'),field('audience','Audience',['public','connections','group'],true),field('reaction','Reaction',LINKEDIN_REACTIONS,true),field('firstComment','First comment (empty means none)'),field('featured','Add to Featured',['false','true'],true)],
     platformCapabilities:{personal:true,organization:true,publicFeed:true,groups:'browser-dependent',featured:'personal browser only'},
-    adapter:{id:'linkedin-personal-public-v1',scope:{actorKind:'personal',destinationKind:'public_feed',audience:'public'},actions:['publish','reaction_insightful'],runtime:'unknown',socialAuthorization:'unknown'},
+    adapter:{id:'linkedin-personal-public-v1',scope:{actorKind:'personal',destinationKind:'public_feed',audience:'public'},actions:['publish',...LINKEDIN_REACTIONS.filter(value=>value!=='none').map(value=>`reaction_${value}`)],runtime:'unknown',socialAuthorization:'unknown'},
     media:{types:['text','image','video','document'],limits:'Resolve current platform/post-type limits with the authorized publisher; calendar limits are separate.'}},
   x:{id:'x',label:'X',docs:'https://docs.x.com/x-api/posts/create-post',
     fields:[field('actorId','X user ID',null,true),field('postType','Post type',['post','thread','reply'],true),field('destinationKind','Destination',['timeline','community'],true),field('communityId','Community ID'),field('replyToId','Reply to post ID'),field('replySettings','Who can reply',['everyone','mentionedUsers','following','subscribers','verified'],true),field('firstReply','First reply (empty means none)')],
@@ -38,7 +49,7 @@ export function platformSchema(id) {
   const key=String(id).toLowerCase();if(!Object.hasOwn(PLATFORMS,key))return null;const p=PLATFORMS[key];
   return {contractVersion:2,schemaVersion:SCHEMA_VERSION,...p,calendarLimits:CALENDAR_LIMITS,
     // Compatibility consumers still receive their existing capability shape.
-    ...(p.id==='linkedin'?{fields:{actorKinds:['personal','organization'],destinationKinds:['public_feed','group'],reactionValues:['none','like','celebrate','support','love','insightful','funny'],supportedReactionValues:['none','insightful']},formFields:p.fields,
+    ...(p.id==='linkedin'?{fields:{actorKinds:['personal','organization'],destinationKinds:['public_feed','group'],reactionValues:LINKEDIN_REACTIONS,supportedReactionValues:LINKEDIN_REACTIONS},formFields:p.fields,
       adapters:[{...p.adapter,mode:'supported',support:'supported',runtimeAvailability:'unknown',supportedActions:p.adapter.actions}],capabilities:{personalPublicPublish:'supported',organizationPublicFeed:'manual_required',groupDestination:'manual_required',nativeScheduling:'manual_required',reaction:'supported',firstComment:'manual_required',featured:'manual_required'}}:{formFields:p.fields})};
 }
 export function settingsToForm(settings) {
