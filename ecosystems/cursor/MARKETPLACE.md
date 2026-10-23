@@ -10,7 +10,7 @@ The owner authorized Cursor implementation/testing and submission/publication **
 - Support: `https://github.com/Tor-Production/tor-event-calendar-ai/issues`.
 - Logo: existing approved `assets/logo.png`, preserved byte-for-byte.
 - Short description: “Manage your private calendar and prepare social drafts with nambli.”
-- Listing scope: account-scoped calendar reads/writes, explicit named File fields, content drafts and publication coordination. Describe any LinkedIn browser action only to the extent verified on this Cursor version; no shared social credentials, organization/group adapter or unattended scheduler is supplied. Browser publication requires local Node 22.18+, npx and installed Google Chrome for the pinned official Playwright MCP and durable journal; the calendar MCP itself has no local runtime dependency.
+- Listing scope: account-scoped calendar reads/writes, explicit named File fields, content drafts and publication coordination. Describe any LinkedIn browser action only to the extent verified on this Cursor version; no shared social credentials, organization/group adapter or unattended scheduler is supplied. Browser publication requires an already-installed Node 22.18+, Google Chrome and initial npm package setup through the local launcher/private cache; the calendar MCP itself has no local runtime dependency. An upload link is the immediate calendar fallback when the browser cannot start; it is not a working LinkedIn image publisher.
 
 ## Gates before submission
 
@@ -23,3 +23,5 @@ The owner authorized Cursor implementation/testing and submission/publication **
 7. Once listed, verify the actual public listing and full-package installation using its supported Add to Cursor flow. Then wire the website's full-plugin button to that actual listing; test it with a fresh profile. Until then keep any existing direct MCP button explicitly labeled as MCP-only. Never invent a full-plugin deeplink.
 
 No submission, listing or native Free-plan pass is established by this document or a successful build. Free-plan limits and the browser's per-workspace session are described in the [Cursor guide](README.md).
+
+The owner-side form inspection on 23 October showed a public GitHub repository URL field without a branch/ref selector. Confirm which reviewed default source the actual form ingests before submitting; do not assume a task branch is selected. Its Submit action also accepts the publisher terms, so the owner's action-time legal confirmation remains a final gate. No submission or acceptance of terms was performed by these source checks.

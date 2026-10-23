@@ -2,6 +2,7 @@
 """Validate/build a Cursor-only package without authentication or publication."""
 import argparse
 import hashlib
+import io
 import json
 import re
 import zipfile
@@ -14,7 +15,8 @@ SKILLS = ('skills/nambli', 'skills/nambli-content', 'skills/nambli-publish',
 FIXED = (MANIFEST, 'ecosystems/cursor/mcp.json', 'LICENSE', 'assets/logo.png',
          'ecosystems/cursor/README.md', 'ecosystems/cursor/ACCEPTANCE.md',
          'ecosystems/cursor/MARKETPLACE.md', 'ecosystems/cursor/JOURNAL.md',
-         'ecosystems/cursor/publication-journal.mjs')
+         'ecosystems/cursor/publication-journal.mjs', 'ecosystems/cursor/browser-launcher.cjs',
+         'ecosystems/cursor/RUNTIME.md')
 TREES = (*SKILLS, 'ecosystems/cursor/rules')
 
 
@@ -56,7 +58,7 @@ def export_paths(root=ROOT):
     for relative in paths:
         path = safe_path(root, relative)
         require(path.is_file(), f'Missing package file: {relative}')
-        require(path.suffix in ('.md', '.mdc', '.json', '.mjs', '.yaml', '.png') or relative == 'LICENSE',
+        require(path.suffix in ('.md', '.mdc', '.json', '.mjs', '.cjs', '.yaml', '.png') or relative == 'LICENSE',
                 f'Unexpected package file type: {relative}')
         require(not any(part.startswith('.') for part in Path(relative).parts[1:]),
                 f'Hidden nested package file: {relative}')
@@ -109,8 +111,8 @@ def validate(root=ROOT):
     require(mcp == {'mcpServers': {'nambli': {'url': 'https://nambli.com/mcp',
                     'auth': {'CLIENT_ID': 'zkXDIukpTsBiLRtsUZHabCwtWHBweCLm',
                              'scopes': ['calendar.read', 'calendar.manage', 'offline_access']}},
-                    'nambli-browser': {'command': 'npx',
-                                      'args': ['-y', '@playwright/mcp@0.0.83', '--browser', 'chrome']}}},
+                    'nambli-browser': {'command': 'node',
+                                      'args': ['${CURSOR_PLUGIN_ROOT}/ecosystems/cursor/browser-launcher.cjs']}}},
             'Cursor must use the canonical OAuth MCP/public client and pinned supported browser without secrets, unsafe flags or owner paths')
     for directory in SKILLS:
         source = (root / directory / 'SKILL.md').read_text(encoding='utf-8')
@@ -140,23 +142,32 @@ def validate(root=ROOT):
             'marketplacePublished': False}
 
 
-def build(root=ROOT, output_dir=None):
+def build(root=ROOT, output_dir=None, artifact_suffix=None):
     root = Path(root).resolve()
     result = validate(root)
     paths = export_paths(root)
     destination = Path(output_dir) if output_dir else root / 'dist/cursor'
     destination.mkdir(parents=True, exist_ok=True)
-    output = destination / f'nambli-cursor-{result["version"]}.zip'
-    with zipfile.ZipFile(output, 'w') as archive:
+    require(artifact_suffix is None or re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', artifact_suffix),
+            'Artifact suffix must be a bounded lowercase commit/candidate label')
+    suffix = f'-{artifact_suffix}' if artifact_suffix else ''
+    output = destination / f'nambli-cursor-{result["version"]}{suffix}.zip'
+    payload = io.BytesIO()
+    with zipfile.ZipFile(payload, 'w') as archive:
         for relative in paths:
             entry = zipfile.ZipInfo(relative, (2026, 10, 21, 0, 0, 0))
             entry.compress_type = zipfile.ZIP_DEFLATED
             entry.external_attr = 0o100644 << 16
             archive.writestr(entry, (root / relative).read_bytes(), compresslevel=9)
+    archive_bytes = payload.getvalue()
+    require(not output.exists() or output.read_bytes() == archive_bytes,
+            'Archive already exists with different bytes; preserve it and choose --artifact-suffix')
+    output.write_bytes(archive_bytes)
     receipt = {**result, 'distribution': 'unreleased-cursor-candidate', 'archive': output.name,
-               'sha256': hashlib.sha256(output.read_bytes()).hexdigest(),
+               'receiptFile': f'build-receipt{suffix}.json',
+               'sha256': hashlib.sha256(archive_bytes).hexdigest(),
                'fileHashes': {p: hashlib.sha256((root / p).read_bytes()).hexdigest() for p in paths}}
-    (destination / 'build-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+    (destination / receipt['receiptFile']).write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
     return receipt
 
 
@@ -164,8 +175,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('validate', 'build'))
     parser.add_argument('--output-dir', type=Path)
+    parser.add_argument('--artifact-suffix')
     args = parser.parse_args()
-    print(json.dumps(build(output_dir=args.output_dir) if args.action == 'build' else validate(), indent=2))
+    print(json.dumps(build(output_dir=args.output_dir, artifact_suffix=args.artifact_suffix) if args.action == 'build' else validate(), indent=2))
 
 
 if __name__ == '__main__':

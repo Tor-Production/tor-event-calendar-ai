@@ -8,8 +8,8 @@
       }
     },
     "nambli-browser": {
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@0.0.83", "--browser", "chrome"]
+      "command": "node",
+      "args": ["${CURSOR_PLUGIN_ROOT}/ecosystems/cursor/browser-launcher.cjs"]
     }
   }
 }

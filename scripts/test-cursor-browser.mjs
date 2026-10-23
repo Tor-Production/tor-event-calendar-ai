@@ -9,7 +9,7 @@ import {mkdir, mkdtemp, readFile, rm, writeFile} from 'node:fs/promises';
 import {join, resolve, dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createRequire} from 'node:module';
-import {pathToFileURL} from 'node:url';
+import {pathToFileURL, fileURLToPath} from 'node:url';
 
 const args = process.argv.slice(2), headless = args.includes('--headless');
 const clientRootIndex = args.indexOf('--client-root');
@@ -20,7 +20,8 @@ const dependency = createRequire(join(clientRoot, 'package.json'));
 const {Client} = await import(pathToFileURL(dependency.resolve('@modelcontextprotocol/client')));
 const {StdioClientTransport} = await import(pathToFileURL(dependency.resolve('@modelcontextprotocol/client/stdio')));
 const config = JSON.parse(await readFile(new URL('../ecosystems/cursor/mcp.json', import.meta.url), 'utf8')).mcpServers['nambli-browser'];
-assert.deepEqual(config, {command: 'npx', args: ['-y', '@playwright/mcp@0.0.83', '--browser', 'chrome']});
+assert.deepEqual(config, {command: 'node', args: ['${CURSOR_PLUGIN_ROOT}/ecosystems/cursor/browser-launcher.cjs']});
+const launcherPath = fileURLToPath(new URL('../ecosystems/cursor/browser-launcher.cjs', import.meta.url));
 const workspaceParent = await mkdtemp(join(tmpdir(), 'nambli-cursor-browser-'));
 const workspace = join(workspaceParent, 'private-fixture-workspace');
 await mkdir(workspace);
@@ -43,7 +44,8 @@ async function start() {
   const client = new Client({name: 'nambli-cursor-browser-fixture', version: '1.0.0'}, {capabilities: {roots: {listChanged: true}}});
   client.setRequestHandler('roots/list', async () => { rootsRequests++; return {roots: [{uri: pathToFileURL(workspace).href, name: 'Synthetic private workspace'}]}; });
   // Start outside the advertised root to prove MCP roots, not process cwd, bound uploads.
-  const transport = new StdioClientTransport({command: config.command, args: [...config.args, ...(headless ? ['--headless'] : [])], cwd: workspaceParent, stderr: 'pipe'});
+  const transport = new StdioClientTransport({command: config.command, args: [launcherPath, ...(headless ? ['--headless'] : [])],
+    cwd: workspaceParent, env: {...process.env, NAMBLI_BROWSER_CACHE: process.env.NAMBLI_BROWSER_CACHE || join(workspaceParent, 'private-browser-cache')}, stderr: 'pipe'});
   let stderr = '';
   transport.stderr?.on('data', value => { stderr += String(value); });
   try { await client.connect(transport); }
@@ -98,7 +100,7 @@ try {
   assert.equal(evaluation(await call('browser_evaluate', {function: "() => localStorage.getItem('fixture-marker')"})), 'remembered');
   await call('browser_close');
   assert.ok(rootsRequests >= 2);
-  const result = {result: 'PASS', package: '@playwright/mcp@0.0.83', exactConfiguredHeadedCommand: !headless,
+  const result = {result: 'PASS', package: '@playwright/mcp@0.0.83', pluginLocalLauncher: true, exactConfiguredHeadedCommand: !headless,
     fixtureHeadless: headless, nativeCursorHost: false, actualLinkedInComposer: false,
     pngBytes: png.length, pngSha256: observed.file.sha256, exactTextareaTransport: true, exactAltInput: true,
     contentEditableParagraphsPresent: true, contentEditableExactInnerText: observed.innerText === canonical,

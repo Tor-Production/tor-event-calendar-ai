@@ -2,6 +2,8 @@
 
 `publication-journal.mjs` is a local, dependency-free Node 22.18+ helper. It makes no network requests and holds no tokens. It records a claim-bound attempt and exact result bodies around browser actions. Run it from the installed plugin's actual path, discovered in Cursor's skill metadata; `${CURSOR_PLUGIN_ROOT}` is a manifest expansion, not an assumed shell variable.
 
+An old default shell Node can still be present after the browser launcher selects a modern runtime. Run the installed [launcher](RUNTIME.md) with `--doctor`, then use its verified absolute `node` path explicitly for every journal command below, for example `"/actual/modern/node" "/actual/plugin/ecosystems/cursor/publication-journal.mjs" prepare --plan /private/plan.json`. Do not fall back to bare `node` when that resolves to an older runtime, and do not edit global wrappers/PATH. Confirm both browser and journal prerequisites before a base post.
+
 Default private state lives under `%LOCALAPPDATA%/nambli/cursor-publications` on Windows, `~/Library/Application Support/nambli/cursor-publications` on macOS, or `${XDG_STATE_HOME:-~/.local/state}/nambli/cursor-publications` on Linux. Use `--state-dir` only for an explicitly selected private/test location. Never store tokens in these files. The directory's inherited OS user permissions apply; this is not a secret vault.
 
 The agent creates a JSON plan from reviewed source and actual `claim_publication` results. Example shape (all identities below are synthetic; never send them to a real account):

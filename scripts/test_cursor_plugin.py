@@ -63,6 +63,18 @@ class CursorPackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'owner paths'):
             cursor.validate(self.root)
 
+    def test_launcher_and_runtime_guide_are_packaged_and_existing_archives_are_preserved(self):
+        result = cursor.build(self.root, Path(self.temp.name) / 'candidate', artifact_suffix='runtime-test')
+        with zipfile.ZipFile(Path(self.temp.name) / 'candidate' / result['archive']) as archive:
+            self.assertIn('ecosystems/cursor/browser-launcher.cjs', archive.namelist())
+            self.assertIn('ecosystems/cursor/RUNTIME.md', archive.namelist())
+        old_bytes = (Path(self.temp.name) / 'candidate' / result['archive']).read_bytes()
+        guide = self.root / 'ecosystems/cursor/RUNTIME.md'
+        guide.write_text(guide.read_text(encoding='utf-8') + '\nChanged candidate.\n', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'preserve it'):
+            cursor.build(self.root, Path(self.temp.name) / 'candidate', artifact_suffix='runtime-test')
+        self.assertEqual((Path(self.temp.name) / 'candidate' / result['archive']).read_bytes(), old_bytes)
+
     def test_path_escape_and_missing_shared_skill_fail_validation(self):
         self.edit_json(cursor.MANIFEST, lambda data: data.update(skills=['../../outside']))
         with self.assertRaisesRegex(ValueError, 'routing'):
