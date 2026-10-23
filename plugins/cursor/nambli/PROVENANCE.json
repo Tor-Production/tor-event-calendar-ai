@@ -1,0 +1,164 @@
+{
+  "kind": "reviewed-cursor-preview-export",
+  "version": "0.3.3-cursor.1",
+  "canonicalRepository": "https://github.com/Tor-Production/tor-event-calendar-ai",
+  "sourceCommit": "266e2739a27b81574198e3715a8d914bab5835d9",
+  "releaseBase": "fde98a8a38e965c30d91645f120fe43e8f77cccf",
+  "sourcePackageVersion": "0.3.3-dev.5",
+  "exportRoot": "plugins/cursor/nambli",
+  "metadataChanges": {
+    ".cursor-plugin/plugin.json": "Distinct Cursor preview version and calendar/draft listing description; all component routes, OAuth client and permissions unchanged.",
+    "ecosystems/cursor/MARKETPLACE.md": "Owner-authorized narrower preview submission on 23 October; pending native/file/LinkedIn checks are not claimed passed."
+  },
+  "sourceFiles": {
+    ".cursor-plugin/plugin.json": {
+      "sourceSha256": "a10834530c486c3262e8ab27c998808b58bbc23c8ab05648bd1d7843f1b023a7",
+      "exportSha256": "775026ec24455e58509687629d9e2084fcefa21e980c2e09e403357875e6ec20"
+    },
+    "LICENSE": {
+      "sourceSha256": "e44d35770fb9fcf84ac19c13f351a269a137640fa8b6b22c9512f4dde9475c52",
+      "exportSha256": "e44d35770fb9fcf84ac19c13f351a269a137640fa8b6b22c9512f4dde9475c52"
+    },
+    "assets/logo.png": {
+      "sourceSha256": "cd16298d2db1188ecea88b67f7eb935b912ab5d9069a669397bdae2c4ba22011",
+      "exportSha256": "cd16298d2db1188ecea88b67f7eb935b912ab5d9069a669397bdae2c4ba22011"
+    },
+    "ecosystems/cursor/ACCEPTANCE.md": {
+      "sourceSha256": "7c634cc4152fb0aaef38ae9ea394c54d2d860cabb02ef6761a8772035e41d664",
+      "exportSha256": "7c634cc4152fb0aaef38ae9ea394c54d2d860cabb02ef6761a8772035e41d664"
+    },
+    "ecosystems/cursor/JOURNAL.md": {
+      "sourceSha256": "41fc3aa84e80d537735ff329245669dac23b77a5a8bde0d9c8bb6336e09a6e00",
+      "exportSha256": "41fc3aa84e80d537735ff329245669dac23b77a5a8bde0d9c8bb6336e09a6e00"
+    },
+    "ecosystems/cursor/MARKETPLACE.md": {
+      "sourceSha256": "25e61d0831a8fbf10f7b5a768f0542042ef985e356b4e62e86ec9ba1c404278d",
+      "exportSha256": "182c9a8e04fe656700133d42f520a32831fdcbefb4a28667e85d04bbfa6ceb4a"
+    },
+    "ecosystems/cursor/README.md": {
+      "sourceSha256": "bf5ac3edc2438b32ba0a20441d3cd332ecadf5c220c02f779e713da7f5eaa7c7",
+      "exportSha256": "bf5ac3edc2438b32ba0a20441d3cd332ecadf5c220c02f779e713da7f5eaa7c7"
+    },
+    "ecosystems/cursor/RUNTIME.md": {
+      "sourceSha256": "008466dea643bad01f44892f1fdf63cadb645598d4d0545716ad7f5a5c6494d2",
+      "exportSha256": "008466dea643bad01f44892f1fdf63cadb645598d4d0545716ad7f5a5c6494d2"
+    },
+    "ecosystems/cursor/browser-launcher.cjs": {
+      "sourceSha256": "027fc2cf97b973c62021e7201788d8d8a9ed509b8956a4b1423b597d871ffd0a",
+      "exportSha256": "027fc2cf97b973c62021e7201788d8d8a9ed509b8956a4b1423b597d871ffd0a"
+    },
+    "ecosystems/cursor/mcp.json": {
+      "sourceSha256": "2f7acf5b0ab85ab4cf02433aca552bccc41394ad52c8f7309a3ea7fbaf68621a",
+      "exportSha256": "2f7acf5b0ab85ab4cf02433aca552bccc41394ad52c8f7309a3ea7fbaf68621a"
+    },
+    "ecosystems/cursor/publication-journal.mjs": {
+      "sourceSha256": "14d78c44e79b95ff7934d19c39202ab328b930734596f5e4258a073ee3dcbaf7",
+      "exportSha256": "14d78c44e79b95ff7934d19c39202ab328b930734596f5e4258a073ee3dcbaf7"
+    },
+    "ecosystems/cursor/rules/nambli-runtime.mdc": {
+      "sourceSha256": "e00b93898f9bcd0fcae1f10d86aa6a65d9e3fffe9b7e1c6118f1923a34cc26ae",
+      "exportSha256": "e00b93898f9bcd0fcae1f10d86aa6a65d9e3fffe9b7e1c6118f1923a34cc26ae"
+    },
+    "ecosystems/cursor/skills/nambli-cursor-publish/SKILL.md": {
+      "sourceSha256": "1c64fdb03c3c8f70c41ddb5adf4eaf4e178da55f7510013a1e6f06d17de95d1c",
+      "exportSha256": "1c64fdb03c3c8f70c41ddb5adf4eaf4e178da55f7510013a1e6f06d17de95d1c"
+    },
+    "skills/nambli-content/SKILL.md": {
+      "sourceSha256": "57db5e6cd080e848e03a9d93feedd0688caf7e29d6671032e2a575e4706464a0",
+      "exportSha256": "57db5e6cd080e848e03a9d93feedd0688caf7e29d6671032e2a575e4706464a0"
+    },
+    "skills/nambli-content/agents/openai.yaml": {
+      "sourceSha256": "c128c135398529e1dccea918c1a6a7cc5431539617ada15e7365060c85d916f3",
+      "exportSha256": "c128c135398529e1dccea918c1a6a7cc5431539617ada15e7365060c85d916f3"
+    },
+    "skills/nambli-publish/SKILL.md": {
+      "sourceSha256": "58607dddcdd38da9a2be9f82242c913e317a197f508778a3586928b490349a2b",
+      "exportSha256": "58607dddcdd38da9a2be9f82242c913e317a197f508778a3586928b490349a2b"
+    },
+    "skills/nambli-publish/agents/openai.yaml": {
+      "sourceSha256": "95a1fc27eedf6b5513262a0c2cbe821f165092db40d7aa34151523c5f42e57e7",
+      "exportSha256": "95a1fc27eedf6b5513262a0c2cbe821f165092db40d7aa34151523c5f42e57e7"
+    },
+    "skills/nambli/SKILL.md": {
+      "sourceSha256": "a1dee9fed3b0d003b2567790392a086f0ff7f746e62ff2b665c7cf17cc182ae3",
+      "exportSha256": "a1dee9fed3b0d003b2567790392a086f0ff7f746e62ff2b665c7cf17cc182ae3"
+    },
+    "skills/nambli/agents/openai.yaml": {
+      "sourceSha256": "e7041bf4909115bcd46dfbaeb456bf418fe40ef94e32f4306e38b40c8781ca4b",
+      "exportSha256": "e7041bf4909115bcd46dfbaeb456bf418fe40ef94e32f4306e38b40c8781ca4b"
+    },
+    "skills/nambli/assets/icon.png": {
+      "sourceSha256": "7c17692b5866a230452edbebb78832b1cfd5923fc78c4df24dcf4fcc5cf9abdd",
+      "exportSha256": "7c17692b5866a230452edbebb78832b1cfd5923fc78c4df24dcf4fcc5cf9abdd"
+    },
+    "skills/nambli/assets/logo.png": {
+      "sourceSha256": "7c17692b5866a230452edbebb78832b1cfd5923fc78c4df24dcf4fcc5cf9abdd",
+      "exportSha256": "7c17692b5866a230452edbebb78832b1cfd5923fc78c4df24dcf4fcc5cf9abdd"
+    },
+    "skills/nambli/references/api.md": {
+      "sourceSha256": "6af74c952b86b698162ef2a9266090ae09ed31aad0003d0f9adda2671e53c702",
+      "exportSha256": "6af74c952b86b698162ef2a9266090ae09ed31aad0003d0f9adda2671e53c702"
+    },
+    "skills/nambli/references/claude-code.md": {
+      "sourceSha256": "7e7538c9192f4a305a49890a1df6a8ca29137f96197ff4c5f46d66b2248b52c2",
+      "exportSha256": "7e7538c9192f4a305a49890a1df6a8ca29137f96197ff4c5f46d66b2248b52c2"
+    },
+    "skills/nambli/references/connections.md": {
+      "sourceSha256": "9365d76e2580c469f0502e0ea174f158cebfdf96b8c4bee681c16baaa80416b1",
+      "exportSha256": "9365d76e2580c469f0502e0ea174f158cebfdf96b8c4bee681c16baaa80416b1"
+    },
+    "skills/nambli/references/files.md": {
+      "sourceSha256": "0c9651b48a182096138c90891aa9a9c5088889b32fd695eba9c059c21ab3aed0",
+      "exportSha256": "0c9651b48a182096138c90891aa9a9c5088889b32fd695eba9c059c21ab3aed0"
+    },
+    "skills/nambli/references/mcp.md": {
+      "sourceSha256": "2f1330a65d3432856f08e995b1f238d99eeda54d42211f799f1b66d471770bca",
+      "exportSha256": "2f1330a65d3432856f08e995b1f238d99eeda54d42211f799f1b66d471770bca"
+    },
+    "skills/nambli/references/openapi.json": {
+      "sourceSha256": "0821de6a6f51a4fa9f230edcb2e33ac4f701fe6ac170bef33ea2019a4554eaeb",
+      "exportSha256": "0821de6a6f51a4fa9f230edcb2e33ac4f701fe6ac170bef33ea2019a4554eaeb"
+    },
+    "skills/nambli/references/publication.md": {
+      "sourceSha256": "5e687d5e444d0131e5ff81f491c581fa481cc3d49c25d123e216ed82b58d8e44",
+      "exportSha256": "5e687d5e444d0131e5ff81f491c581fa481cc3d49c25d123e216ed82b58d8e44"
+    }
+  },
+  "addedFiles": {
+    "README.md": "7f328449f6bb31aabcd52bc19148ffe0f3e04b6f022f6fd0c6896af934429f6c",
+    "release/validate.py": "6b8ed6d72ccefd920f500146c285b8ddd7334e5714114a91a170b87e1da10b1a"
+  },
+  "externalValidation": {
+    "officialTemplateValidatorSha256": "826f55f546ce59500a6e3d7d32a15d90f3373cecc3b41486e75ae28b60647a4a",
+    "source": "https://github.com/cursor/plugin-template/blob/main/scripts/validate-template.mjs",
+    "result": "PASS",
+    "warnings": [
+      "No hooks/hooks.json: no hooks are declared.",
+      "No root mcp.json: manifest explicitly routes ecosystems/cursor/mcp.json."
+    ]
+  },
+  "limits": [
+    "New launcher native macOS startup pending.",
+    "Direct local-file transport is host-dependent; real earlier browser PNG/PDF round trips passed.",
+    "File replacement/uncertain-upload and authorization negatives pending.",
+    "Complete real Cursor LinkedIn send and immediate followups pending.",
+    "Free-plan acceptance and actual Marketplace installation pending."
+  ],
+  "openAiSubmissionChanged": false,
+  "officialSchemas": {
+    "repository": "https://github.com/cursor/plugins",
+    "commit": "8b3326d99fd4b993cb33a24dad8af03175c642c5",
+    "files": [
+      {
+        "path": "marketplace.schema.json",
+        "sha256": "50c85058bf329588401fd2fc93180a574fa64abbb6c2606400febfb6f4d094e8",
+        "url": "https://raw.githubusercontent.com/cursor/plugins/8b3326d99fd4b993cb33a24dad8af03175c642c5/schemas/marketplace.schema.json"
+      },
+      {
+        "path": "plugin.schema.json",
+        "sha256": "31db124b1c7e43c22abb13ebf7e7c74556482e480fd492b80638d815c85b96b1",
+        "url": "https://raw.githubusercontent.com/cursor/plugins/8b3326d99fd4b993cb33a24dad8af03175c642c5/schemas/plugin.schema.json"
+      }
+    ]
+  }
+}
