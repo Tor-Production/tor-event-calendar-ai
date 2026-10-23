@@ -1,0 +1,16 @@
+{
+  "name": "nambli-cursor",
+  "owner": {
+    "name": "Tor Production"
+  },
+  "metadata": {
+    "description": "nambli calendar and content draft tools for Cursor"
+  },
+  "plugins": [
+    {
+      "name": "nambli",
+      "source": "./plugins/cursor/nambli",
+      "description": "Manage your private calendar and prepare social content drafts with nambli."
+    }
+  ]
+}

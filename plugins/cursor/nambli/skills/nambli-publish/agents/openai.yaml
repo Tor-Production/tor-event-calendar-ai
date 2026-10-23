@@ -1,0 +1,10 @@
+interface:
+  display_name: "nambli publish"
+  short_description: "Publish drafts and reconcile verified post results"
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "nambli"
+      description: "Account-scoped publication coordination and receipt tools"
+      transport: "streamable_http"
+      url: "https://nambli.com/mcp"
