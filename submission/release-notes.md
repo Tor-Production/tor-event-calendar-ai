@@ -1,5 +1,15 @@
 # nambli release notes
 
+## 0.3.3-dev.6 scheduling contract candidate
+
+Future native scheduling uses `claim_publication` with `operation: schedule` and `intentionalNow: false`; immediate sends retain the default `publish` operation and its due-time guard. Updated API snapshots and instructions describe the exact scheduled time, observed queue receipt, durable duplicate guard, later queue-to-post reconciliation and independent reaction/comment/Featured outcomes. A calendar date or prepared composer is not a confirmed platform queue. Missing scheduling support must not be bypassed with an immediate-send override.
+
+LinkedIn settings accept omitted actor/destination IDs and URLs as null, preserve explicit null compatibility with older servers and retain organization/group identifier requirements. Invalid settings identify the fields to correct instead of implying that callers must invent a version field. The optional client's claim method exposes the scheduling operation without changing existing immediate-send callers.
+
+This candidate requires the matching deployed calendar API. Package and synthetic API tests do not establish native scheduling or unattended host acceptance, and no real social send is part of this release. The package still supplies no social publisher or shared credentials. Existing v0.3.2 assets, the frozen OpenAI submission, original dev.5 archives and the scoped Cursor preview export remain unchanged. A source or GitHub prerelease is separate from a Portal update and from installed-client refresh.
+
+The owner-authorized dev.6 distribution follows the existing development channel: merge the scoped task PR into `develop`, verify that merge and its clean provider contract receipt, then tag that exact commit as a GitHub prerelease. This does not merge the accumulated development work into stable `main` or update any marketplace submission. A later stable release still requires the normal release PR and its scope/acceptance gates.
+
 ## 0.3.3-dev.5 development candidate
 
 Reuses the selected existing connection and separates stale App tool discovery from missing authorization. Publication now preflights the complete authorized post/followup plan, preserves meaningful paragraph spacing, saves the base receipt durably and performs approved social followups immediately before any serial calendar callback. Each result is recorded independently; ambiguous actions are reconciled on the same post without repeating successful sends.

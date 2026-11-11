@@ -2,7 +2,7 @@
 
 Installation sources are at the repository root: `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `skills/`, and shared artwork. The package ID stays `tor-event-calendar-ai` in marketplace `nambli`. Ordinary remote MCP uses `https://nambli.com/mcp` with browser OAuth.
 
-Version `0.3.3-dev.5` retains the explicitly invoked `$nambli` calendar skill and two workflows discoverable for relevant nambli requests: `nambli-content` and `nambli-publish`. It clarifies existing-connection metadata refresh, formatting checks and one preflighted post/followup sequence with durable recovery. Publication still requires a separately available authorized publisher and a deployed server exposing the receipt tools. The five additional public-content planning platforms retain unsupported automatic adapters. Installing the package does not publish a post or prove native acceptance.
+Version `0.3.3-dev.6` retains the explicitly invoked `$nambli` calendar skill and two workflows discoverable for relevant nambli requests: `nambli-content` and `nambli-publish`. It adds future native scheduling claims, claim-bound queue receipts and LinkedIn settings guidance while preserving connection reuse, formatting checks and one preflighted post/followup sequence with durable recovery. Publication still requires a separately available authorized publisher and a deployed server exposing the matching tools. The five additional public-content planning platforms retain unsupported automatic adapters. Installing the package does not publish or schedule a post or prove native acceptance.
 
 ## Select the source and update
 

@@ -10,6 +10,8 @@ See [complete OpenAPI](openapi.json) for routes and schemas; load it only for di
 
 `GET/PATCH /api/account/preferences` holds explicit IANA timezone and platform defaults. Defaults do not authorize publication. `GET /api/capabilities` is public versioned metadata with server-enforced limits, no private account data and no invented remaining Cloudflare quota. `GET /api/publishing/platforms/:platform` is authenticated schema metadata for LinkedIn/X/Reddit. Account data is not stored in a shared schema cache; the client caches schemas only in its pinned operation instance.
 
+For LinkedIn, omitted actor/destination IDs and URLs normalize to null, while explicit invalid values and missing organization/group IDs are rejected. Keep explicit nulls for compatibility with older servers and supply all three followup choices. There is no required `publishingSettings.version` field. See [the complete settings example](publication.md#linkedin-settings) and [native scheduling claim/receipt flow](publication.md#native-future-scheduling). Future native scheduling uses `operation: schedule`, not an immediate-send override.
+
 ## CRUD and compact reads
 
 `GET /api/calendar-entries?from=ISO&to=ISO&limit=500&offset=0` is half-open `[from,to)`, sorted by scheduledAt/ID, returns compact summaries with statuses/revision and pagination `truncated/nextOffset`. Offset maximum is 100,000; narrow the range beyond it. CLI pages all summaries and does not fetch full text/files unless needed. `get UUID` returns full owned event/attachment metadata. Routine output is JSON with verified identity.

@@ -136,7 +136,7 @@
     "/api/capabilities": {
       "get": {
         "summary": "Versioned enforced limits and connection metadata",
-        "description": "Schema 2026-10-22.1; no private data, no invented Cloudflare remaining quota.",
+        "description": "Schema 2026-11-12.1; no private data, no invented Cloudflare remaining quota.",
         "operationId": "get__api_capabilities",
         "security": [],
         "parameters": [],
@@ -3448,7 +3448,7 @@
     "/api/calendar-entries/{id}/publication-claim": {
       "post": {
         "summary": "Atomically claim current revision before external submission",
-        "description": "One permanent account/event guard, stable dedupe key across revisions. Native queues, published/cancelled/unknown, incomplete/unsupported LinkedIn targets and unresolved URLs are blocked. Claims never publish. Acquired=false/conflict does not authorize a submit.",
+        "description": "One permanent account/event guard, stable dedupe key across revisions. operation defaults to publish and keeps NOT_DUE unless intentionalNow is explicitly authorized. operation schedule requires intentionalNow:false and a future saved instant. Existing native queues or scheduled automatic runners block another schedule; published/cancelled/unknown, incomplete/unsupported LinkedIn targets and unresolved URLs are blocked. Claims never publish. Acquired=false/conflict does not authorize a submit.",
         "operationId": "post__api_calendar_entries__id__publication_claim",
         "security": [
           {
@@ -4959,7 +4959,7 @@
     "/api/events/{id}/publication-claim": {
       "post": {
         "summary": "Atomically claim current revision before external submission",
-        "description": "No-redirect compatibility alias. One permanent account/event guard, stable dedupe key across revisions. Native queues, published/cancelled/unknown, incomplete/unsupported LinkedIn targets and unresolved URLs are blocked. Claims never publish. Acquired=false/conflict does not authorize a submit.",
+        "description": "No-redirect compatibility alias. One permanent account/event guard, stable dedupe key across revisions. operation defaults to publish and keeps NOT_DUE unless intentionalNow is explicitly authorized. operation schedule requires intentionalNow:false and a future saved instant. Existing native queues or scheduled automatic runners block another schedule; published/cancelled/unknown, incomplete/unsupported LinkedIn targets and unresolved URLs are blocked. Claims never publish. Acquired=false/conflict does not authorize a submit.",
         "operationId": "post__api_events__id__publication_claim",
         "security": [
           {
@@ -6595,6 +6595,12 @@
           },
           "code": {
             "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "description": "Legacy routes use error; AI routes additionally use a stable uppercase code."
@@ -6799,7 +6805,7 @@
             "const": true
           }
         },
-        "description": "Omitted fields are preserved; supplied customFields/types replace maps. Cancellation requires external confirmation and prior scheduled/unknown state. eventRevision provides caller compare-and-swap."
+        "description": "Omitted fields are preserved; supplied customFields/types replace maps. Cancellation requires external confirmation and prior scheduled/unknown state. An unresolved native schedule uses a separate cancellation-only body containing eventRevision, publicationStatus:cancelled and cancellationConfirmed:true; a failed native attempt with not_published status may also be cancelled after external confirmation. Cancellation preserves the permanent duplicate guard. eventRevision provides caller compare-and-swap."
       },
       "Event": {
         "type": "object",
@@ -7042,9 +7048,7 @@
           "actor": {
             "type": "object",
             "required": [
-              "kind",
-              "id",
-              "url"
+              "kind"
             ],
             "properties": {
               "kind": {
@@ -7070,9 +7074,7 @@
           "destination": {
             "type": "object",
             "required": [
-              "kind",
-              "id",
-              "url"
+              "kind"
             ],
             "properties": {
               "kind": {
@@ -7134,7 +7136,7 @@
             }
           }
         },
-        "description": "Organization/group require exact ID. audience is required for new interactive plans and claims; omitted legacy audience is preserved as unknown. Featured cannot execute for organization/group. Personal/public settings support all six LinkedIn reactions; none skips the reaction. Preserve the exact selected value. Publisher runtime and social authorization remain unknown and require separate verification."
+        "description": "Omitted actor.id/url and destination.id/url normalize to null; explicit null is also accepted. No version field is required. All requestedFollowUps fields remain required. Invalid settings return INVALID_PUBLISHING_SETTINGS with canonical field paths. Organization/group require exact ID. audience is required for new interactive plans and claims; omitted legacy audience is preserved as unknown. Featured cannot execute for organization/group. Personal/public settings support all six LinkedIn reactions; none skips the reaction. Preserve the exact selected value. Publisher runtime and social authorization remain unknown and require separate verification."
       },
       "XSettings": {
         "type": "object",
@@ -7392,7 +7394,7 @@
             }
           }
         },
-        "description": "Same key/exact payload replay is idempotent. Published requires a confirmed external ID, recognized evidence reference and safe observed platform post permalink. Null externalUrl is accepted only with evidence.details.publicationUrlMissing=true, or to preserve an existing permalink on a same-post followup. Missing links retain published truth, report publicationUrlRecoveryRequired=true and retryable=false; recover without reposting. Published URLs normalize tracking variants; a different post URL conflicts. Native scheduling requires a confirmed queue ID; automatic runner scheduling requires a runner reference and confirmedEndToEnd evidence for ready. Unknown never authorizes retry. Independent followups cannot downgrade completed states. Receipt reporting never publishes."
+        "description": "Same key/exact payload replay is idempotent. Published requires a confirmed external ID, recognized evidence reference and safe observed platform post permalink. Null externalUrl is accepted only with evidence.details.publicationUrlMissing=true, or to preserve an existing permalink on a same-post followup. Missing links retain published truth, report publicationUrlRecoveryRequired=true and retryable=false; recover without reposting. Published URLs normalize tracking variants; a different post URL conflicts. Native scheduling requires a confirmed queue ID; a schedule claim binds authorized_publisher evidence.reference to claimId and evidence.details to dedupeKey plus the exact claim scheduledAt, with executionMethod platform_scheduler. When the eventual post externalId differs from the confirmed queue externalId, preserve evidence.details.nativeQueueId naming that queue; automatic runner scheduling requires a runner reference and confirmedEndToEnd evidence for ready. Unknown never authorizes retry. Independent followups cannot downgrade completed states. Receipt reporting never publishes."
       },
       "PublicationUrl": {
         "type": "object",
@@ -7470,9 +7472,18 @@
             "format": "uuid"
           },
           "intentionalNow": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Immediate-publication override only; must be false for schedule."
+          },
+          "operation": {
+            "enum": [
+              "publish",
+              "schedule"
+            ],
+            "default": "publish"
           }
-        }
+        },
+        "description": "publish retains the due-time gate unless immediate publication is explicitly authorized. schedule requires a future event and intentionalNow:false, and guards one native scheduler submission. A claim never schedules externally; existing queues or automatic runner receipts require reconciliation. The response includes operation and scheduledAt."
       },
       "Preferences": {
         "type": "object",
@@ -7573,5 +7584,5 @@
     "mime": "any; served as authenticated attachment",
     "remainingQuota": null
   },
-  "x-schema-version": "2026-10-22.1"
+  "x-schema-version": "2026-11-12.1"
 }
