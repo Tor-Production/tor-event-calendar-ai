@@ -8,11 +8,27 @@ Discover the connected server's live tool schemas. `get_publishing_task` reads c
 
 | Tool | Purpose and inputs |
 | --- | --- |
-| `claim_publication` | Coordinate one attempt with `eventId`, `eventRevision`, stable UUID `runId`, and Boolean `intentionalNow` reflecting the user's actual immediate-send request. |
+| `claim_publication` | Coordinate one attempt with `eventId`, `eventRevision`, stable UUID `runId`, Boolean `intentionalNow` and optional `operation`: `publish` by default, or `schedule` for a future native queue with `intentionalNow: false`. |
 | `report_publication_result` | Record external evidence with `eventId` and the result fields below. It never publishes. |
 | `repair_publication_url` | Repair a missing URL on an already published event with `eventId`, current `eventRevision`, stable UUID `idempotencyKey`, verified `externalUrl`, `occurredAt` and confirmation `evidence`. |
 
 Do not infer availability from this package version. Pin the exact installed App/connection ID and selected account, verify its grant scopes and discover its actual schemas. Missing tools do not prove missing consent: follow [metadata diagnosis](connections.md#missing-tools-or-stale-metadata) before another OAuth flow. If a tool remains missing, an explicitly chosen portable authenticated helper/API may perform the supported operation for the same account; inspect existing profiles before pairing. Otherwise retain evidence and report the unavailable capability/manual reconciliation; never claim the record changed or silently switch credentials. The local CLI `result UUID JSON` records a receipt; it has no general social adapter, and its current command surface may not include URL repair. Use only commands actually advertised by `help`.
+
+## LinkedIn settings
+
+Read the selected platform's live schema before saving settings. A complete personal public-feed example is:
+
+```json
+{
+  "platform": "linkedin",
+  "actor": { "kind": "personal", "id": null, "url": null },
+  "destination": { "kind": "public_feed", "id": null, "url": null },
+  "audience": "public",
+  "requestedFollowUps": { "reaction": "celebrate", "firstComment": null, "featured": true }
+}
+```
+
+Use the user's chosen reaction, exact comment and Featured preference, not this example's choices. Supply every `requestedFollowUps` field; explicit opt-outs are `none`, `null` and `false`. Omitted actor/destination `id` and `url` normalize to null on supporting servers; explicit nulls also satisfy older servers. An organization or group still requires its exact ID. A public-feed destination has no destination ID. A missing legacy audience is unknown and cannot claim a public send. Explicit invalid values are rejected, not replaced with defaults. Settings do not require a `version` field: use the version advertised by the platform schema and correct the field paths reported in a validation error.
 
 ## Before a social submit
 
@@ -25,6 +41,59 @@ For LinkedIn, carry the publishing task's `requestedFollowUps.reaction.value` st
 A participating automatic bridge must implement account/actor authorization, a server claim and a durable attempt journal before submission. Retain the returned `claimId` and `dedupeKey` to bind all result reports to that claim. The claim is unique per account/event across revisions, devices and sessions and has no automatic expiry/unlock. Active claims freeze publication inputs and attachments. An uncertain claim response does not authorize another attempt. If durable coordination is unavailable, stop automated submission; offer manual handoff only when fresh state excludes a prior/ambiguous attempt or native queue.
 
 The portable client currently reports `CONNECT_VERIFIED_LINKEDIN_PUBLISHER_FOR_THIS_ACCOUNT` without a separately verified LinkedIn publisher. X, Reddit, Instagram, Facebook, YouTube, TikTok and Snapchat planning does not imply a working publisher. The five newest platforms advertise unsupported automatic adapters; their public-content choices do not include private messaging. Read the selected live schema rather than inventing API IDs or publisher support. A user's existing authorized adapter can implement `authorize` and `submit`; this package supplies no shared social connection. Host browser availability and platform permission must both be checked. A login alone does not establish a working automatic runner.
+
+## Native future scheduling
+
+Resolve and save the exact future instant and IANA timezone, then reread the event revision. Inspect the actual scheduled-post list and existing runner/claim evidence. A composer displaying a future posting time is not a confirmed queue. Select one execution path; an existing native queue or configured runner must be reconciled before switching paths. Do not create a second event, queue or runner to bypass a guard.
+
+If the live claim schema advertises scheduling, acquire it before the platform's final Schedule action:
+
+```json
+{
+  "eventId": "<event-uuid>",
+  "eventRevision": 4,
+  "runId": "<stable-run-uuid>",
+  "operation": "schedule",
+  "intentionalNow": false
+}
+```
+
+This operation reserves a future native schedule rather than an immediate send. Retain the returned `claimId`, `dedupeKey`, `operation` and `scheduledAt` in the durable journal. The target time is bound to that claim and inputs are frozen. `operation: publish` is the default for sends: it remains `NOT_DUE` before the saved time unless the user explicitly requests an immediate override. Do not set `intentionalNow: true`, alter the event time or skip the claim to schedule a future queue. If `schedule` is unavailable, refresh the exact connection's tool metadata or report that the deployed server lacks the operation.
+
+Independently verify the social author, audience, content and exact scheduled time, submit once through the authorized native scheduler, and observe its confirmation and queued post identity. Persist that receipt before the calendar callback. For a confirmed queue, send:
+
+```json
+{
+  "eventId": "<event-uuid>",
+  "eventRevision": 4,
+  "idempotencyKey": "<stable-receipt-uuid>",
+  "outcome": "scheduled",
+  "executionMethod": "platform_scheduler",
+  "readiness": "ready",
+  "occurredAt": "<actual-queue-confirmation-instant>",
+  "externalId": "<observed-native-queue-post-id>",
+  "externalUrl": null,
+  "evidence": {
+    "kind": "authorized_publisher",
+    "reference": "<returned-claim-id>",
+    "details": {
+      "dedupeKey": "<returned-dedupe-key>",
+      "scheduledAt": "<exact-returned-scheduledAt>"
+    }
+  },
+  "followUps": {}
+}
+```
+
+`followUps: {}` preserves the current independent states; report requested actions as pending and opt-outs as `not_requested`. Read back the stored queue result. Keep the same claim and observed native identity for later publication reconciliation. Confirmed queues and unresolved native attempts, including `unknown` or `failed`, retain the input lock until observed publication or externally confirmed cancellation is reconciled. Cancellation releases the input lock, not the permanent duplicate guard; it does not permit a replacement claim. Through an available authenticated REST helper, record verified cancellation using only `PATCH /api/calendar-entries/{id}` with `{eventRevision, publicationStatus: "cancelled", cancellationConfirmed: true}`. Keep this separate from content edits; a first failed native attempt may still have status `not_published`. Do not invent a cancellation argument on a tool that does not expose it. If Schedule may have succeeded, report `unknown` and inspect the existing queue. If only the calendar callback is uncertain, reuse its exact body/key without touching the social scheduler.
+
+Native scheduling confirms only the base queue. First comment, reaction and Featured may require another executor after publication; never claim the scheduler handles controls it does not expose. Keep the requests and arrange their already-authorized execution, or report the missing route. Later identify the published post, retrieve its real permalink and perform the agreed followups; never create a replacement post or infer publication from elapsed time. Every native result retains the claim binding, exact `scheduledAt` and actual observed `occurredAt`. A schedule claim cannot confirm publication before its bound target time.
+
+Native receipts allow up to five seconds of client/server clock difference around observation times. Record the actual observed `occurredAt`; do not fabricate a timestamp to satisfy validation. The server's due-time gate remains strict: its own clock must reach the claimed `scheduledAt` before it accepts publication.
+
+If the platform's published post ID differs from its queue ID, report the actual published ID in `externalId` and link it to the original confirmed queue using `evidence.details.nativeQueueId: <original-queue-externalId>`. Preserve the observed evidence of that mapping. This is reconciliation of the same scheduled item, not permission to substitute another post. After publication is confirmed, the published ID remains immutable for followup receipts.
+
+For a future automatic runner, verify the real scheduled run and save its runner receipt first, usually as `scheduled` with pending readiness. The runner acquires a `publish` claim with `intentionalNow: false` only when it is about to send within the agreed time window. Setting `publicationStatus: scheduled` or `scheduledAt` in the calendar is not runner creation, and a native schedule claim is not a runner reservation.
 
 ## Immediately after the base post
 
@@ -55,7 +124,7 @@ For an already published manual post without an active claim, use supported conf
 
 If an external ID and confirmation are available but the permalink is unavailable or the server does not recognize its format (for example, an ephemeral Story), send `externalUrl: null` and `evidence.details.publicationUrlMissing: true`. The server records truthful published status and `publicationResult.publicationUrlStatus: missing`, with `publicationUrlRecoveryRequired: true` and `retryable: false`. Tell the user the link still requires recovery. Never fabricate a permalink or send the post again. Once its URL is verified, use `repair_publication_url` against the latest revision. This also supports old published records missing a URL; it does not change content or create a social post.
 
-If the calendar callback fails, retain the successful social receipt and continue independent authorized social steps, saving their results. After that sequence, check the record with `includeContent: true` and retry only the same calendar body/key. Confirm base sync before reporting later followup receipts; queue their exact bodies/keys while base sync is pending. Each changed receipt gets a new stable key. Report published with calendar sync pending until verified. A stale revision or conflicting external ID/URL needs reconciliation, not an overwrite or new social submission. On later followup reports, retain the original revision, external ID, execution method and claim binding. The result schema requires `externalUrl`; send `null` to preserve a recorded URL, with the required `followUps` object. A different URL is a conflict. Do not replace saved confirmation evidence with guessed values.
+If the calendar callback fails, retain the successful social receipt and continue independent authorized social steps, saving their results. After that sequence, check the record with `includeContent: true` and retry only the same calendar body/key. Confirm base sync before reporting later followup receipts; queue their exact bodies/keys while base sync is pending. Each changed receipt gets a new stable key. Report published with calendar sync pending until verified. A stale revision or conflicting external ID/URL needs reconciliation, not an overwrite or new social submission. For a new followup receipt, use the current observed event revision and retain the original external ID, execution method, claim binding and observed publication time. Exact pending retries keep their original body/key; after a stale response, reread and establish whether that receipt committed before preparing a reconciled new receipt. The result schema requires `externalUrl`; send `null` to preserve a recorded URL, with the required `followUps` object. A different URL is a conflict. Do not replace saved confirmation evidence with guessed values.
 
 An ambiguous base-post response is `unknown`, blocking another base submit and dependent followups until fresh evidence identifies the post. Use `failed` for an observed failure and `blocked` for a known prerequisite; neither clears a claim or grants retry permission. First comment/reaction/Featured outcomes are independent (`not_requested`, `pending`, `completed`, `blocked`, `failed`, `unknown`). Their failures do not negate a successful base post or block independent remaining steps with satisfied prerequisites. Reconcile an ambiguous action before repeating it. Report every planned step's actual outcome; a silent omission is not a completed workflow.
 

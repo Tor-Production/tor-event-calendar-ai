@@ -1,5 +1,5 @@
 // One registry for the browser, Worker, CLI and on-demand skill questions.
-export const SCHEMA_VERSION = '2026-10-22.1';
+export const SCHEMA_VERSION = '2026-11-12.1';
 export const LINKEDIN_REACTION_OPTIONS = Object.freeze([
   {value:'none',label:'No reaction'},
   {value:'like',label:'Like'},
@@ -50,6 +50,8 @@ export function platformSchema(id) {
   return {contractVersion:2,schemaVersion:SCHEMA_VERSION,...p,calendarLimits:CALENDAR_LIMITS,
     // Compatibility consumers still receive their existing capability shape.
     ...(p.id==='linkedin'?{fields:{actorKinds:['personal','organization'],destinationKinds:['public_feed','group'],reactionValues:LINKEDIN_REACTIONS,supportedReactionValues:LINKEDIN_REACTIONS},formFields:p.fields,
+      settingsExample:{platform:'linkedin',actor:{kind:'personal',id:null,url:null},destination:{kind:'public_feed',id:null,url:null},audience:'public',requestedFollowUps:{reaction:'none',firstComment:null,featured:false}},
+      settingsGuidance:'No version field is required. Omitted actor.id, actor.url, destination.id and destination.url normalize to null. Organization actors and group destinations still require exact IDs; public_feed requires a null or omitted destination.id. Always specify reaction, firstComment and featured; none/null/false explicitly decline those actions. Audience must be explicit before claiming publication. Saving these settings does not authorize or schedule social actions.',
       adapters:[{...p.adapter,mode:'supported',support:'supported',runtimeAvailability:'unknown',supportedActions:p.adapter.actions}],capabilities:{personalPublicPublish:'supported',organizationPublicFeed:'manual_required',groupDestination:'manual_required',nativeScheduling:'manual_required',reaction:'supported',firstComment:'manual_required',featured:'manual_required'}}:{formFields:p.fields})};
 }
 export function settingsToForm(settings) {

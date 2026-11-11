@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tor-event-calendar-ai",
-  "version": "0.3.3-dev.5",
+  "version": "0.3.3-dev.6",
   "description": "Manage a connected private calendar, prepare social drafts and reconcile authorized publication receipts.",
   "author": {
     "name": "Tor Production",
@@ -104,7 +104,7 @@
         }
       },
       "publication": {
-        "release_notes": "Development candidate 0.3.3-dev.5 distinguishes stale App tools from missing authorization, reuses verified connections, and preflights the complete requested publication plan. It preserves reviewed formatting and continues approved social followups immediately after a durable base receipt without calendar or audit detours. Independent results sync promptly and recover the same post without reposting. The Codex + LinkedIn acceptance review separates verified base publication from formatting/followup regressions and unverified scheduling or other hosts. No social publisher, scheduler, shared credentials or private app bindings are bundled. Core nambli invocation remains explicit-only; stable v0.3.2 and the catalog submission are unchanged.",
+        "release_notes": "Development candidate 0.3.3-dev.6 separates future native scheduling claims from immediate publication, preserves duplicate guards and claim-bound scheduling receipts, and documents queue reconciliation and independent followups. LinkedIn settings normalize omitted actor/destination identifiers and URLs to null while preserving required target and followup choices. Requires a matching deployed server and separately authorized publisher; no social publisher, scheduler, shared credentials or private app bindings are bundled. Native host scheduling acceptance remains separate. Core nambli invocation remains explicit-only; stable v0.3.2, the scoped Cursor preview and the frozen OpenAI submission remain unchanged.",
         "countries": []
       }
     }

@@ -6,6 +6,32 @@ import {OPENAPI} from '../src/api-contract.mjs';
 import {CalendarClient} from '../src/client.mjs';
 import {publishBatch} from '../src/publish.mjs';
 const expected=['linkedin','x','reddit','instagram','facebook','youtube','tiktok','snapchat'];
+// Explicit native scheduling reaches the same account-scoped claim route;
+// legacy publish callers preserve their existing body and due-time semantics.
+{
+  const id=randomUUID(),bodies=[];
+  const client=new CalendarClient({accountId:randomUUID(),origin:'https://calendar.example.test'},'synthetic-secret',{fetcher:async(url,options)=>{
+    assert.equal(new URL(url).pathname,`/api/calendar-entries/${id}/publication-claim`);
+    assert.equal(options.method,'POST');
+    const body=JSON.parse(options.body);bodies.push(body);
+    return Response.json({acquired:true,operation:body.operation??'publish'});
+  }});
+  assert.equal((await client.claim(id,3,false)).operation,'publish');
+  assert.equal(Object.hasOwn(bodies[0],'operation'),false);
+  assert.equal((await client.claim(id,3,false,{operation:'schedule'})).operation,'schedule');
+  assert.deepEqual({...bodies[1],runId:null},{eventRevision:3,runId:null,intentionalNow:false,operation:'schedule'});
+  assert.notEqual(bodies[0].runId,bodies[1].runId);
+}
+{
+  const fields=['publishingSettings.actor.url','publishingSettings.requestedFollowUps.featured'];
+  const client=new CalendarClient({accountId:randomUUID(),origin:'https://calendar.example.test'},'synthetic-secret',{fetcher:async()=>Response.json({code:'INVALID_PUBLISHING_SETTINGS',error:'Untrusted server text',fields:[...fields,'not a field\nprivate data']},{status:400})});
+  await assert.rejects(client.request('/api/calendar-entries/'+randomUUID(),{method:'PATCH',body:{publishingSettings:{}}}),error=>{
+    assert.equal(error.code,'INVALID_PUBLISHING_SETTINGS');
+    assert.equal(error.status,400);assert.deepEqual(error.details,{fields});
+    assert.match(error.message,/publishingSettings.actor.url/);assert.doesNotMatch(error.message,/Untrusted|private data/);
+    return true;
+  });
+}
 assert.deepEqual(PLATFORM_IDS,expected);
 assert.deepEqual(OPENAPI.paths['/api/publishing/platforms/{platform}'].get.parameters[0].schema.enum,expected);
 assert.equal(platformSchema('__proto__'),null);assert.deepEqual(settingsIssues({platform:'constructor'}),['platform']);
