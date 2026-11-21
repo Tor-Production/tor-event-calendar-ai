@@ -29,6 +29,7 @@
     "scripts/package.py",
     "scripts/test_package.py",
     "scripts/test.mjs",
+    "scripts/test-save-recovery.mjs",
     "scripts/test-download.mjs",
     "scripts/test-claude-files.mjs",
     "scripts/test-claude-bootstrap.mjs",
@@ -38,7 +39,7 @@
     "@napi-rs/keyring": "2.1.0"
   },
   "scripts": {
-    "test": "node scripts/test.mjs && node scripts/test-platforms.mjs",
+    "test": "node scripts/test.mjs && node scripts/test-platforms.mjs && node scripts/test-save-recovery.mjs",
     "package": "python scripts/package.py",
     "validate:claude-code": "python scripts/claude_code.py validate",
     "test:claude-code": "python scripts/test_claude_code.py",

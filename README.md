@@ -168,6 +168,8 @@ For another client, add a remote Streamable HTTP server named **nambli** at `htt
 
 ## Optional local CLI
 
+If `tor-calendar create` returns `EVENT_SAVE_UNCONFIRMED`, its JSON output includes `details.eventId`, even when the CLI generated the ID. Run `tor-calendar get <eventId>` in the same account. If you need to retry, set `id` to that UUID in the original input and keep the resolved time, settings and other content identical. For an uncertain `update` or `move`, compare the saved entry with your edits and include the reported `details.eventRevision` in an `update` retry.
+
 The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/nambli/references/connections.md#optional-local-cli) only when you choose this route.
 
 To install the helper and skill for your client, use a locally built development tarball and replace `codex` with `claude`, `cursor`, `copilot`, `gemini`, or `hermes`:
