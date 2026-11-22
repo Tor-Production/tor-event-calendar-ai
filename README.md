@@ -168,6 +168,10 @@ For another client, add a remote Streamable HTTP server named **nambli** at `htt
 
 ## Optional local CLI
 
+If `tor-calendar create` returns `EVENT_SAVE_UNCONFIRMED`, check `tor-calendar get <eventId>` using the reported `details.eventId` and the same account. To complete the original request, run `tor-calendar retry-create <recoveryId>` using `details.recoveryId`, on the same machine with the same account and origin. The retry keeps the original UUID, scheduled instant, timezone and publishing settings, including defaults resolved from relative dates and platform preferences. It also checks attached source files against their original hashes before uploading them.
+
+The CLI stores the pending request, absolute source paths and file hashes in the current user's calendar configuration directory. Treat it as private draft data. It is removed after a confirmed save or a definitive initial failure. To clear an abandoned retry, run `tor-calendar discard-create-recovery <recoveryId>` with the same account and origin. For an uncertain `update` or `move`, compare the saved entry with your edits and include the reported `details.eventRevision` in an `update` retry.
+
 The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/nambli/references/connections.md#optional-local-cli) only when you choose this route.
 
 To install the helper and skill for your client, use a locally built development tarball and replace `codex` with `claude`, `cursor`, `copilot`, `gemini`, or `hermes`:

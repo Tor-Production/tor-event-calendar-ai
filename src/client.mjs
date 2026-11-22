@@ -13,7 +13,7 @@ export class CalendarClient {
   async request(route,{method='GET',body,raw=false}={}){if(!route.startsWith('/api/')||route.startsWith('//')||new URL(route,this.profile.origin).origin!==this.profile.origin)throw new CalendarError('INVALID_ROUTE','Only same-origin calendar API routes are allowed.');
     let response;for(let attempt=0;attempt<2;attempt++){try{response=await this.fetcher(`${this.profile.origin}${route}`,{method,headers:{Authorization:`Bearer ${this.token}`,'X-Calendar-Account':this.profile.accountId,...(body&&!(body instanceof FormData)?{'Content-Type':'application/json'}:{})},body:body instanceof FormData?body:body===undefined?undefined:JSON.stringify(body),redirect:'error',signal:AbortSignal.timeout(30000)});break;}catch{if(method!=='GET'||attempt===1)throw new CalendarError('NETWORK_UNCERTAIN','Response unconfirmed. Inspect the same event/claim before retrying a write.');}}
     if(response.status===204)return null;if(raw&&response.ok)return response;
-    const data=await response.json().catch(()=>({}));
+    const data=await response.json().catch(()=>null)??{};
     if(!response.ok){
       const fields=data.code==='INVALID_PUBLISHING_SETTINGS'&&Array.isArray(data.fields)?data.fields.filter(value=>typeof value==='string'&&/^publishingSettings(?:\.[A-Za-z][A-Za-z0-9]*)*$/.test(value)).slice(0,32):[];
       const message=fields.length?`Invalid publishing settings: ${fields.join(', ')}. Read the platform schema; no version field is required.`:response.status===401?'Connection revoked or expired. Reconnect this account.':response.status===409?'Revision, account, or publication conflict. Read current state; do not blindly retry.':'Calendar request failed.';
@@ -26,12 +26,66 @@ export class CalendarClient {
   get(id){return this.request(`/api/calendar-entries/${uuid(id)}`);}
   async platform(id){if(!/^[a-z]+$/.test(id))throw new CalendarError('PLATFORM_REQUIRED','Choose a platform.');if(!this.schemas.has(id))this.schemas.set(id,await this.request(`/api/publishing/platforms/${id}`));return this.schemas.get(id);}
   async limits(){this.capabilities??=await publicRequest(this.profile.origin,'/api/capabilities',{fetcher:this.fetcher});return this.capabilities;}
-  async create(input){const {files,...body}=input;if(!body.id)throw new CalendarError('CREATE_ID_REQUIRED','Supply a stable UUID; keep it after an uncertain response.');uuid(body.id);validateInstant(body.scheduledAt);requireZone(body.timeZone);this.fileFields(files,body.customFieldTypes);await this.precheckFiles(files);await this.request('/api/calendar-entries',{method:'POST',body});for(const [field,file]of Object.entries(files??{}))await this.upload(body.id,field,file);return this.get(body.id);}
-  async update(id,input){uuid(id);const {files,...body}=input,before=await this.get(id);this.fileFields(files,body.customFieldTypes??before.customFieldTypes);await this.precheckFiles(files);body.eventRevision??=before.revision;await this.request(`/api/calendar-entries/${id}`,{method:'PATCH',body});for(const [field,file]of Object.entries(files??{}))await this.upload(id,field,file);return this.get(id);}
+  async saveContent(id,method,body){
+    const create=method==='POST',route=create?'/api/calendar-entries':'/api/calendar-entries/'+id;
+    let status;
+    try{
+      const saved=await this.request(route,{method,body});
+      if(typeof saved?.id==='string'&&saved.id.toLowerCase()===id.toLowerCase()&&Number.isSafeInteger(saved.revision)&&saved.revision>0)return;
+    }catch(error){
+      if(!(error instanceof CalendarError))throw error;
+      if(error.code==='MONTHLY_RECORD_LIMIT')error.message='The planned calendar month has reached its record limit. Choose another month or free capacity before saving.';
+      if(error.code==='EVENT_ID_CONFLICT')error.message=`The create ID ${id} is unavailable for this input. Check it with tor-calendar get ${id} in the same account.`;
+      if(error.code==='STALE_REVISION')error.message=`The entry or its reminder changed. Compare tor-calendar get ${id} with your edits before saving again.`;
+      if(error.code!=='NETWORK_UNCERTAIN'&&error.code!=='EVENT_SAVE_UNCONFIRMED'&&!(error.status>=500))throw error;
+      status=error.status;
+    }
+    // Recover from the request we actually sent even if the response body was
+    // lost or a proxy returned its own error page. Never replace the write ID.
+    const details=create?{eventId:id,retry:'same_id_and_content'}:{eventId:id,eventRevision:body.eventRevision,retry:'read_before_retry'};
+    const next=create
+      ? `If needed, replay the identical resolved create request with ID ${id}, including the original scheduled time and settings.`
+      : `If your changes are still needed, use update with the original eventRevision ${body.eventRevision}. Compare any newer revision before editing.`;
+    throw Object.assign(new CalendarError('EVENT_SAVE_UNCONFIRMED',`Save unconfirmed. Check tor-calendar get ${id} in the same account. ${next}`,details),{status});
+  }
+  async finishSave(id,files,sources){
+    try{
+      for(const [field,file]of Object.entries(files??{})){
+        const source=sources&&Object.hasOwn(sources,field)?sources[field]:undefined;
+        await this.upload(id,field,source?.path??file,{expectedSha256:source?.sha256});
+      }
+      const saved=await this.get(id);
+      if(typeof saved?.id!=='string'||saved.id.toLowerCase()!==id.toLowerCase()||!Number.isSafeInteger(saved.revision)||saved.revision<1)throw new CalendarError('READBACK_UNCONFIRMED','The saved entry could not be verified.');
+      return saved;
+    }catch(error){
+      const failure=error instanceof CalendarError?error:new CalendarError('READBACK_UNCONFIRMED','The saved entry could not be verified.');
+      failure.message+=` Event content was saved at ID ${id}. Check tor-calendar get ${id} and its files before continuing.`;
+      failure.details={...failure.details,eventId:id,retry:'read_before_retry'};
+      throw failure;
+    }
+  }
+  async create(input,{beforeContentSave,sources}={}){
+    const {files,...body}=input;
+    if(!body.id)throw new CalendarError('CREATE_ID_REQUIRED','Supply a stable UUID; keep it after an uncertain response.');
+    uuid(body.id);validateInstant(body.scheduledAt);requireZone(body.timeZone);
+    this.fileFields(files,body.customFieldTypes);await this.precheckFiles(files);
+    if(beforeContentSave)sources=await beforeContentSave(body,files);
+    await this.saveContent(body.id,'POST',body);
+    return this.finishSave(body.id,files,sources);
+  }
+  async update(id,input){
+    uuid(id);
+    const {files,...body}=input,before=await this.get(id);
+    this.fileFields(files,body.customFieldTypes??before.customFieldTypes);await this.precheckFiles(files);
+    body.eventRevision??=before.revision;
+    if(!Number.isSafeInteger(body.eventRevision)||body.eventRevision<1)throw new CalendarError('REVISION_REQUIRED','Read the current event before updating with a positive eventRevision.');
+    await this.saveContent(id,'PATCH',body);
+    return this.finishSave(id,files);
+  }
   fileFields(files,types){if(files===undefined)return;if(!files||typeof files!=='object'||Array.isArray(files))throw new CalendarError('INVALID_FILES','files must map explicit File fields to paths.');for(const [field,file]of Object.entries(files))if(types?.[field]!=='File'||typeof file!=='string')throw new CalendarError('INVALID_FILES','Declare the File field explicitly before upload.');}
   async precheckFiles(files){for(const file of Object.values(files??{}))await this.precheck(file);}
   async precheck(file){const limit=(await this.limits()).calendarLimits.fileBytes;const info=await stat(file);if(!info.isFile()||info.size>limit)throw new CalendarError('MEDIA_TOO_LARGE','Use smaller media or save an external reference URL.',{limitBytes:limit,sizeBytes:info.size});return info;}
-  async upload(id,field,file,{eventRevision,receiptOnly=false}={}){
+  async upload(id,field,file,{eventRevision,receiptOnly=false,expectedSha256}={}){
     uuid(id);
     if(eventRevision!==undefined&&(!Number.isSafeInteger(eventRevision)||eventRevision<1))throw new CalendarError('REVISION_REQUIRED','Supply a positive event revision.');
     const event=await this.get(id);
@@ -39,10 +93,14 @@ export class CalendarClient {
     if(event.customFieldTypes?.[field]!=='File')throw new CalendarError('NOT_FILE_FIELD','Declare the target File field before upload.');
     const before=await this.precheck(file),bytes=await readFile(file);
     if(bytes.length!==before.size||bytes.length>(await this.limits()).calendarLimits.fileBytes)throw new CalendarError('MEDIA_CHANGED','File changed during precheck; retry after it is stable.');
+    if(expectedSha256&&createHash('sha256').update(bytes).digest('hex')!==expectedSha256)throw new CalendarError('MEDIA_CHANGED','The local file changed since the original create. Inspect it before uploading.');
     const filename=path.basename(file),storedFilename=filename.slice(0,240),mime=({'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4','.pdf':'application/pdf'})[path.extname(file).toLowerCase()]||'application/octet-stream';
     const hash=createHash('sha256').update(id).update('\0').update(field).update('\0').update(filename).update('\0').update(mime).update('\0').update(bytes).digest();
     hash[6]=(hash[6]&15)|80;hash[8]=(hash[8]&63)|128;
     const h=hash.subarray(0,16).toString('hex'),uploadId=`${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+    if(expectedSha256&&event.attachments?.some(item=>item.fieldName===field&&item.id!==uploadId)){
+      throw new CalendarError('ATTACHMENT_CONFLICT','Another file occupies the planned File field. Inspect the event before replacing it.');
+    }
     const form=new FormData();form.append('file',new Blob([bytes],{type:mime}),filename);form.append('fieldName',field);form.append('uploadId',uploadId);form.append('eventRevision',String(event.revision));
     const saved=await this.request(`/api/calendar-entries/${id}/files`,{method:'POST',body:form});
     const latest=await this.get(id),attachment=latest.attachments?.find(item=>item.id===uploadId&&item.fieldName===field);
