@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tor-event-calendar-ai",
-  "version": "0.3.3-dev.6",
+  "version": "0.3.3-dev.7",
   "description": "Manage a connected private calendar, prepare social drafts and reconcile authorized publication receipts.",
   "author": {
     "name": "Tor Production",
@@ -104,7 +104,7 @@
         }
       },
       "publication": {
-        "release_notes": "Development candidate 0.3.3-dev.6 separates future native scheduling claims from immediate publication, preserves duplicate guards and claim-bound scheduling receipts, and documents queue reconciliation and independent followups. LinkedIn settings normalize omitted actor/destination identifiers and URLs to null while preserving required target and followup choices. Requires a matching deployed server and separately authorized publisher; no social publisher, scheduler, shared credentials or private app bindings are bundled. Native host scheduling acceptance remains separate. Core nambli invocation remains explicit-only; stable v0.3.2, the scoped Cursor preview and the frozen OpenAI submission remain unchanged.",
+        "release_notes": "Development version 0.3.3-dev.7 adds tor-calendar retry-create. It replays a saved calendar create request with its original event ID, scheduled instant, timezone and publishing settings. The CLI verifies local file hashes and preserves intervening changes to file fields.",
         "countries": []
       }
     }
