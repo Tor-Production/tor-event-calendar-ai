@@ -44,13 +44,16 @@ export class CalendarClient {
     // lost or a proxy returned its own error page. Never replace the write ID.
     const details=create?{eventId:id,retry:'same_id_and_content'}:{eventId:id,eventRevision:body.eventRevision,retry:'read_before_retry'};
     const next=create
-      ? `If needed, set id to ${id} in the original create input and retry with identical content, including the original scheduled time and settings.`
+      ? `If needed, replay the identical resolved create request with ID ${id}, including the original scheduled time and settings.`
       : `If your changes are still needed, use update with the original eventRevision ${body.eventRevision}. Compare any newer revision before editing.`;
     throw Object.assign(new CalendarError('EVENT_SAVE_UNCONFIRMED',`Save unconfirmed. Check tor-calendar get ${id} in the same account. ${next}`,details),{status});
   }
-  async finishSave(id,files){
+  async finishSave(id,files,sources){
     try{
-      for(const [field,file]of Object.entries(files??{}))await this.upload(id,field,file);
+      for(const [field,file]of Object.entries(files??{})){
+        const source=sources&&Object.hasOwn(sources,field)?sources[field]:undefined;
+        await this.upload(id,field,source?.path??file,{expectedSha256:source?.sha256});
+      }
       const saved=await this.get(id);
       if(typeof saved?.id!=='string'||saved.id.toLowerCase()!==id.toLowerCase()||!Number.isSafeInteger(saved.revision)||saved.revision<1)throw new CalendarError('READBACK_UNCONFIRMED','The saved entry could not be verified.');
       return saved;
@@ -61,13 +64,14 @@ export class CalendarClient {
       throw failure;
     }
   }
-  async create(input){
+  async create(input,{beforeContentSave,sources}={}){
     const {files,...body}=input;
     if(!body.id)throw new CalendarError('CREATE_ID_REQUIRED','Supply a stable UUID; keep it after an uncertain response.');
     uuid(body.id);validateInstant(body.scheduledAt);requireZone(body.timeZone);
     this.fileFields(files,body.customFieldTypes);await this.precheckFiles(files);
+    if(beforeContentSave)sources=await beforeContentSave(body,files);
     await this.saveContent(body.id,'POST',body);
-    return this.finishSave(body.id,files);
+    return this.finishSave(body.id,files,sources);
   }
   async update(id,input){
     uuid(id);
@@ -81,7 +85,7 @@ export class CalendarClient {
   fileFields(files,types){if(files===undefined)return;if(!files||typeof files!=='object'||Array.isArray(files))throw new CalendarError('INVALID_FILES','files must map explicit File fields to paths.');for(const [field,file]of Object.entries(files))if(types?.[field]!=='File'||typeof file!=='string')throw new CalendarError('INVALID_FILES','Declare the File field explicitly before upload.');}
   async precheckFiles(files){for(const file of Object.values(files??{}))await this.precheck(file);}
   async precheck(file){const limit=(await this.limits()).calendarLimits.fileBytes;const info=await stat(file);if(!info.isFile()||info.size>limit)throw new CalendarError('MEDIA_TOO_LARGE','Use smaller media or save an external reference URL.',{limitBytes:limit,sizeBytes:info.size});return info;}
-  async upload(id,field,file,{eventRevision,receiptOnly=false}={}){
+  async upload(id,field,file,{eventRevision,receiptOnly=false,expectedSha256}={}){
     uuid(id);
     if(eventRevision!==undefined&&(!Number.isSafeInteger(eventRevision)||eventRevision<1))throw new CalendarError('REVISION_REQUIRED','Supply a positive event revision.');
     const event=await this.get(id);
@@ -89,10 +93,14 @@ export class CalendarClient {
     if(event.customFieldTypes?.[field]!=='File')throw new CalendarError('NOT_FILE_FIELD','Declare the target File field before upload.');
     const before=await this.precheck(file),bytes=await readFile(file);
     if(bytes.length!==before.size||bytes.length>(await this.limits()).calendarLimits.fileBytes)throw new CalendarError('MEDIA_CHANGED','File changed during precheck; retry after it is stable.');
+    if(expectedSha256&&createHash('sha256').update(bytes).digest('hex')!==expectedSha256)throw new CalendarError('MEDIA_CHANGED','The local file changed since the original create. Inspect it before uploading.');
     const filename=path.basename(file),storedFilename=filename.slice(0,240),mime=({'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4','.pdf':'application/pdf'})[path.extname(file).toLowerCase()]||'application/octet-stream';
     const hash=createHash('sha256').update(id).update('\0').update(field).update('\0').update(filename).update('\0').update(mime).update('\0').update(bytes).digest();
     hash[6]=(hash[6]&15)|80;hash[8]=(hash[8]&63)|128;
     const h=hash.subarray(0,16).toString('hex'),uploadId=`${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+    if(expectedSha256&&event.attachments?.some(item=>item.fieldName===field&&item.id!==uploadId)){
+      throw new CalendarError('ATTACHMENT_CONFLICT','Another file occupies the planned File field. Inspect the event before replacing it.');
+    }
     const form=new FormData();form.append('file',new Blob([bytes],{type:mime}),filename);form.append('fieldName',field);form.append('uploadId',uploadId);form.append('eventRevision',String(event.revision));
     const saved=await this.request(`/api/calendar-entries/${id}/files`,{method:'POST',body:form});
     const latest=await this.get(id),attachment=latest.attachments?.find(item=>item.id===uploadId&&item.fieldName===field);

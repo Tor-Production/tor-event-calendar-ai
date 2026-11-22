@@ -9,6 +9,7 @@ import {Profiles,KeyringStore,canonicalOrigin,DEFAULT_ORIGIN} from './profiles.m
 import {CalendarClient,publicRequest} from './client.mjs';
 import {CalendarError,relativeDate,dayRange} from './time.mjs';
 import {planCreate} from './plan.mjs';
+import {createWithRecovery,retryCreate,discardCreateRecovery} from './create-recovery.mjs';
 import {publishBatch} from './publish.mjs';
 const {version:VERSION}=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8'));
 const output=value=>process.stdout.write(`${JSON.stringify(value)}\n`);
@@ -75,7 +76,7 @@ export async function main(args=process.argv.slice(2)){
   const {positional:[command,...rest],options}=argumentsOf(args),profiles=new Profiles();
   if(options.help){output({usage:'tor-calendar help'});return;}
   const allowed=['account','origin','scope','name','no-browser','default','environment','all','posts','local-only','zone','date'];for(const key of Object.keys(options))if(!allowed.includes(key))throw new CalendarError('UNKNOWN_OPTION',`Unknown option --${key}.`);
-  if(!command||['help','--help'].includes(command)){output({version:VERSION,commands:['connect [--scope read|manage]','accounts list|default EMAIL_OR_ID','whoami','doctor','disconnect','preferences get|set JSON','capabilities','platform PLATFORM','plan JSON','create JSON','get ID','list FROM TO','today [--date today|tomorrow|YYYY-MM-DD] [--zone IANA] [--posts]','publish-today --all','task ID','result ID JSON','update ID JSON','move ID ISO --zone IANA','upload ID FIELD PATH','download ID ATTACHMENT_ID DESTINATION','delete ID','install-skill CLIENT','uninstall-skill CLIENT'],account:'--account VERIFIED_EMAIL_OR_ID (required when multiple connections have no explicit default)',headless:'--environment --account IMMUTABLE_ACCOUNT_ID; secret injected externally'});return;}
+  if(!command||['help','--help'].includes(command)){output({version:VERSION,commands:['connect [--scope read|manage]','accounts list|default EMAIL_OR_ID','whoami','doctor','disconnect','preferences get|set JSON','capabilities','platform PLATFORM','plan JSON','create JSON','retry-create RECOVERY_ID','discard-create-recovery RECOVERY_ID','get ID','list FROM TO','today [--date today|tomorrow|YYYY-MM-DD] [--zone IANA] [--posts]','publish-today --all','task ID','result ID JSON','update ID JSON','move ID ISO --zone IANA','upload ID FIELD PATH','download ID ATTACHMENT_ID DESTINATION','delete ID','install-skill CLIENT','uninstall-skill CLIENT'],account:'--account VERIFIED_EMAIL_OR_ID (required when multiple connections have no explicit default)',headless:'--environment --account IMMUTABLE_ACCOUNT_ID; secret injected externally'});return;}
   if(command==='version'){output({version:VERSION});return;}
   if(command==='install-skill'||command==='uninstall-skill'){output(await installSkill(rest[0],{uninstall:command==='uninstall-skill'}));return;}
   if(command==='accounts'){if(rest[0]==='default'){output({default:await profiles.setDefault(rest[1])});}else output({accounts:await profiles.list()});return;}
@@ -87,7 +88,9 @@ export async function main(args=process.argv.slice(2)){
   if(command==='disconnect'){if(!options['local-only'])await client.request('/api/account/connection',{method:'DELETE'});if(!options.environment)await profiles.forget(client.profile);output({disconnected:true,revoked:!options['local-only'],...identity});return;}
   if(command==='preferences'){output({identity,result:await client.request('/api/account/preferences',rest[0]==='set'?{method:'PATCH',body:await input(rest[1])}:{})});return;}
   if(command==='platform'){output({identity,schema:await client.platform(rest[0])});return;}
-  if(command==='plan'||command==='create'){const prefs=await client.request('/api/account/preferences'),plan=planCreate(await input(rest[0]),prefs);if(!plan.ready||command==='plan'){output({identity,...plan});if(!plan.ready)process.exitCode=2;return;}plan.payload.id??=randomUUID();output({identity,event:await client.create(plan.payload)});return;}
+  if(command==='plan'||command==='create'){const prefs=await client.request('/api/account/preferences'),plan=planCreate(await input(rest[0]),prefs);if(!plan.ready||command==='plan'){output({identity,...plan});if(!plan.ready)process.exitCode=2;return;}plan.payload.id??=randomUUID();output({identity,event:await createWithRecovery(client,profiles.directory,plan.payload)});return;}
+  if(command==='retry-create'){output({identity,event:await retryCreate(client,profiles.directory,rest[0])});return;}
+  if(command==='discard-create-recovery'){output(await discardCreateRecovery(client,profiles.directory,rest[0]));return;}
   if(command==='get'){output({identity,event:await client.get(rest[0])});return;}
   if(command==='list'){output({identity,events:await client.list(rest[0],rest[1],{posts:!!options.posts})});return;}
   if(command==='today'||command==='publish-today'){const prefs=await client.request('/api/account/preferences'),zone=options.zone??prefs.timeZone,date=relativeDate(options.date??'today',zone),range=dayRange(date,zone),events=await client.list(range.from,range.to,{posts:command==='publish-today'||!!options.posts});
