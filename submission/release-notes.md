@@ -1,4 +1,14 @@
-# nambli 0.3.2 release notes
+# nambli release notes
+
+## 0.3.3 stable npm CLI
+
+Install with `npm install --global tor-event-calendar-ai`. Run `tor-calendar version` to check the installed version. The `@dev` npm tag tracks development builds.
+
+When a create request returns a recovery ID, run `tor-calendar retry-create <recoveryId>` on the same machine and account. The CLI replays the original event ID, schedule and publishing settings, even if account defaults have changed. A retry after a lost response returns the existing event without creating a duplicate.
+
+The release tarball `tor-event-calendar-ai-0.3.3.tgz` has SHA-256 `c8e19c5da353c1cc245ed1bc45688b0443f473d289e6a1301f67b47fbfcb74f3`. Its runtime and dependencies match the tested `0.3.3-dev.7` package. [Package source at `c4536d8`](https://github.com/Tor-Production/tor-event-calendar-ai/commit/c4536d81bfb4b193372abca9dd25b5f91c65d69c)
+
+## 0.3.2
 
 Version 0.3.2 improves selected-account verification and account-management guidance. Account status now calls the selected connection's `get_profile`; remembered chat identities or website sessions are not treated as the current plugin account. Where the host supports multiple accounts, the skill directs users to its account controls without replacing their existing connection or embedding an owner's private app URL.
 
