@@ -140,12 +140,18 @@ For another client, add a remote Streamable HTTP server named **nambli** at `htt
 
 ## Optional local CLI
 
-The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/nambli/references/connections.md#optional-local-cli) only when you choose this route.
+The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain. For browser pairing and account selection, see the [connection reference](skills/nambli/references/connections.md#optional-local-cli).
 
-To install the helper and skill for your client, use a locally built development tarball and replace `codex` with `claude`, `cursor`, `copilot`, `gemini`, or `hermes`:
+Install the stable CLI from npm and check its version.
 
 ```sh
-npm install --global ./dist/tor-event-calendar-ai-0.3.2.tgz
+npm install --global tor-event-calendar-ai
+tor-calendar version
+```
+
+For the development channel, install `tor-event-calendar-ai@dev`. To set up a client, replace `codex` below with `claude`, `cursor`, `copilot`, `gemini`, or `hermes` as needed.
+
+```sh
 tor-calendar install-skill codex
 tor-calendar connect
 tor-calendar whoami
