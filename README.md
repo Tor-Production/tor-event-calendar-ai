@@ -172,13 +172,18 @@ If `tor-calendar create` returns `EVENT_SAVE_UNCONFIRMED`, check `tor-calendar g
 
 The CLI stores the pending request, absolute source paths and file hashes in the current user's calendar configuration directory. Treat it as private draft data. It is removed after a confirmed save or a definitive initial failure. To clear an abandoned retry, run `tor-calendar discard-create-recovery <recoveryId>` with the same account and origin. For an uncertain `update` or `move`, compare the saved entry with your edits and include the reported `details.eventRevision` in an `update` retry.
 
-The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/nambli/references/connections.md#optional-local-cli) only when you choose this route.
+The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. For browser pairing and account selection, see the [connection reference](skills/nambli/references/connections.md#optional-local-cli).
 
-Install the stable CLI from npm. Use `tor-event-calendar-ai@dev` to select the development channel. For the optional skill, replace `codex` with your client name (`claude`, `cursor`, `copilot`, `gemini` or `hermes`).
+Install the stable CLI from npm and check its version.
 
 ```sh
 npm install --global tor-event-calendar-ai
 tor-calendar version
+```
+
+For the development channel, install `tor-event-calendar-ai@dev`. To set up a client, replace `codex` below with `claude`, `cursor`, `copilot`, `gemini`, or `hermes` as needed.
+
+```sh
 tor-calendar install-skill codex
 tor-calendar connect
 tor-calendar whoami
