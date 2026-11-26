@@ -35,7 +35,7 @@ The combined development package also contains [nambli-content](skills/nambli-co
 
 The package supplies no social publisher or shared LinkedIn credentials. It targets Codex + LinkedIn first and checks the actual publisher, installed App, selected account, grant and live tool inventory. Claim/result/repair tools require a supporting server and current host metadata; missing tools do not prove missing consent. Version `0.3.3-dev.6` introduced explicit future native scheduling claims and compatible LinkedIn settings normalization. It retains the complete post/followup preflight, formatting checks, durable receipts and uninterrupted authorized social sequence. Recovery reconciles the existing queue or post without resubmitting. See [publication rules](skills/nambli/references/publication.md), [portable architecture](ecosystems/PUBLISHING_ARCHITECTURE.md) and the [real-run acceptance review](ecosystems/codex/PUBLICATION-ACCEPTANCE.md). Package validation does not establish native scheduling/publication acceptance or an OpenAI catalog release.
 
-The stable `main` route serves v0.3.2. Development candidates are integrated into `develop`. For the `0.3.3-dev.7` CLI, use the npm install command in [Optional local CLI](#optional-local-cli). See [Codex source selection and update verification](ecosystems/codex/README.md). A server deployment does not update installed skill files.
+The stable `main` route serves v0.3.2. Development candidates are integrated into `develop`. For the stable `0.3.3` CLI, use the npm install command in [Optional local CLI](#optional-local-cli). See [Codex source selection and update verification](ecosystems/codex/README.md). A server deployment does not update installed skill files.
 
 ## Claude Code
 
@@ -174,10 +174,10 @@ The CLI stores the pending request, absolute source paths and file hashes in the
 
 The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/nambli/references/connections.md#optional-local-cli) only when you choose this route.
 
-Install the development CLI from npm. The exact version below includes create recovery. Use `@dev` to install the current development version. For the optional skill, replace `codex` with your client name (`claude`, `cursor`, `copilot`, `gemini` or `hermes`).
+Install the stable CLI from npm. Use `tor-event-calendar-ai@dev` to select the development channel. For the optional skill, replace `codex` with your client name (`claude`, `cursor`, `copilot`, `gemini` or `hermes`).
 
 ```sh
-npm install --global tor-event-calendar-ai@0.3.3-dev.7
+npm install --global tor-event-calendar-ai
 tor-calendar version
 tor-calendar install-skill codex
 tor-calendar connect

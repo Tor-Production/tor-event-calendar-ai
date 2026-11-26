@@ -1,5 +1,9 @@
 # nambli release notes
 
+## 0.3.3 stable npm CLI
+
+Install with `npm install --global tor-event-calendar-ai`. The stable CLI includes the create recovery verified in 0.3.3-dev.7. Run `tor-calendar version` to check the installed version. The `dev` tag continues to select the development channel.
+
 ## 0.3.3-dev.7 CLI create recovery
 
 If a create request loses its response, `tor-calendar retry-create <recoveryId>` replays the saved request in the same account and origin. The event keeps its original UUID, scheduled instant, timezone and publishing settings even if the account defaults have changed. The CLI checks local attachment hashes and preserves a file added to the target field by another editor.
