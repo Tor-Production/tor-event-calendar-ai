@@ -4,6 +4,8 @@
 
 Install with `npm install --global tor-event-calendar-ai`. The stable CLI includes the create recovery verified in 0.3.3-dev.7. Run `tor-calendar version` to check the installed version. The `dev` tag continues to select the development channel.
 
+The release tarball `tor-event-calendar-ai-0.3.3.tgz` has SHA-256 `c8e19c5da353c1cc245ed1bc45688b0443f473d289e6a1301f67b47fbfcb74f3`. Its runtime and dependencies match the tested `0.3.3-dev.7` package. [Package source at `c4536d8`](https://github.com/Tor-Production/tor-event-calendar-ai/commit/c4536d81bfb4b193372abca9dd25b5f91c65d69c)
+
 ## 0.3.3-dev.7 CLI create recovery
 
 If a create request loses its response, `tor-calendar retry-create <recoveryId>` replays the saved request in the same account and origin. The event keeps its original UUID, scheduled instant, timezone and publishing settings even if the account defaults have changed. The CLI checks local attachment hashes and preserves a file added to the target field by another editor.
