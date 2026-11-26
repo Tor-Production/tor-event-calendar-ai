@@ -33,13 +33,13 @@ Adds Instagram, Facebook, YouTube, TikTok and Snapchat alongside LinkedIn, X and
 
 The combined development package also contains [nambli-content](skills/nambli-content/SKILL.md), for creating and saving social drafts, and [nambli-publish](skills/nambli-publish/SKILL.md), for an authorized publication workflow and immediate result/link reconciliation. These two skills can be discovered for relevant nambli requests; the original calendar skill remains explicit-only. Each has a separate standalone ZIP from the package script. The local CLI's `install-skill CLIENT` continues to install only the core `nambli` skill.
 
-The package supplies no social publisher or shared LinkedIn credentials. It targets Codex + LinkedIn first and checks the actual publisher, installed App, selected account, grant and live tool inventory. Claim/result/repair tools require a supporting server and current host metadata; missing tools do not prove missing consent. Candidate `0.3.3-dev.6` adds explicit future native scheduling claims and compatible LinkedIn settings normalization. It retains the complete post/followup preflight, formatting checks, durable receipts and uninterrupted authorized social sequence. Recovery reconciles the existing queue or post without resubmitting. See [publication rules](skills/nambli/references/publication.md), [portable architecture](ecosystems/PUBLISHING_ARCHITECTURE.md) and the [real-run acceptance review](ecosystems/codex/PUBLICATION-ACCEPTANCE.md). Package validation does not establish native scheduling/publication acceptance or an OpenAI catalog release.
+The package supplies no social publisher or shared LinkedIn credentials. It targets Codex + LinkedIn first and checks the actual publisher, installed App, selected account, grant and live tool inventory. Claim/result/repair tools require a supporting server and current host metadata; missing tools do not prove missing consent. Version `0.3.3-dev.6` introduced explicit future native scheduling claims and compatible LinkedIn settings normalization. It retains the complete post/followup preflight, formatting checks, durable receipts and uninterrupted authorized social sequence. Recovery reconciles the existing queue or post without resubmitting. See [publication rules](skills/nambli/references/publication.md), [portable architecture](ecosystems/PUBLISHING_ARCHITECTURE.md) and the [real-run acceptance review](ecosystems/codex/PUBLICATION-ACCEPTANCE.md). Package validation does not establish native scheduling/publication acceptance or an OpenAI catalog release.
 
-The stable `main` route serves v0.3.2. Development candidates are integrated into `develop`; select the reviewed commit or `develop` deliberately when testing 0.3.3-dev.6 after integration. See [Codex source selection and update verification](ecosystems/codex/README.md). A server deployment does not update installed skill files.
+The stable `main` route serves v0.3.2. Development candidates are integrated into `develop`. For the `0.3.3-dev.7` CLI, use the npm install command in [Optional local CLI](#optional-local-cli). See [Codex source selection and update verification](ecosystems/codex/README.md). A server deployment does not update installed skill files.
 
 ## Claude Code
 
-The development package uses the Claude plugin ID **nambli**, with skill `/nambli:nambli` and server `plugin:nambli:nambli`. The published v0.3.2 release and `main` use the former ID; `develop` includes the rename and local-file helper. For the revised publication workflows, verify version 0.3.3-dev.6 after its integration or extract its reviewed ZIP and follow the [local update and retest steps](ecosystems/claude-code/README.md#update-an-existing-claude-test).
+The development package uses the Claude plugin ID **nambli**, with skill `/nambli:nambli` and server `plugin:nambli:nambli`. The published v0.3.2 release and `main` use the former ID; `develop` includes the rename and local-file helper. For Claude Code, select the reviewed source revision and follow the [local update and retest steps](ecosystems/claude-code/README.md#update-an-existing-claude-test).
 
 To use the development source, run this in an interactive Claude Code session:
 
@@ -174,10 +174,11 @@ The CLI stores the pending request, absolute source paths and file hashes in the
 
 The local helper supports Codex, Claude, Cursor, GitHub Copilot CLI, Gemini CLI, and Hermes. It needs Node 22.18+ and an unlocked OS keychain; ordinary remote plugin use needs neither. Use the [connection reference](skills/nambli/references/connections.md#optional-local-cli) only when you choose this route.
 
-To install the helper and skill for your client, use a locally built development tarball and replace `codex` with `claude`, `cursor`, `copilot`, `gemini`, or `hermes`:
+Install the development CLI from npm. The exact version below includes create recovery. Use `@dev` to install the current development version. For the optional skill, replace `codex` with your client name (`claude`, `cursor`, `copilot`, `gemini` or `hermes`).
 
 ```sh
-npm install --global ./dist/tor-event-calendar-ai-0.3.2.tgz
+npm install --global tor-event-calendar-ai@0.3.3-dev.7
+tor-calendar version
 tor-calendar install-skill codex
 tor-calendar connect
 tor-calendar whoami

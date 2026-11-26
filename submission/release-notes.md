@@ -1,5 +1,11 @@
 # nambli release notes
 
+## 0.3.3-dev.7 CLI create recovery
+
+If a create request loses its response, `tor-calendar retry-create <recoveryId>` replays the saved request in the same account and origin. The event keeps its original UUID, scheduled instant, timezone and publishing settings even if the account defaults have changed. The CLI checks local attachment hashes and preserves a file added to the target field by another editor.
+
+Install this version with `npm install --global tor-event-calendar-ai@0.3.3-dev.7`. The npm development channel is `tor-event-calendar-ai@dev`.
+
 ## 0.3.3-dev.6 scheduling contract candidate
 
 Future native scheduling uses `claim_publication` with `operation: schedule` and `intentionalNow: false`; immediate sends retain the default `publish` operation and its due-time guard. Updated API snapshots and instructions describe the exact scheduled time, observed queue receipt, durable duplicate guard, later queue-to-post reconciliation and independent reaction/comment/Featured outcomes. A calendar date or prepared composer is not a confirmed platform queue. Missing scheduling support must not be bypassed with an immediate-send override.
